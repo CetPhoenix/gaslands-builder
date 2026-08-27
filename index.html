@@ -36,7 +36,7 @@
     /* Layout principal en 2 columnas */
     .main-layout {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: 1fr 440px;
       gap: 20px;
     }
 
@@ -224,27 +224,27 @@
 </div>
 
 <script>
-  // BASE DE DATOS COMPLETA DE VEHÍCULOS (OFICIAL GASLANDS REFUELLED)
+  // BASE DE DATOS ACTUALIZADA SEGÚN TABLAS OFICIALES DEL MANUAL
   const VEHICLES = [
-    // --- VEHÍCULOS BÁSICOS ---
-    { name: "Buggy", category: "Básico", weight: "Ligero", cans: 6, slots: 2, hull: 4, gear: 6, handling: 4, crew: 2, rules: "Módulo Rodante" },
-    { name: "Coche", category: "Básico", weight: "Medio", cans: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
+    // --- TABLA DE VEHÍCULOS BÁSICOS ---
+    { name: "Buggy", category: "Básico", weight: "Ligero", cans: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
     { name: "Camioneta", category: "Básico", weight: "Medio", cans: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
-    { name: "Coche de Alto Rendimiento", category: "Básico", weight: "Medio", cans: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1, rules: "Esfumarse" },
-    { name: "Camión Pesado", category: "Básico", weight: "Pesado", cans: 20, slots: 5, hull: 14, gear: 3, handling: 1, crew: 4, rules: "-" },
-    { name: "Moto", category: "Básico", weight: "Ligero", cans: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pivote, Ágil" },
-    { name: "Moto con Sidecar", category: "Básico", weight: "Ligero", cans: 8, slots: 2, hull: 4, gear: 6, handling: 4, crew: 2, rules: "Pivote" },
+    { name: "Coche", category: "Básico", weight: "Medio", cans: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
+    { name: "Coche de alto rendimiento", category: "Básico", weight: "Medio", cans: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1, rules: "Esfumarse" },
+    { name: "Autobús", category: "Básico", weight: "Pesado", cans: 30, slots: 3, hull: 16, gear: 3, handling: 2, crew: 8, rules: "-" },
+    { name: "Camión", category: "Básico", weight: "Pesado", cans: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
 
-    // --- VEHÍCULOS AVANZADOS ---
-    { name: "Ambulancia", category: "Avanzado", weight: "Medio", cans: 20, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "Urgencias (Cura Tripulación/PC)" },
-    { name: "Camión de Helados", category: "Avanzado", weight: "Medio", cans: 12, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Música Hipnótica" },
-    { name: "Monster Truck", category: "Avanzado", weight: "Pesado", cans: 25, slots: 3, hull: 12, gear: 4, handling: 3, crew: 2, rules: "All-Terrain, Aplastar" },
-    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", cans: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "Aéreo, Sombra" },
-    { name: "Girocóptero", category: "Avanzado", weight: "Medio", cans: 10, slots: 1, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Aéreo" },
-    { name: "Autobús", category: "Avanzado", weight: "Pesado", cans: 30, slots: 3, hull: 16, gear: 3, handling: 1, crew: 8, rules: "-" },
-    { name: "Tanque", category: "Avanzado", weight: "Pesado", cans: 40, slots: 4, hull: 20, gear: 3, handling: 1, crew: 3, rules: "Orugas, Todo Terreno" },
-    { name: "Dragster", category: "Avanzado", weight: "Medio", cans: 20, slots: 2, hull: 6, gear: 6, handling: 2, crew: 1, rules: "Aceleración Extrema" },
-    { name: "Camión Garra", category: "Avanzado", weight: "Pesado", cans: 24, slots: 3, hull: 14, gear: 3, handling: 1, crew: 3, rules: "Garra Mecánica" }
+    // --- TABLA DE VEHÍCULOS AVANZADOS ---
+    { name: "Moto", category: "Avanzado", weight: "Ligero", cans: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivota" },
+    { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", cans: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivota" },
+    { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", cans: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
+    { name: "Ambulancia", category: "Avanzado", weight: "Medio", cans: 20, slots: 3, hull: 12, gear: 5, handling: 2, crew: 3, rules: "Compresivos, estimulantes" },
+    { name: "Camión de los helados", category: "Avanzado", weight: "Medio", cans: 8, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Musiquilla irritante" },
+    { name: "Girocóptero", category: "Avanzado", weight: "Medio", cans: 10, slots: 0, hull: 4, gear: 6, handling: 4, crew: 1, rules: "¡Bombas fuera!, volar" },
+    { name: "Camión de guerra", category: "Avanzado", weight: "Pesado", cans: 40, slots: 5, hull: 26, gear: 4, handling: 2, crew: 5, rules: "Aplica reglas de camión de guerra" },
+    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", cans: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "¡Bombas fuera!, volar" },
+    { name: "Monster truck", category: "Avanzado", weight: "Pesado", cans: 25, slots: 2, hull: 10, gear: 4, handling: 3, crew: 2, rules: "Pasar por encima, todoterreno" },
+    { name: "Tanque", category: "Avanzado", weight: "Pesado", cans: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pivotar, todoterreno, orugas" }
   ];
 
   // BASE DE DATOS BÁSICA DE ARMAS
@@ -328,7 +328,7 @@
     let grandTotalCans = 0;
 
     team.forEach((v) => {
-      const vData = VEHICLES.find(item => item.name === v.type) || VEHICLES[1];
+      const vData = VEHICLES.find(item => item.name === v.type) || VEHICLES[2];
       const w1Data = WEAPONS.find(w => w.name === v.weapon1) || WEAPONS[0];
       const w2Data = WEAPONS.find(w => w.name === v.weapon2) || WEAPONS[0];
 
