@@ -207,7 +207,7 @@
         </select>
       </div>
       <div>
-        <strong>Total: <span id="totalCans">0</span> / 50 Bidones</strong>
+        <strong>Total: <span id="totalBidones">0</span> / 50 Bid.</strong>
       </div>
     </div>
 
@@ -227,36 +227,36 @@
   // BASE DE DATOS ACTUALIZADA SEGÚN TABLAS OFICIALES DEL MANUAL
   const VEHICLES = [
     // --- TABLA DE VEHÍCULOS BÁSICOS ---
-    { name: "Buggy", category: "Básico", weight: "Ligero", cans: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
-    { name: "Camioneta", category: "Básico", weight: "Medio", cans: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
-    { name: "Coche", category: "Básico", weight: "Medio", cans: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
-    { name: "Coche de alto rendimiento", category: "Básico", weight: "Medio", cans: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1, rules: "Esfumarse" },
-    { name: "Autobús", category: "Básico", weight: "Pesado", cans: 30, slots: 3, hull: 16, gear: 3, handling: 2, crew: 8, rules: "-" },
-    { name: "Camión", category: "Básico", weight: "Pesado", cans: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
+    { name: "Buggy", category: "Básico", weight: "Ligero", bidones: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
+    { name: "Camioneta", category: "Básico", weight: "Medio", bidones: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
+    { name: "Coche", category: "Básico", weight: "Medio", bidones: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
+    { name: "Coche de alto rendimiento", category: "Básico", weight: "Medio", bidones: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1, rules: "Esfumarse" },
+    { name: "Autobús", category: "Básico", weight: "Pesado", bidones: 30, slots: 3, hull: 16, gear: 3, handling: 2, crew: 8, rules: "-" },
+    { name: "Camión", category: "Básico", weight: "Pesado", bidones: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
 
     // --- TABLA DE VEHÍCULOS AVANZADOS ---
-    { name: "Moto", category: "Avanzado", weight: "Ligero", cans: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivota" },
-    { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", cans: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivota" },
-    { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", cans: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
-    { name: "Ambulancia", category: "Avanzado", weight: "Medio", cans: 20, slots: 3, hull: 12, gear: 5, handling: 2, crew: 3, rules: "Compresivos, estimulantes" },
-    { name: "Camión de los helados", category: "Avanzado", weight: "Medio", cans: 8, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Musiquilla irritante" },
-    { name: "Girocóptero", category: "Avanzado", weight: "Medio", cans: 10, slots: 0, hull: 4, gear: 6, handling: 4, crew: 1, rules: "¡Bombas fuera!, volar" },
-    { name: "Camión de guerra", category: "Avanzado", weight: "Pesado", cans: 40, slots: 5, hull: 26, gear: 4, handling: 2, crew: 5, rules: "Aplica reglas de camión de guerra" },
-    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", cans: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "¡Bombas fuera!, volar" },
-    { name: "Monster truck", category: "Avanzado", weight: "Pesado", cans: 25, slots: 2, hull: 10, gear: 4, handling: 3, crew: 2, rules: "Pasar por encima, todoterreno" },
-    { name: "Tanque", category: "Avanzado", weight: "Pesado", cans: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pivotar, todoterreno, orugas" }
+    { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivota" },
+    { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", bidones: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivota" },
+    { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
+    { name: "Ambulancia", category: "Avanzado", weight: "Medio", bidones: 20, slots: 3, hull: 12, gear: 5, handling: 2, crew: 3, rules: "Compresivos, estimulantes" },
+    { name: "Camión de los helados", category: "Avanzado", weight: "Medio", bidones: 8, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Musiquilla irritante" },
+    { name: "Girocóptero", category: "Avanzado", weight: "Medio", bidones: 10, slots: 0, hull: 4, gear: 6, handling: 4, crew: 1, rules: "¡Bombas fuera!, volar" },
+    { name: "Camión de guerra", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 5, hull: 26, gear: 4, handling: 2, crew: 5, rules: "Aplica reglas de camión de guerra" },
+    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", bidones: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "¡Bombas fuera!, volar" },
+    { name: "Monster truck", category: "Avanzado", weight: "Pesado", bidones: 25, slots: 2, hull: 10, gear: 4, handling: 3, crew: 2, rules: "Pasar por encima, todoterreno" },
+    { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pivotar, todoterreno, orugas" }
   ];
 
   // BASE DE DATOS BÁSICA DE ARMAS
   const WEAPONS = [
-    { name: "Ninguna", cans: 0, slots: 0 },
-    { name: "Ametralladora", cans: 2, slots: 1 },
-    { name: "Minigun", cans: 15, slots: 1 },
-    { name: "Cohetes", cans: 6, slots: 2 },
-    { name: "Dispensador de Pegamento", cans: 1, slots: 1 },
-    { name: "Ariete (Ram)", cans: 4, slots: 1 },
-    { name: "Lanzallamas", cans: 4, slots: 2 },
-    { name: "Cañón Básico", cans: 6, slots: 2 }
+    { name: "Ninguna", bidones: 0, slots: 0 },
+    { name: "Ametralladora", bidones: 2, slots: 1 },
+    { name: "Minigun", bidones: 15, slots: 1 },
+    { name: "Cohetes", bidones: 6, slots: 2 },
+    { name: "Dispensador de Pegamento", bidones: 1, slots: 1 },
+    { name: "Ariete (Ram)", bidones: 4, slots: 1 },
+    { name: "Lanzallamas", bidones: 4, slots: 2 },
+    { name: "Cañón Básico", bidones: 6, slots: 2 }
   ];
 
   let team = [];
@@ -280,7 +280,7 @@
         item.innerHTML = `
           <div class="catalog-item-header">
             <span>${v.name}</span>
-            <span style="color: var(--accent-color);">${v.cans} Bid.</span>
+            <span style="color: var(--accent-color);">${v.bidones} Bid.</span>
           </div>
           <div class="catalog-stats">
             <span><b>Peso:</b> ${v.weight}</span>
@@ -325,7 +325,7 @@
   function renderBuilder() {
     const container = document.getElementById('vehiclesList');
     container.innerHTML = '';
-    let grandTotalCans = 0;
+    let grandTotalBidones = 0;
 
     team.forEach((v) => {
       const vData = VEHICLES.find(item => item.name === v.type) || VEHICLES[2];
@@ -333,8 +333,8 @@
       const w2Data = WEAPONS.find(w => w.name === v.weapon2) || WEAPONS[0];
 
       const usedSlots = w1Data.slots + w2Data.slots;
-      const vehicleCans = vData.cans + w1Data.cans + w2Data.cans;
-      grandTotalCans += vehicleCans;
+      const vehicleBidones = vData.bidones + w1Data.bidones + w2Data.bidones;
+      grandTotalBidones += vehicleBidones;
 
       const card = document.createElement('div');
       card.className = 'vehicle-card';
@@ -342,7 +342,7 @@
         <div class="vehicle-header">
           <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 55%;">
           <div>
-            <strong>${vehicleCans} Bid.</strong> | 
+            <strong>${vehicleBidones} Bid.</strong> | 
             <span style="color: ${usedSlots > vData.slots ? '#ff4444' : '#888'}">
               Slots: ${usedSlots}/${vData.slots}
             </span>
@@ -353,19 +353,19 @@
           <div>
             <label>Tipo de Vehículo:</label>
             <select onchange="updateVehicle(${v.id}, 'type', this.value)">
-              ${VEHICLES.map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.cans} Bid.)</option>`).join('')}
+              ${VEHICLES.map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid.)</option>`).join('')}
             </select>
           </div>
           <div>
             <label>Arma 1:</label>
             <select onchange="updateVehicle(${v.id}, 'weapon1', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.cans} Bid., ${w.slots} Slot)</option>`).join('')}
+              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.bidones} Bid., ${w.slots} Slot)</option>`).join('')}
             </select>
           </div>
           <div>
             <label>Arma 2:</label>
             <select onchange="updateVehicle(${v.id}, 'weapon2', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.cans} Bid., ${w.slots} Slot)</option>`).join('')}
+              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.bidones} Bid., ${w.slots} Slot)</option>`).join('')}
             </select>
           </div>
         </div>
@@ -376,7 +376,7 @@
       container.appendChild(card);
     });
 
-    document.getElementById('totalCans').innerText = grandTotalCans;
+    document.getElementById('totalBidones').innerText = grandTotalBidones;
   }
 
   // Inicialización
