@@ -3,14 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Creador de Escuderías</title>
+  <title>Gaslands Refuelled - Builder & Catálogo</title>
   <style>
     :root {
-      --bg-color: #1a1a1a;
+      --bg-color: #121212;
+      --panel-bg: #1e1e1e;
       --card-bg: #2a2a2a;
       --accent-color: #ff5500;
+      --accent-hover: #e04b00;
       --text-color: #f0f0f0;
-      --border-color: #444;
+      --text-muted: #aaa;
+      --border-color: #333;
+      --danger-color: #cc2929;
     }
 
     body {
@@ -21,24 +25,35 @@
       padding: 20px;
     }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
     header {
       border-bottom: 2px solid var(--accent-color);
       padding-bottom: 10px;
       margin-bottom: 20px;
     }
 
-    h1 { margin: 0; color: var(--accent-color); }
+    h1 { margin: 0; color: var(--accent-color); font-size: 1.8rem; }
 
+    /* Layout principal en 2 columnas */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 20px;
+    }
+
+    @media (max-width: 1024px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Panel del Builder */
     .summary-bar {
-      background: var(--card-bg);
+      background: var(--panel-bg);
       padding: 15px;
       border-radius: 8px;
       display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
@@ -46,7 +61,7 @@
     }
 
     .vehicle-card {
-      background: var(--card-bg);
+      background: var(--panel-bg);
       border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 15px;
@@ -64,14 +79,14 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 10px;
     }
 
     select, input {
       width: 100%;
       padding: 8px;
-      background: #333;
+      background: #2b2b2b;
       color: #fff;
       border: 1px solid var(--border-color);
       border-radius: 4px;
@@ -86,71 +101,201 @@
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
+      transition: background 0.2s;
     }
 
-    button:hover { background: #e04b00; }
-    button.btn-danger { background: #cc2929; }
+    button:hover { background: var(--accent-hover); }
+    button.btn-danger { background: var(--danger-color); }
     button.btn-danger:hover { background: #a81e1e; }
+
+    /* Panel Lateral: Catálogo */
+    .catalog-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      height: fit-content;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .catalog-panel h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+
+    .catalog-section-title {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #ff9900;
+      margin: 15px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .catalog-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+    }
+
+    .catalog-item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .catalog-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .catalog-stats span {
+      background: #1a1a1a;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .catalog-rules {
+      color: #7dcfb6;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1>Gaslands Refuelled - Builder</h1>
-  </header>
+<header>
+  <h1>Gaslands Refuelled - Diseñador de Escuderías</h1>
+</header>
 
-  <!-- Panel de Resumen -->
-  <div class="summary-bar">
-    <div>
-      <label>Escudería: </label>
-      <input type="text" id="teamName" placeholder="Nombre de tu banda" style="width: 200px;">
+<div class="main-layout">
+  <!-- COLUMNA IZQUIERDA: CREADOR DE ESCUDERÍA -->
+  <div class="builder-column">
+    <div class="summary-bar">
+      <div>
+        <label>Escudería: </label>
+        <input type="text" id="teamName" placeholder="Nombre de tu banda" style="width: 180px;">
+      </div>
+      <div>
+        <label>Patrocinador: </label>
+        <select id="sponsorSelect">
+          <option value="Ninguno">Sin Patrocinador</option>
+          <option value="Rutherford">Rutherford</option>
+          <option value="Mishkin">Mishkin</option>
+          <option value="Slime">Slime</option>
+          <option value="Scarlett">Scarlett</option>
+          <option value="La Alcaidesa">La Alcaidesa</option>
+          <option value="Verney">Verney</option>
+          <option value="Miyazaki">Miyazaki</option>
+          <option value="Idris">Idris</option>
+          <option value="Bootlegger">Bootlegger</option>
+          <option value="Order of the Inferno">Order of the Inferno</option>
+          <option value="Beverly">Beverly</option>
+          <option value="Rusty's Boot Polish">Rusty's Boot Polish</option>
+        </select>
+      </div>
+      <div>
+        <strong>Total Cans: <span id="totalCans">0</span> / 50</strong>
+      </div>
     </div>
-    <div>
-      <label>Patrocinador: </label>
-      <select id="sponsorSelect">
-        <option value="Ninguno">Sin Patrocinador</option>
-        <option value="Rutherford">Rutherford</option>
-        <option value="Mishkin">Mishkin</option>
-        <option value="Slime">Slime</option>
-        <option value="Scarlett">Scarlett</option>
-        <option value="La Alcaidesa">La Alcaidesa</option>
-        <option value="Verney">Verney</option>
-        <option value="Miyazaki">Miyazaki</option>
-      </select>
-    </div>
-    <div>
-      <strong>Total Bids: <span id="totalBids">0</span> / 50</strong>
-    </div>
+
+    <div id="vehiclesList"></div>
+
+    <button onclick="addVehicle()">+ Añadir Vehículo</button>
   </div>
 
-  <!-- Lista de Vehículos -->
-  <div id="vehiclesList"></div>
-
-  <button onclick="addVehicle()">+ Añadir Vehículo</button>
+  <!-- COLUMNA DERECHA: CATÁLOGO OFICIAL DE VEHÍCULOS -->
+  <div class="catalog-panel">
+    <h2>Catálogo Oficial de Vehículos</h2>
+    <div id="catalogContainer"></div>
+  </div>
 </div>
 
 <script>
-  // Base de Datos Simplificada de Vehículos
-  const VEHICLE_TYPES = {
-    "Buggy": { Bids: 6, slots: 2, hull: 4, gear: 6, handling: 4, crew: 2 },
-    "Coche": { Bids: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2 },
-    "Camioneta": { Bids: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3 },
-    "Coche de Alto Rendimiento": { Bids: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1 },
-    "Camión Pesado": { Bids: 20, slots: 5, hull: 14, gear: 3, handling: 1, crew: 4 }
-  };
+  // BASE DE DATOS COMPLETA DE VEHÍCULOS (OFICIAL GASLANDS REFUELLED)
+  const VEHICLES = [
+    // --- VEHÍCULOS BÁSICOS ---
+    { name: "Buggy", category: "Básico", weight: "Ligero", cans: 6, slots: 2, hull: 4, gear: 6, handling: 4, crew: 2, rules: "Módulo Rodante" },
+    { name: "Coche", category: "Básico", weight: "Medio", cans: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
+    { name: "Camioneta", category: "Básico", weight: "Medio", cans: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
+    { name: "Coche de Alto Rendimiento", category: "Básico", weight: "Medio", cans: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1, rules: "Esfumarse" },
+    { name: "Camión Pesado", category: "Básico", weight: "Pesado", cans: 20, slots: 5, hull: 14, gear: 3, handling: 1, crew: 4, rules: "-" },
+    { name: "Moto", category: "Básico", weight: "Ligero", cans: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pivote, Ágil" },
+    { name: "Moto con Sidecar", category: "Básico", weight: "Ligero", cans: 8, slots: 2, hull: 4, gear: 6, handling: 4, crew: 2, rules: "Pivote" },
 
-  // Base de Datos Simplificada de Armas
+    // --- VEHÍCULOS AVANZADOS ---
+    { name: "Ambulancia", category: "Avanzado", weight: "Medio", cans: 20, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "Urgencias (Cura Tripulación/PC)" },
+    { name: "Camión de Helados", category: "Avanzado", weight: "Medio", cans: 12, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Música Hipnótica" },
+    { name: "Monster Truck", category: "Avanzado", weight: "Pesado", cans: 25, slots: 3, hull: 12, gear: 4, handling: 3, crew: 2, rules: "All-Terrain, Aplastar" },
+    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", cans: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "Aéreo, Sombra" },
+    { name: "Girocóptero", category: "Avanzado", weight: "Medio", cans: 10, slots: 1, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Aéreo" },
+    { name: "Autobús", category: "Avanzado", weight: "Pesado", cans: 30, slots: 3, hull: 16, gear: 3, handling: 1, crew: 8, rules: "-" },
+    { name: "Tanque", category: "Avanzado", weight: "Pesado", cans: 40, slots: 4, hull: 20, gear: 3, handling: 1, crew: 3, rules: "Orugas, Todo Terreno" },
+    { name: "Dragster", category: "Avanzado", weight: "Medio", cans: 20, slots: 2, hull: 6, gear: 6, handling: 2, crew: 1, rules: "Aceleración Extrema" },
+    { name: "Camión Garra", category: "Avanzado", weight: "Pesado", cans: 24, slots: 3, hull: 14, gear: 3, handling: 1, crew: 3, rules: "Garra Mecánica" }
+  ];
+
+  // BASE DE DATOS BÁSICA DE ARMAS
   const WEAPONS = [
-    { name: "Ninguna", Bids: 0, slots: 0 },
-    { name: "Ametralladora", Bids: 2, slots: 1 },
-    { name: "Minigun", Bids: 15, slots: 1 },
-    { name: "Cohetes", Bids: 6, slots: 2 },
-    { name: "Dispensador de Pegamento", Bids: 1, slots: 1 },
-    { name: "Ariete (Ram)", Bids: 4, slots: 1 }
+    { name: "Ninguna", cans: 0, slots: 0 },
+    { name: "Ametralladora", cans: 2, slots: 1 },
+    { name: "Minigun", cans: 15, slots: 1 },
+    { name: "Cohetes", cans: 6, slots: 2 },
+    { name: "Dispensador de Pegamento", cans: 1, slots: 1 },
+    { name: "Ariete (Ram)", cans: 4, slots: 1 },
+    { name: "Lanzallamas", cans: 4, slots: 2 },
+    { name: "Cañón Básico", cans: 6, slots: 2 }
   ];
 
   let team = [];
+
+  // RENDERIZAR EL CATÁLOGO LATERAL
+  function renderCatalog() {
+    const container = document.getElementById('catalogContainer');
+    container.innerHTML = '';
+
+    const categories = ["Básico", "Avanzado"];
+
+    categories.forEach(cat => {
+      const title = document.createElement('div');
+      title.className = 'catalog-section-title';
+      title.innerText = `Vehículos ${cat}s`;
+      container.appendChild(title);
+
+      VEHICLES.filter(v => v.category === cat).forEach(v => {
+        const item = document.createElement('div');
+        item.className = 'catalog-item';
+        item.innerHTML = `
+          <div class="catalog-item-header">
+            <span>${v.name}</span>
+            <span style="color: var(--accent-color);">${v.cans} Cans</span>
+          </div>
+          <div class="catalog-stats">
+            <span><b>Peso:</b> ${v.weight}</span>
+            <span><b>PC:</b> ${v.hull}</span>
+            <span><b>Marcha:</b> ${v.gear}</span>
+            <span><b>Maniob.:</b> ${v.handling}</span>
+            <span><b>Trip.:</b> ${v.crew}</span>
+            <span><b>Casillas:</b> ${v.slots}</span>
+          </div>
+          <div class="catalog-rules"><b>Especial:</b> ${v.rules}</div>
+        `;
+        container.appendChild(item);
+      });
+    });
+  }
 
   function addVehicle() {
     const newVehicle = {
@@ -161,43 +306,43 @@
       weapon2: "Ninguna"
     };
     team.push(newVehicle);
-    render();
+    renderBuilder();
   }
 
   function removeVehicle(id) {
     team = team.filter(v => v.id !== id);
-    render();
+    renderBuilder();
   }
 
   function updateVehicle(id, field, value) {
     const v = team.find(item => item.id === id);
     if (v) {
       v[field] = value;
-      render();
+      renderBuilder();
     }
   }
 
-  function render() {
+  function renderBuilder() {
     const container = document.getElementById('vehiclesList');
     container.innerHTML = '';
-    let grandTotalBids = 0;
+    let grandTotalCans = 0;
 
-    team.forEach((v, index) => {
-      const vData = VEHICLE_TYPES[v.type];
+    team.forEach((v) => {
+      const vData = VEHICLES.find(item => item.name === v.type) || VEHICLES[1];
       const w1Data = WEAPONS.find(w => w.name === v.weapon1) || WEAPONS[0];
       const w2Data = WEAPONS.find(w => w.name === v.weapon2) || WEAPONS[0];
 
       const usedSlots = w1Data.slots + w2Data.slots;
-      const vehicleBids = vData.Bids + w1Data.Bids + w2Data.Bids;
-      grandTotalBids += vehicleBids;
+      const vehicleCans = vData.cans + w1Data.cans + w2Data.cans;
+      grandTotalCans += vehicleCans;
 
       const card = document.createElement('div');
       card.className = 'vehicle-card';
       card.innerHTML = `
         <div class="vehicle-header">
-          <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 60%;">
+          <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 55%;">
           <div>
-            <strong>${vehicleBids} Bids</strong> | 
+            <strong>${vehicleCans} Cans</strong> | 
             <span style="color: ${usedSlots > vData.slots ? '#ff4444' : '#888'}">
               Slots: ${usedSlots}/${vData.slots}
             </span>
@@ -208,33 +353,34 @@
           <div>
             <label>Tipo de Vehículo:</label>
             <select onchange="updateVehicle(${v.id}, 'type', this.value)">
-              ${Object.keys(VEHICLE_TYPES).map(t => `<option value="${t}" ${t === v.type ? 'selected' : ''}>${t} (${VEHICLE_TYPES[t].Bids} Bids)</option>`).join('')}
+              ${VEHICLES.map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.cans} Cans)</option>`).join('')}
             </select>
           </div>
           <div>
             <label>Arma 1:</label>
             <select onchange="updateVehicle(${v.id}, 'weapon1', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.Bids} Bids, ${w.slots} Slot)</option>`).join('')}
+              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.cans} Cans, ${w.slots} Slot)</option>`).join('')}
             </select>
           </div>
           <div>
             <label>Arma 2:</label>
             <select onchange="updateVehicle(${v.id}, 'weapon2', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.Bids} Bids, ${w.slots} Slot)</option>`).join('')}
+              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.cans} Cans, ${w.slots} Slot)</option>`).join('')}
             </select>
           </div>
         </div>
-        <div style="margin-top: 10px; font-size: 0.9em; color: #aaa;">
-          PC: ${vData.hull} | Marcha Máx: ${vData.gear} | Maniobra: ${vData.handling} | Tripulación: ${vData.crew}
+        <div style="margin-top: 10px; font-size: 0.85em; color: var(--text-muted);">
+          <b>Categoría:</b> ${vData.category} | <b>Peso:</b> ${vData.weight} | <b>PC:</b> ${vData.hull} | <b>Marcha Máx:</b> ${vData.gear} | <b>Maniobra:</b> ${vData.handling} | <b>Tripulación:</b> ${vData.crew}
         </div>
       `;
       container.appendChild(card);
     });
 
-    document.getElementById('totalBids').innerText = grandTotalBids;
+    document.getElementById('totalCans').innerText = grandTotalCans;
   }
 
-  // Inicializar con un vehículo por defecto
+  // Inicialización
+  renderCatalog();
   addVehicle();
 </script>
 </body>
