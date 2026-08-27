@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Builder & Catálogo</title>
+  <title>Gaslands Refuelled - Diseñador de Escuderías</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -207,7 +207,7 @@
         </select>
       </div>
       <div>
-        <strong>Total Cans: <span id="totalCans">0</span> / 50</strong>
+        <strong>Total: <span id="totalCans">0</span> / 50 Bidones</strong>
       </div>
     </div>
 
@@ -280,7 +280,7 @@
         item.innerHTML = `
           <div class="catalog-item-header">
             <span>${v.name}</span>
-            <span style="color: var(--accent-color);">${v.cans} Cans</span>
+            <span style="color: var(--accent-color);">${v.cans} Bid.</span>
           </div>
           <div class="catalog-stats">
             <span><b>Peso:</b> ${v.weight}</span>
@@ -342,7 +342,7 @@
         <div class="vehicle-header">
           <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 55%;">
           <div>
-            <strong>${vehicleCans} Cans</strong> | 
+            <strong>${vehicleCans} Bid.</strong> | 
             <span style="color: ${usedSlots > vData.slots ? '#ff4444' : '#888'}">
               Slots: ${usedSlots}/${vData.slots}
             </span>
@@ -353,19 +353,19 @@
           <div>
             <label>Tipo de Vehículo:</label>
             <select onchange="updateVehicle(${v.id}, 'type', this.value)">
-              ${VEHICLES.map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.cans} Cans)</option>`).join('')}
+              ${VEHICLES.map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.cans} Bid.)</option>`).join('')}
             </select>
           </div>
           <div>
             <label>Arma 1:</label>
             <select onchange="updateVehicle(${v.id}, 'weapon1', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.cans} Cans, ${w.slots} Slot)</option>`).join('')}
+              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.cans} Bid., ${w.slots} Slot)</option>`).join('')}
             </select>
           </div>
           <div>
             <label>Arma 2:</label>
             <select onchange="updateVehicle(${v.id}, 'weapon2', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.cans} Cans, ${w.slots} Slot)</option>`).join('')}
+              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.cans} Bid., ${w.slots} Slot)</option>`).join('')}
             </select>
           </div>
         </div>
