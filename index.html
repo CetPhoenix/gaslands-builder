@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Diseñador de Escuderías</title>
+  <title>Nexo Alpha - Gaslands Refuelled</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -191,7 +191,7 @@
 <body>
 
 <header>
-  <h1>Gaslands Refuelled - Diseñador de Escuderías - Nexo Alpha</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled</h1>
 </header>
 
 <div class="main-layout">
@@ -257,6 +257,12 @@
       <summary>Armamento Avanzado</summary>
       <div id="catalogWeaponsAdvanced"></div>
     </details>
+
+    <!-- Plegable: Armamento Avanzado (Personales) -->
+    <details>
+      <summary>Armamento Avanzado (Personales)</summary>
+      <div id="catalogWeaponsPersonal"></div>
+    </details>
   </div>
 </div>
 
@@ -312,7 +318,17 @@
     { name: "Mortero", category: "Avanzado", range: "Doble", attack: "4d6", rules: "indirecto, munición 3", slots: 1, bidones: 4 },
     { name: "Multiplicador cinético", category: "Avanzado", range: "Doble", attack: "(6d6)", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
     { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
-    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3 }
+    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3 },
+
+    // ARMAMENTO AVANZADO (PERSONALES)
+    { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1 },
+    { name: "Escopeta", category: "Personal", range: "Largo", attack: "*", rules: "Personal", slots: 0, bidones: 4 },
+    { name: "Granadas", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1 },
+    { name: "Granadas de gas", category: "Personal", range: "Medio", attack: "(1d6)", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1 },
+    { name: "Magnum", category: "Personal", range: "Doble", attack: "1d6", rules: "Onda expansiva, personal", slots: 0, bidones: 3 },
+    { name: "Red de acero", category: "Personal", range: "Corto", attack: "(3d6)", rules: "Onda expansiva, personal", slots: 0, bidones: 2 },
+    { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5 },
+    { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2 }
   ];
 
   let team = [];
@@ -323,11 +339,13 @@
     const vAdv = document.getElementById('catalogVehiclesAdvanced');
     const wBasic = document.getElementById('catalogWeaponsBasic');
     const wAdv = document.getElementById('catalogWeaponsAdvanced');
+    const wPersonal = document.getElementById('catalogWeaponsPersonal');
 
     vBasic.innerHTML = '';
     vAdv.innerHTML = '';
     wBasic.innerHTML = '';
     wAdv.innerHTML = '';
+    wPersonal.innerHTML = '';
 
     // Render Vehículos
     VEHICLES.forEach(v => {
@@ -369,7 +387,8 @@
         <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
       `;
       if (w.category === "Básico") wBasic.appendChild(item);
-      else wAdv.appendChild(item);
+      else if (w.category === "Avanzado") wAdv.appendChild(item);
+      else if (w.category === "Personal") wPersonal.appendChild(item);
     });
   }
 
