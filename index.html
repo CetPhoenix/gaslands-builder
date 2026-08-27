@@ -36,7 +36,7 @@
     /* Layout principal en 2 columnas */
     .main-layout {
       display: grid;
-      grid-template-columns: 1fr 440px;
+      grid-template-columns: 1fr 450px;
       gap: 20px;
     }
 
@@ -127,13 +127,27 @@
       padding-bottom: 8px;
     }
 
-    .catalog-section-title {
-      font-size: 0.95rem;
+    /* Pestañas Plegables (Details) */
+    details {
+      background: #242424;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      margin-bottom: 10px;
+      padding: 8px 12px;
+    }
+
+    summary {
       font-weight: bold;
       color: #ff9900;
-      margin: 15px 0 8px 0;
+      cursor: pointer;
+      font-size: 0.95rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      outline: none;
+    }
+
+    summary:hover {
+      color: var(--accent-color);
     }
 
     .catalog-item {
@@ -141,7 +155,7 @@
       border: 1px solid var(--border-color);
       border-radius: 6px;
       padding: 10px;
-      margin-bottom: 10px;
+      margin-top: 8px;
       font-size: 0.85rem;
     }
 
@@ -177,7 +191,7 @@
 <body>
 
 <header>
-  <h1>Gaslands Refuelled - Diseñador de Escuderías</h1>
+  <h1>Gaslands Refuelled - Diseñador de Escuderías - Nexo Alpha</h1>
 </header>
 
 <div class="main-layout">
@@ -216,17 +230,40 @@
     <button onclick="addVehicle()">+ Añadir Vehículo</button>
   </div>
 
-  <!-- COLUMNA DERECHA: CATÁLOGO OFICIAL DE VEHÍCULOS -->
+  <!-- COLUMNA DERECHA: CATÁLOGOS CON ETIQUETAS PLEGABLES -->
   <div class="catalog-panel">
-    <h2>Catálogo Oficial de Vehículos</h2>
-    <div id="catalogContainer"></div>
+    <h2>Catálogo de Referencia</h2>
+
+    <!-- Plegable: Vehículos Básicos -->
+    <details open>
+      <summary>Vehículos Básicos</summary>
+      <div id="catalogVehiclesBasic"></div>
+    </details>
+
+    <!-- Plegable: Vehículos Avanzados -->
+    <details open>
+      <summary>Vehículos Avanzados</summary>
+      <div id="catalogVehiclesAdvanced"></div>
+    </details>
+
+    <!-- Plegable: Armamento Básico -->
+    <details open>
+      <summary>Armamento Básico</summary>
+      <div id="catalogWeaponsBasic"></div>
+    </details>
+
+    <!-- Plegable: Armamento Avanzado -->
+    <details>
+      <summary>Armamento Avanzado</summary>
+      <div id="catalogWeaponsAdvanced"></div>
+    </details>
   </div>
 </div>
 
 <script>
-  // BASE DE DATOS FIEL A LAS TABLAS DEL MANUAL EN ESPAÑOL
+  // BASE DE DATOS DE VEHÍCULOS
   const VEHICLES = [
-    // --- TABLA DE VEHÍCULOS BÁSICOS ---
+    // BÁSICOS
     { name: "Buggy", category: "Básico", weight: "Ligero", bidones: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
     { name: "Camioneta", category: "Básico", weight: "Medio", bidones: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
     { name: "Coche", category: "Básico", weight: "Medio", bidones: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
@@ -234,7 +271,7 @@
     { name: "Autobús", category: "Básico", weight: "Pesado", bidones: 30, slots: 3, hull: 16, gear: 3, handling: 2, crew: 8, rules: "-" },
     { name: "Camión", category: "Básico", weight: "Pesado", bidones: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
 
-    // --- TABLA DE VEHÍCULOS AVANZADOS ---
+    // AVANZADOS
     { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivotar" },
     { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", bidones: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivotar" },
     { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
@@ -247,53 +284,92 @@
     { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pasar por encima, pivotar, todoterreno, torreta, restringido" }
   ];
 
-  // BASE DE DATOS BÁSICA DE ARMAS
+  // BASE DE DATOS FIEL DE ARMAMENTO
   const WEAPONS = [
-    { name: "Ninguna", bidones: 0, slots: 0 },
-    { name: "Ametralladora", bidones: 2, slots: 1 },
-    { name: "Minigun", bidones: 15, slots: 1 },
-    { name: "Cohetes", bidones: 6, slots: 2 },
-    { name: "Dispensador de Pegamento", bidones: 1, slots: 1 },
-    { name: "Ariete (Ram)", bidones: 4, slots: 1 },
-    { name: "Lanzallamas", bidones: 4, slots: 2 },
-    { name: "Cañón Básico", bidones: 6, slots: 2 }
+    { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0 },
+    
+    // ARMAMENTO BÁSICO
+    { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2 },
+    { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3 },
+    { name: "Arma corta", category: "Básico", range: "Medio", attack: "1d6", rules: "Personal", slots: 0, bidones: 0 },
+    { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5 },
+
+    // ARMAMENTO AVANZADO
+    { name: "AJG", category: "Avanzado", range: "Doble", attack: "10d6", rules: "Munición 1", slots: 3, bidones: 1 },
+    { name: "Arpón", category: "Avanzado", range: "Doble", attack: "(5d6)", rules: "-", slots: 1, bidones: 2 },
+    { name: "Batería de amplificadores", category: "Avanzado", range: "Medio", attack: "-", rules: "Arco de fuego de 360º", slots: 3, bidones: 4 },
+    { name: "Bazuca", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Munición 3, Onda expansiva", slots: 2, bidones: 4 },
+    { name: "Bloqueador magnético", category: "Avanzado", range: "Doble", attack: "-", rules: "Eléctrico", slots: 0, bidones: 2 },
+    { name: "Bola de demolición", category: "Avanzado", range: "Corto", attack: "-", rules: "-", slots: 3, bidones: 2 },
+    { name: "Brazo articulado con pinza", category: "Avanzado", range: "Corto", attack: "3d6", rules: "-", slots: 1, bidones: 6 },
+    { name: "Cañón de 125mm", category: "Avanzado", range: "Doble", attack: "8d6", rules: "Munición 3, Onda expansiva", slots: 3, bidones: 6 },
+    { name: "Cañón gravitatorio", category: "Avanzado", range: "Doble", attack: "(3d6)", rules: "Eléctrico, Munición 1", slots: 1, bidones: 2 },
+    { name: "Cohetes", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Munición 3", slots: 2, bidones: 5 },
+    { name: "Lanzachatarra", category: "Avanzado", range: "Doble/Descarga", attack: "-", rules: "Munición 3", slots: 4, bidones: 4 },
+    { name: "Lanzallamas", category: "Avanzado", range: "Ráfaga larga", attack: "6d6", rules: "Indirecto, fuego, munición 3, salpicadura", slots: 2, bidones: 4 },
+    { name: "Láser militar", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Salpicadura", slots: 1, bidones: 5 },
+    { name: "Martilleador", category: "Avanzado", range: "Medio", attack: "-", rules: "360 grados, eléctrico, indirecto, munición 1", slots: 2, bidones: 4 },
+    { name: "Mortero", category: "Avanzado", range: "Doble", attack: "4d6", rules: "indirecto, munición 3", slots: 1, bidones: 4 },
+    { name: "Multiplicador cinético", category: "Avanzado", range: "Doble", attack: "(6d6)", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
+    { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
+    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3 }
   ];
 
   let team = [];
 
-  // RENDERIZAR EL CATÁLOGO LATERAL
+  // RENDERIZAR LOS CATÁLOGOS EN SUS PESTAÑAS PLEGABLES
   function renderCatalog() {
-    const container = document.getElementById('catalogContainer');
-    container.innerHTML = '';
+    const vBasic = document.getElementById('catalogVehiclesBasic');
+    const vAdv = document.getElementById('catalogVehiclesAdvanced');
+    const wBasic = document.getElementById('catalogWeaponsBasic');
+    const wAdv = document.getElementById('catalogWeaponsAdvanced');
 
-    const categories = ["Básico", "Avanzado"];
+    vBasic.innerHTML = '';
+    vAdv.innerHTML = '';
+    wBasic.innerHTML = '';
+    wAdv.innerHTML = '';
 
-    categories.forEach(cat => {
-      const title = document.createElement('div');
-      title.className = 'catalog-section-title';
-      title.innerText = `Vehículos ${cat}s`;
-      container.appendChild(title);
+    // Render Vehículos
+    VEHICLES.forEach(v => {
+      const item = document.createElement('div');
+      item.className = 'catalog-item';
+      item.innerHTML = `
+        <div class="catalog-item-header">
+          <span>${v.name}</span>
+          <span style="color: var(--accent-color);">${v.bidones} Bid.</span>
+        </div>
+        <div class="catalog-stats">
+          <span><b>Peso:</b> ${v.weight}</span>
+          <span><b>PC:</b> ${v.hull}</span>
+          <span><b>Marcha:</b> ${v.gear}</span>
+          <span><b>Maniob.:</b> ${v.handling}</span>
+          <span><b>Trip.:</b> ${v.crew}</span>
+          <span><b>Casillas:</b> ${v.slots}</span>
+        </div>
+        <div class="catalog-rules"><b>Especial:</b> ${v.rules}</div>
+      `;
+      if (v.category === "Básico") vBasic.appendChild(item);
+      else vAdv.appendChild(item);
+    });
 
-      VEHICLES.filter(v => v.category === cat).forEach(v => {
-        const item = document.createElement('div');
-        item.className = 'catalog-item';
-        item.innerHTML = `
-          <div class="catalog-item-header">
-            <span>${v.name}</span>
-            <span style="color: var(--accent-color);">${v.bidones} Bid.</span>
-          </div>
-          <div class="catalog-stats">
-            <span><b>Peso:</b> ${v.weight}</span>
-            <span><b>PC:</b> ${v.hull}</span>
-            <span><b>Marcha:</b> ${v.gear}</span>
-            <span><b>Maniob.:</b> ${v.handling}</span>
-            <span><b>Trip.:</b> ${v.crew}</span>
-            <span><b>Casillas:</b> ${v.slots}</span>
-          </div>
-          <div class="catalog-rules"><b>Especial:</b> ${v.rules}</div>
-        `;
-        container.appendChild(item);
-      });
+    // Render Armas
+    WEAPONS.filter(w => w.name !== "Ninguna").forEach(w => {
+      const item = document.createElement('div');
+      item.className = 'catalog-item';
+      item.innerHTML = `
+        <div class="catalog-item-header">
+          <span>${w.name}</span>
+          <span style="color: var(--accent-color);">${w.bidones} Bid.</span>
+        </div>
+        <div class="catalog-stats">
+          <span><b>Alcance:</b> ${w.range}</span>
+          <span><b>Ataque:</b> ${w.attack}</span>
+          <span><b>Casillas:</b> ${w.slots}</span>
+        </div>
+        <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
+      `;
+      if (w.category === "Básico") wBasic.appendChild(item);
+      else wAdv.appendChild(item);
     });
   }
 
