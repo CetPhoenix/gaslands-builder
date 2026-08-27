@@ -224,7 +224,7 @@
 </div>
 
 <script>
-  // BASE DE DATOS ACTUALIZADA SEGÚN TABLAS OFICIALES DEL MANUAL
+  // BASE DE DATOS FIEL A LAS TABLAS DEL MANUAL EN ESPAÑOL
   const VEHICLES = [
     // --- TABLA DE VEHÍCULOS BÁSICOS ---
     { name: "Buggy", category: "Básico", weight: "Ligero", bidones: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
@@ -235,16 +235,16 @@
     { name: "Camión", category: "Básico", weight: "Pesado", bidones: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
 
     // --- TABLA DE VEHÍCULOS AVANZADOS ---
-    { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivota" },
-    { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", bidones: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivota" },
+    { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivotar" },
+    { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", bidones: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivotar" },
     { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
-    { name: "Ambulancia", category: "Avanzado", weight: "Medio", bidones: 20, slots: 3, hull: 12, gear: 5, handling: 2, crew: 3, rules: "Compresivos, estimulantes" },
+    { name: "Ambulancia", category: "Avanzado", weight: "Medio", bidones: 20, slots: 3, hull: 12, gear: 5, handling: 2, crew: 3, rules: "Depresivos, estimulantes" },
     { name: "Camión de los helados", category: "Avanzado", weight: "Medio", bidones: 8, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Musiquilla irritante" },
-    { name: "Girocóptero", category: "Avanzado", weight: "Medio", bidones: 10, slots: 0, hull: 4, gear: 6, handling: 4, crew: 1, rules: "¡Bombas fuera!, volar" },
-    { name: "Camión de guerra", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 5, hull: 26, gear: 4, handling: 2, crew: 5, rules: "Aplica reglas de camión de guerra" },
-    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", bidones: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "¡Bombas fuera!, volar" },
+    { name: "Girocóptero", category: "Avanzado", weight: "Medio", bidones: 10, slots: 0, hull: 4, gear: 6, handling: 4, crew: 1, rules: "As del aire, bombas fuera, volar, restringido" },
+    { name: "Camión de guerra", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 5, hull: 26, gear: 4, handling: 2, crew: 5, rules: "Consulta reglas de camión de guerra" },
+    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", bidones: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "As del aire, bombas fuera, volar, restringido" },
     { name: "Monster truck", category: "Avanzado", weight: "Pesado", bidones: 25, slots: 2, hull: 10, gear: 4, handling: 3, crew: 2, rules: "Pasar por encima, todoterreno" },
-    { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pivotar, todoterreno, orugas" }
+    { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pasar por encima, pivotar, todoterreno, torreta, restringido" }
   ];
 
   // BASE DE DATOS BÁSICA DE ARMAS
