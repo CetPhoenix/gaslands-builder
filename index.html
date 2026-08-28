@@ -276,6 +276,12 @@
       <summary>Armamento Avanzado (Personales)</summary>
       <div id="catalogWeaponsPersonal"></div>
     </details>
+
+    <!-- Plegable: Armamento Avanzado (Descarga) -->
+    <details>
+      <summary>Armamento Avanzado (Descarga)</summary>
+      <div id="catalogWeaponsDropped"></div>
+    </details>
   </div>
 </div>
 
@@ -341,7 +347,17 @@
     { name: "Magnum", category: "Personal", range: "Doble", attack: "1d6", rules: "Onda expansiva, personal", slots: 0, bidones: 3 },
     { name: "Red de acero", category: "Personal", range: "Corto", attack: "(3d6)", rules: "Onda expansiva, personal", slots: 0, bidones: 2 },
     { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5 },
-    { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2 }
+    { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2 },
+
+    // ARMAMENTO AVANZADO (DESCARGA)
+    { name: "Dispensador de abrojos", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Explosión pequeña, Munición 3", slots: 1, bidones: 1 },
+    { name: "Dispensador de aceite", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 2 },
+    { name: "Dispensador de humo", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 1 },
+    { name: "Dispensador de minas", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Munición 3, onda expansiva", slots: 1, bidones: 1 },
+    { name: "Dispensador de napalm", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Fuego, Munición 3", slots: 1, bidones: 1 },
+    { name: "Dispensador de pegamento", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 1", slots: 1, bidones: 1 },
+    { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3 },
+    { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3 }
   ];
 
   let team = [];
@@ -353,12 +369,14 @@
     const wBasic = document.getElementById('catalogWeaponsBasic');
     const wAdv = document.getElementById('catalogWeaponsAdvanced');
     const wPersonal = document.getElementById('catalogWeaponsPersonal');
+    const wDropped = document.getElementById('catalogWeaponsDropped');
 
     vBasic.innerHTML = '';
     vAdv.innerHTML = '';
     wBasic.innerHTML = '';
     wAdv.innerHTML = '';
     wPersonal.innerHTML = '';
+    wDropped.innerHTML = '';
 
     // Render Vehículos
     VEHICLES.forEach(v => {
@@ -402,6 +420,7 @@
       if (w.category === "Básico") wBasic.appendChild(item);
       else if (w.category === "Avanzado") wAdv.appendChild(item);
       else if (w.category === "Personal") wPersonal.appendChild(item);
+      else if (w.category === "Descarga") wDropped.appendChild(item);
     });
   }
 
