@@ -109,16 +109,8 @@
       color: var(--text-muted);
     }
 
-    /* Estilos para resaltado de stats modificados */
-    .stat-modified-hull {
-      color: #ff9800 !important;
-      font-weight: bold;
-    }
-
-    .stat-modified-crew {
-      color: #4caf50 !important;
-      font-weight: bold;
-    }
+    .stat-modified-hull { color: #ff9800 !important; font-weight: bold; }
+    .stat-modified-crew { color: #4caf50 !important; font-weight: bold; }
 
     .section-block {
       background: #181818;
@@ -213,6 +205,8 @@
     button.btn-danger:hover { background: #a81e1e; }
     button.btn-add { background: #2e7d32; font-size: 0.85rem; }
     button.btn-add:hover { background: #1b5e20; }
+    button.btn-print { background: #008CBA; }
+    button.btn-print:hover { background: #007399; }
 
     .catalog-panel {
       background: var(--panel-bg);
@@ -312,6 +306,192 @@
     }
 
     .sponsor-badge { color: #FF9800; font-weight: bold; font-size: 0.8rem; }
+
+    /* ESTILOS DEL MODAL DE FICHAS DE VEHÍCULOS */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: #fff;
+      color: #000;
+      width: 90%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 8px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .modal-header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+    }
+
+    /* VISTA DE IMPRESIÓN Y DISEÑO DE LA FICHA */
+    .printable-card {
+      background: #fff;
+      color: #000;
+      border: 2px solid #000;
+      padding: 15px;
+      margin-bottom: 25px;
+      font-size: 11pt;
+      box-sizing: border-box;
+      page-break-after: always;
+      page-break-inside: avoid;
+    }
+
+    .printable-card:last-child {
+      page-break-after: auto;
+    }
+
+    .sheet-header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+    }
+
+    .sheet-header-table td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .card-title-box {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .card-title-box h2 {
+      margin: 2px 0;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+    }
+
+    .stats-boxes-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .stat-card-box {
+      border: 2px solid #000;
+      text-align: center;
+      padding: 6px;
+    }
+
+    .stat-card-box .title {
+      font-weight: bold;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000;
+      padding-bottom: 2px;
+      margin-bottom: 4px;
+    }
+
+    .stat-card-box .value {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .hull-boxes-container {
+      margin-bottom: 12px;
+      border: 1px solid #000;
+      padding: 8px;
+    }
+
+    .hull-boxes-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .hull-boxes-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .hull-checkbox {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #000;
+      display: inline-block;
+    }
+
+    .sheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+
+    .sheet-table th, .sheet-table td {
+      border: 1px solid #000;
+      padding: 5px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .sheet-table th {
+      background: #eee;
+      text-transform: uppercase;
+    }
+
+    .sheet-footer {
+      text-align: center;
+      font-size: 0.8rem;
+      font-style: italic;
+      border-top: 1px solid #aaa;
+      padding-top: 4px;
+    }
+
+    /* REGLAS CSS PARA IMPRESIÓN A4 */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 3.5cm;
+      }
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+      header, .main-layout, .modal-header-actions {
+        display: none !important;
+      }
+      .modal-overlay {
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        background: none !important;
+      }
+      .modal-content {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+      .printable-card {
+        border: 2px solid #000 !important;
+        margin: 0 0 20px 0 !important;
+        page-break-after: always !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -325,11 +505,11 @@
     <div class="summary-bar">
       <div>
         <label>Escudería: </label>
-        <input type="text" id="teamName" placeholder="Nombre de tu banda" style="width: 150px;">
+        <input type="text" id="teamName" placeholder="Nombre de tu banda" value="Mi Escudería" onchange="renderBuilder()" style="width: 140px;">
       </div>
       <div>
         <label>Patrocinador: </label>
-        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 140px;">
+        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 130px;">
           <option value="Ninguno">Sin Patrocinador</option>
           <option value="Rutherford">Rutherford</option>
           <option value="Mishkin">Mishkin</option>
@@ -347,7 +527,7 @@
       </div>
       <div>
         <label>Formato: </label>
-        <select id="maxCansSelect" onchange="renderBuilder()" style="width: 100px;">
+        <select id="maxCansSelect" onchange="renderBuilder()" style="width: 90px;">
           <option value="25">25 Bid.</option>
           <option value="50" selected>50 Bid.</option>
           <option value="100">100 Bid.</option>
@@ -355,6 +535,9 @@
       </div>
       <div class="total-display">
         Total: <span id="totalBidones">0</span> / <span id="maxBidonesDisplay">50</span> Bid.
+      </div>
+      <div>
+        <button class="btn-print" onclick="openCardsModal()">📋 Generar Fichas</button>
       </div>
     </div>
 
@@ -400,6 +583,20 @@
       <summary><span class="color-tag" style="background: var(--cat-mejora-veh);"></span> Mejoras para Vehículo</summary>
       <div id="catalogVehicleUpgrades"></div>
     </details>
+  </div>
+</div>
+
+<!-- MODAL PARA VISTA PREVIA E IMPRESIÓN DE FICHAS -->
+<div id="cardsModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header-actions">
+      <h3 style="margin: 0;">Fichas de Vehículos de la Escudería</h3>
+      <div>
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
+        <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
+      </div>
+    </div>
+    <div id="cardsPrintContainer"></div>
   </div>
 </div>
 
@@ -582,7 +779,6 @@
     }
   }
 
-  // Operaciones de Armas
   function addWeaponToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
@@ -621,7 +817,6 @@
     }
   }
 
-  // Operaciones de Mejoras
   function addUpgradeToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
@@ -686,16 +881,12 @@
     return html;
   }
 
-  // Generación de opciones para la sección de Mejoras aplicando reglas del usuario
   function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex) {
     let html = '';
     const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
     html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
 
-    // Lista de nombres actualmente equipados en el vehículo
     const equippedNames = currentUpgrades.map((u, idx) => idx !== currentIndex ? u.name : null).filter(Boolean);
-
-    // Conteo de "Tripulante adicional"
     const crewUpgradeCount = currentUpgrades.filter((u, idx) => idx !== currentIndex && u.name === "Tripulante adicional").length;
 
     const uniqueUpgrades = [
@@ -711,34 +902,11 @@
       let isDisabled = false;
       const isSelected = w.name === selectedName;
 
-      // 1. Validaciones por Patrocinador (Mishkin)
-      if (w.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
-        isDisabled = true;
-      }
-
-      // 2. Unicidad (1 por vehículo)
-      if (uniqueUpgrades.includes(w.name) && equippedNames.includes(w.name)) {
-        isDisabled = true;
-      }
-
-      // 3. Motor nuclear experimental: No apto para vehículos Ligeros
-      if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") {
-        isDisabled = true;
-      }
-
-      // 4. Orugas: No apto para Tanque, Girocóptero ni Helicóptero
-      if (w.name === "Orugas" && vehicleData) {
-        if (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero") {
-          isDisabled = true;
-        }
-      }
-
-      // 5. Tripulante adicional: Máximo igual al valor inicial de tripulación
-      if (w.name === "Tripulante adicional" && vehicleData) {
-        if (crewUpgradeCount >= vehicleData.crew) {
-          isDisabled = true;
-        }
-      }
+      if (w.sponsor === "Mishkin" && currentSponsor !== "Mishkin") isDisabled = true;
+      if (uniqueUpgrades.includes(w.name) && equippedNames.includes(w.name)) isDisabled = true;
+      if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
+      if (w.name === "Orugas" && vehicleData && (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero")) isDisabled = true;
+      if (w.name === "Tripulante adicional" && vehicleData && crewUpgradeCount >= vehicleData.crew) isDisabled = true;
 
       let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
@@ -765,7 +933,6 @@
       let vehicleBidones = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
-      // Resetear items de Mishkin o incompatibles si cambiaron condiciones
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -778,34 +945,24 @@
       if (v.upgrades && vData) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
-            u.name = "Ariete";
-          }
-          if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") {
-            u.name = "Ariete";
-          }
-          if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) {
-            u.name = "Ariete";
-          }
+          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") u.name = "Ariete";
+          if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ariete";
+          if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ariete";
         });
       }
 
-      // Cálculo de Slots y Bidones de Armas
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
           if (wData) {
             usedSlots += wData.slots;
             let cost = wData.bidones;
-            if (w.facing === "360º" && !is360Native(wData)) {
-              cost *= 3;
-            }
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
             vehicleBidones += cost;
           }
         });
       }
 
-      // Cálculo de Slots, Bidones y Modificadores de Stats por Mejoras
       let armorCount = 0;
       let extraCrewCount = 0;
 
@@ -815,7 +972,6 @@
           if (uData) {
             usedSlots += uData.slots;
             vehicleBidones += uData.bidones;
-
             if (u.name === "Blindaje") armorCount++;
             if (u.name === "Tripulante adicional") extraCrewCount++;
           }
@@ -857,14 +1013,12 @@
       if (!vData) {
         innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
       } else {
-        // Cálculo de Carrocería y Tripulación modificadas
         const currentHull = vData.hull + (armorCount * 2);
         const currentCrew = vData.crew + extraCrewCount;
 
         const hullClass = armorCount > 0 ? "stat-modified-hull" : "";
         const crewClass = extraCrewCount > 0 ? "stat-modified-crew" : "";
 
-        // Ficha del vehículo con stats dinámicos
         innerHTML += `
           <div class="vehicle-stats-box">
             <div class="vehicle-stats-grid">
@@ -880,7 +1034,6 @@
 
         const isSlotsFull = usedSlots >= vData.slots;
 
-        // --- BLOQUE DE ARMAS ---
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -899,9 +1052,7 @@
           const disableFacing = isPersonal || native360;
 
           let currentCost = wData ? wData.bidones : 0;
-          if (w.facing === "360º" && !native360) {
-            currentCost *= 3;
-          }
+          if (w.facing === "360º" && !native360) currentCost *= 3;
 
           innerHTML += `
             <div class="upgrade-row">
@@ -937,7 +1088,6 @@
         });
         innerHTML += `</div>`;
 
-        // --- BLOQUE DE MEJORAS ---
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -1003,6 +1153,183 @@
       v[field] = value;
       renderBuilder();
     }
+  }
+
+  // LÓGICA DE GENERACIÓN DE FICHAS DE VEHÍCULOS
+  function openCardsModal() {
+    const modal = document.getElementById('cardsModal');
+    const container = document.getElementById('cardsPrintContainer');
+    const teamName = document.getElementById('teamName').value || 'Mi Escudería';
+    const sponsorName = document.getElementById('sponsorSelect').value;
+
+    container.innerHTML = '';
+
+    if (team.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding: 20px;">No hay vehículos configurados en la escudería.</div>`;
+      modal.style.display = 'flex';
+      return;
+    }
+
+    team.forEach(v => {
+      const vData = VEHICLES.find(item => item.name === v.type);
+      if (!vData) return;
+
+      let armorCount = 0;
+      let extraCrewCount = 0;
+      if (v.upgrades) {
+        v.upgrades.forEach(u => {
+          if (u.name === "Blindaje") armorCount++;
+          if (u.name === "Tripulante adicional") extraCrewCount++;
+        });
+      }
+
+      const totalHull = vData.hull + (armorCount * 2);
+      const totalCrew = vData.crew + extraCrewCount;
+
+      let hullBoxesHTML = '';
+      for (let i = 0; i < totalHull; i++) {
+        hullBoxesHTML += `<span class="hull-checkbox"></span>`;
+      }
+
+      let weaponsRowsHTML = `
+        <tr>
+          <td>Arma corta</td>
+          <td>Medio</td>
+          <td>1d6</td>
+          <td>360º</td>
+          <td>0</td>
+          <td>0</td>
+          <td>Personal</td>
+        </tr>
+      `;
+
+      if (v.weapons) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData) {
+            let cost = wData.bidones;
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            weaponsRowsHTML += `
+              <tr>
+                <td>${wData.name}</td>
+                <td>${wData.range}</td>
+                <td>${wData.attack}</td>
+                <td>${w.facing || 'Frontal'}</td>
+                <td>${wData.slots}</td>
+                <td>${cost}</td>
+                <td>${wData.rules}</td>
+              </tr>
+            `;
+          }
+        });
+      }
+
+      let upgradesRowsHTML = '';
+      if (v.upgrades && v.upgrades.length > 0) {
+        v.upgrades.forEach(u => {
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (uData) {
+            upgradesRowsHTML += `
+              <tr>
+                <td>${uData.name}</td>
+                <td>${uData.rules}</td>
+                <td>${uData.slots}</td>
+                <td>${uData.bidones}</td>
+              </tr>
+            `;
+          }
+        });
+      } else {
+        upgradesRowsHTML = `<tr><td colspan="4" style="font-style:italic;">Sin mejoras equipadas</td></tr>`;
+      }
+
+      const cardHTML = `
+        <div class="printable-card">
+          <table class="sheet-header-table">
+            <tr>
+              <td style="width: 50%;">ESCUDERÍA: ${teamName.toUpperCase()}</td>
+              <td style="width: 50%;">PATROCINADOR: ${sponsorName.toUpperCase()}</td>
+            </tr>
+          </table>
+
+          <div class="card-title-box">
+            <h2>${v.name}</h2>
+            <div><b>Modelo:</b> ${vData.name} (${vData.weight})</div>
+          </div>
+
+          <div class="stats-boxes-grid">
+            <div class="stat-card-box">
+              <div class="title">Marcha Máxima</div>
+              <div class="value">${vData.gear}</div>
+            </div>
+            <div class="stat-card-box">
+              <div class="title">Fichas de Peligro</div>
+              <div class="value">[ &nbsp; ]</div>
+            </div>
+            <div class="stat-card-box">
+              <div class="title">Maniobra</div>
+              <div class="value">${vData.handling}</div>
+            </div>
+            <div class="stat-card-box" style="grid-column: span 3;">
+              <div class="title">Tripulación</div>
+              <div class="value">${totalCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</div>
+            </div>
+          </div>
+
+          <div class="hull-boxes-container">
+            <div class="hull-boxes-title">CARROCERÍA (${totalHull} PC):</div>
+            <div class="hull-boxes-flex">
+              ${hullBoxesHTML}
+            </div>
+          </div>
+
+          <div style="font-weight: bold; margin-top: 10px; text-transform: uppercase;">Armas Equipadas</div>
+          <table class="sheet-table">
+            <thead>
+              <tr>
+                <th>Arma</th>
+                <th>Alcance</th>
+                <th>Ataque</th>
+                <th>Encaramiento</th>
+                <th>Slots</th>
+                <th>Coste</th>
+                <th>Reglas</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${weaponsRowsHTML}
+            </tbody>
+          </table>
+
+          <div style="font-weight: bold; margin-top: 10px; text-transform: uppercase;">Mejoras de Vehículo</div>
+          <table class="sheet-table">
+            <thead>
+              <tr>
+                <th>Mejora</th>
+                <th>Efectos</th>
+                <th>Slots</th>
+                <th>Coste</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${upgradesRowsHTML}
+            </tbody>
+          </table>
+
+          <div class="sheet-footer">
+            Nexo Alpha - Cet Phoenix | Gaslands Refuelled
+          </div>
+        </div>
+      `;
+
+      container.innerHTML += cardHTML;
+    });
+
+    modal.style.display = 'flex';
+  }
+
+  function closeCardsModal() {
+    document.getElementById('cardsModal').style.display = 'none';
   }
 
   renderCatalog();
