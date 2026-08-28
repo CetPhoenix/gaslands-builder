@@ -105,6 +105,12 @@
       padding: 10px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .upgrade-controls {
       display: grid;
       grid-template-columns: 1fr 140px;
       gap: 10px;
@@ -112,9 +118,25 @@
     }
 
     @media (max-width: 600px) {
-      .upgrade-row {
+      .upgrade-controls {
         grid-template-columns: 1fr;
       }
+    }
+
+    .weapon-details-badge {
+      background: #1a1a1a;
+      border: 1px dashed #444;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      color: #7dcfb6;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .weapon-details-badge span {
+      display: inline-block;
     }
 
     select, input {
@@ -421,7 +443,7 @@
     { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
     { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
 
-    // MEJORAS PARA VEHÍCULO (Torreta eliminada de las opciones seleccionables manualmente)
+    // MEJORAS PARA VEHÍCULO
     { name: "Ariete", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
     { name: "Ariete explosivo", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 3, sponsor: null },
     { name: "Blindaje", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 1, bidones: 4, sponsor: null },
@@ -519,7 +541,6 @@
       }
     });
 
-    // Agregar entrada de referencia para Torreta en las mejoras del catálogo
     const turretItem = document.createElement('div');
     turretItem.className = 'catalog-item';
     turretItem.innerHTML = `
@@ -540,7 +561,7 @@
       id: Date.now(),
       name: "Nuevo Vehículo",
       type: "",
-      upgrades: [] // Cada upgrade es un objeto { name: "", facing: "Frontal" }
+      upgrades: []
     };
     team.push(newVehicle);
     renderBuilder();
@@ -653,7 +674,6 @@
             usedSlots += wData.slots;
             
             let baseCost = wData.bidones;
-            // Regla de Torreta: Si no es nativa 360º y se escoge 360º, se multiplica por 3 el costo del arma
             if (u.facing === "360º" && !is360Native(wData) && wData.name !== "Ninguna") {
               baseCost *= 3;
             }
@@ -695,23 +715,57 @@
           const isPersonal = currentWData && currentWData.category === "Personal";
           const disableFacingSelect = !currentWData || currentWData.name === "Ninguna" || isPersonal || native360;
 
+          // Cálculo del coste total en tiempo real para esta ranura
+          let currentCost = 0;
+          if (currentWData && currentWData.name !== "Ninguna") {
+            currentCost = currentWData.bidones;
+            if (currentFacing === "360º" && !native360) {
+              currentCost *= 3;
+            }
+          }
+
+          // Renderizado de ficha de estadísticas si hay un elemento seleccionado
+          let weaponStatsBadge = '';
+          if (currentWData && currentWData.name !== "Ninguna") {
+            if (currentWData.category === "Mejora") {
+              weaponStatsBadge = `
+                <div class="weapon-details-badge">
+                  <span><b>Efectos:</b> ${currentWData.rules}</span>
+                  <span><b>Coste Total:</b> ${currentCost} Bid.</span>
+                </div>
+              `;
+            } else {
+              weaponStatsBadge = `
+                <div class="weapon-details-badge">
+                  <span><b>Alcance:</b> ${currentWData.range}</span>
+                  <span><b>Ataque:</b> ${currentWData.attack}</span>
+                  <span><b>Especial:</b> ${currentWData.rules}</span>
+                  <span><b>Coste Total:</b> ${currentCost} Bid.</span>
+                </div>
+              `;
+            }
+          }
+
           upgradesHTML += `
             <div class="upgrade-row">
-              <div>
-                <label style="font-size: 0.85em; color: var(--text-muted);">Arma / Mejora ${i + 1}:</label>
-                <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgradeName(${v.id}, ${i}, this.value)">
-                  ${getWeaponSelectOptionsHTML(currentUpgradeName, currentSponsor)}
-                </select>
+              <div class="upgrade-controls">
+                <div>
+                  <label style="font-size: 0.85em; color: var(--text-muted);">Arma / Mejora ${i + 1}:</label>
+                  <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgradeName(${v.id}, ${i}, this.value)">
+                    ${getWeaponSelectOptionsHTML(currentUpgradeName, currentSponsor)}
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size: 0.85em; color: var(--text-muted);">Encaramiento:</label>
+                  <select ${disableFacingSelect ? 'disabled' : ''} onchange="updateVehicleUpgradeFacing(${v.id}, ${i}, this.value)">
+                    <option value="Frontal" ${currentFacing === 'Frontal' ? 'selected' : ''}>Frontal</option>
+                    <option value="Posterior" ${currentFacing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                    <option value="Lateral" ${currentFacing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                    <option value="360º" ${currentFacing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label style="font-size: 0.85em; color: var(--text-muted);">Encaramiento:</label>
-                <select ${disableFacingSelect ? 'disabled' : ''} onchange="updateVehicleUpgradeFacing(${v.id}, ${i}, this.value)">
-                  <option value="Frontal" ${currentFacing === 'Frontal' ? 'selected' : ''}>Frontal</option>
-                  <option value="Posterior" ${currentFacing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                  <option value="Lateral" ${currentFacing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                  <option value="360º" ${currentFacing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
-                </select>
-              </div>
+              ${weaponStatsBadge}
             </div>
           `;
         }
