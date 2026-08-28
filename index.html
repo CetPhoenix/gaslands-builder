@@ -109,6 +109,17 @@
       color: var(--text-muted);
     }
 
+    /* Estilos para resaltado de stats modificados */
+    .stat-modified-hull {
+      color: #ff9800 !important;
+      font-weight: bold;
+    }
+
+    .stat-modified-crew {
+      color: #4caf50 !important;
+      font-weight: bold;
+    }
+
     .section-block {
       background: #181818;
       border: 1px solid var(--border-color);
@@ -614,7 +625,7 @@
   function addUpgradeToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
-      v.upgrades.push({ name: "Ariete" });
+      v.upgrades.push({ name: "Ariete", facing: "Frontal" });
       renderBuilder();
     }
   }
@@ -631,6 +642,19 @@
     const v = team.find(item => item.id === id);
     if (v && v.upgrades[index]) {
       v.upgrades[index].name = upgradeName;
+      if (upgradeName === "Ariete" || upgradeName === "Ariete explosivo") {
+        v.upgrades[index].facing = "Frontal";
+      } else {
+        delete v.upgrades[index].facing;
+      }
+      renderBuilder();
+    }
+  }
+
+  function updateUpgradeFacing(id, index, facingValue) {
+    const v = team.find(item => item.id === id);
+    if (v && v.upgrades[index]) {
+      v.upgrades[index].facing = facingValue;
       renderBuilder();
     }
   }
@@ -662,18 +686,66 @@
     return html;
   }
 
-  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor) {
+  // Generación de opciones para la sección de Mejoras aplicando reglas del usuario
+  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex) {
     let html = '';
     const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
     html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
+
+    // Lista de nombres actualmente equipados en el vehículo
+    const equippedNames = currentUpgrades.map((u, idx) => idx !== currentIndex ? u.name : null).filter(Boolean);
+
+    // Conteo de "Tripulante adicional"
+    const crewUpgradeCount = currentUpgrades.filter((u, idx) => idx !== currentIndex && u.name === "Tripulante adicional").length;
+
+    const uniqueUpgrades = [
+      "Impulsor de nitrometano",
+      "Jaula de seguridad",
+      "Motor nuclear experimental",
+      "Orugas",
+      "Teleportador experimental",
+      "Tubo lanzamierdas"
+    ];
+
     items.forEach(w => {
-      const isMishkinRequired = w.sponsor === "Mishkin";
-      const isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
+      let isDisabled = false;
       const isSelected = w.name === selectedName;
+
+      // 1. Validaciones por Patrocinador (Mishkin)
+      if (w.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
+        isDisabled = true;
+      }
+
+      // 2. Unicidad (1 por vehículo)
+      if (uniqueUpgrades.includes(w.name) && equippedNames.includes(w.name)) {
+        isDisabled = true;
+      }
+
+      // 3. Motor nuclear experimental: No apto para vehículos Ligeros
+      if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") {
+        isDisabled = true;
+      }
+
+      // 4. Orugas: No apto para Tanque, Girocóptero ni Helicóptero
+      if (w.name === "Orugas" && vehicleData) {
+        if (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero") {
+          isDisabled = true;
+        }
+      }
+
+      // 5. Tripulante adicional: Máximo igual al valor inicial de tripulación
+      if (w.name === "Tripulante adicional" && vehicleData) {
+        if (crewUpgradeCount >= vehicleData.crew) {
+          isDisabled = true;
+        }
+      }
+
       let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
-      if (isMishkinRequired) label += ` [Mishkin]`;
+      if (w.sponsor) label += ` [${w.sponsor}]`;
+
       html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
     });
+
     html += `</optgroup>`;
     return html;
   }
@@ -693,7 +765,7 @@
       let vehicleBidones = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
-      // Resetear items de Mishkin si cambió el patrocinador
+      // Resetear items de Mishkin o incompatibles si cambiaron condiciones
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -702,16 +774,23 @@
           }
         });
       }
-      if (v.upgrades) {
+
+      if (v.upgrades && vData) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
             u.name = "Ariete";
           }
+          if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") {
+            u.name = "Ariete";
+          }
+          if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) {
+            u.name = "Ariete";
+          }
         });
       }
 
-      // Calcular slots y bidones de armas
+      // Cálculo de Slots y Bidones de Armas
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -726,13 +805,19 @@
         });
       }
 
-      // Calcular slots y bidones de mejoras
+      // Cálculo de Slots, Bidones y Modificadores de Stats por Mejoras
+      let armorCount = 0;
+      let extraCrewCount = 0;
+
       if (v.upgrades) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData) {
             usedSlots += uData.slots;
             vehicleBidones += uData.bidones;
+
+            if (u.name === "Blindaje") armorCount++;
+            if (u.name === "Tripulante adicional") extraCrewCount++;
           }
         });
       }
@@ -772,15 +857,22 @@
       if (!vData) {
         innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
       } else {
-        // Ficha del vehículo
+        // Cálculo de Carrocería y Tripulación modificadas
+        const currentHull = vData.hull + (armorCount * 2);
+        const currentCrew = vData.crew + extraCrewCount;
+
+        const hullClass = armorCount > 0 ? "stat-modified-hull" : "";
+        const crewClass = extraCrewCount > 0 ? "stat-modified-crew" : "";
+
+        // Ficha del vehículo con stats dinámicos
         innerHTML += `
           <div class="vehicle-stats-box">
             <div class="vehicle-stats-grid">
               <span><b>Peso:</b> ${vData.weight}</span>
-              <span><b>Carrocería:</b> ${vData.hull} PC</span>
+              <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC ${armorCount > 0 ? `(+${armorCount * 2})` : ''}</span>
               <span><b>Maniobra:</b> ${vData.handling}</span>
               <span><b>Marcha Máx:</b> ${vData.gear}</span>
-              <span><b>Tripulación:</b> ${vData.crew}</span>
+              <span class="${crewClass}"><b>Tripulación:</b> ${currentCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</span>
             </div>
             <div style="color: #7dcfb6;"><b>Reglas Especiales:</b> ${vData.rules}</div>
           </div>
@@ -795,7 +887,6 @@
               <span>Sección de Armas</span>
               <button class="btn-add" ${isSlotsFull ? 'disabled' : ''} onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button>
             </div>
-            <!-- ARMA CORTA FIJA POR DEFECTO -->
             <div class="fixed-weapon-badge">
               <b>Arma Integrada por Defecto:</b> Arma corta (Alcance: Medio | Ataque: 1d6 | Reglas: Personal | Coste: 0 Bid. | Encaramiento: 360º)
             </div>
@@ -857,13 +948,25 @@
 
         v.upgrades.forEach((u, uIdx) => {
           const uData = WEAPONS.find(item => item.name === u.name);
+          const isRam = u.name === "Ariete" || u.name === "Ariete explosivo";
+
           innerHTML += `
             <div class="upgrade-row">
-              <div class="upgrade-controls" style="grid-template-columns: 1fr 40px;">
+              <div class="upgrade-controls">
                 <div>
                   <label style="font-size: 0.8em; color: var(--text-muted);">Mejora ${uIdx + 1}:</label>
                   <select onchange="updateUpgradeName(${v.id}, ${uIdx}, this.value)">
-                    ${getUpgradesSelectOptionsHTML(u.name, currentSponsor)}
+                    ${getUpgradesSelectOptionsHTML(u.name, currentSponsor, vData, v.upgrades, uIdx)}
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
+                  <select ${!isRam ? 'disabled' : ''} onchange="updateUpgradeFacing(${v.id}, ${uIdx}, this.value)">
+                    ${!isRam ? `<option value="N/A" selected>N/A</option>` : `
+                      <option value="Frontal" ${u.facing === 'Frontal' ? 'selected' : ''}>Frontal</option>
+                      <option value="Posterior" ${u.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                      <option value="Lateral" ${u.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                    `}
                   </select>
                 </div>
                 <div>
