@@ -674,7 +674,7 @@
             usedSlots += wData.slots;
             
             let baseCost = wData.bidones;
-            if (u.facing === "360º" && !is360Native(wData) && wData.name !== "Ninguna") {
+            if (u.facing === "360º" && !is360Native(wData) && wData.name !== "Ninguna" && wData.category !== "Mejora") {
               baseCost *= 3;
             }
             vehicleBidones += baseCost;
@@ -713,21 +713,22 @@
 
           const native360 = is360Native(currentWData);
           const isPersonal = currentWData && currentWData.category === "Personal";
-          const disableFacingSelect = !currentWData || currentWData.name === "Ninguna" || isPersonal || native360;
+          const isMejora = currentWData && currentWData.category === "Mejora";
 
-          // Cálculo del coste total en tiempo real para esta ranura
+          // Deshabilitar encaramiento si no hay arma seleccionada, si es personal, si tiene 360º nativo o si es una MEJORA
+          const disableFacingSelect = !currentWData || currentWData.name === "Ninguna" || isPersonal || native360 || isMejora;
+
           let currentCost = 0;
           if (currentWData && currentWData.name !== "Ninguna") {
             currentCost = currentWData.bidones;
-            if (currentFacing === "360º" && !native360) {
+            if (currentFacing === "360º" && !native360 && !isMejora) {
               currentCost *= 3;
             }
           }
 
-          // Renderizado de ficha de estadísticas si hay un elemento seleccionado
           let weaponStatsBadge = '';
           if (currentWData && currentWData.name !== "Ninguna") {
-            if (currentWData.category === "Mejora") {
+            if (isMejora) {
               weaponStatsBadge = `
                 <div class="weapon-details-badge">
                   <span><b>Efectos:</b> ${currentWData.rules}</span>
@@ -758,10 +759,12 @@
                 <div>
                   <label style="font-size: 0.85em; color: var(--text-muted);">Encaramiento:</label>
                   <select ${disableFacingSelect ? 'disabled' : ''} onchange="updateVehicleUpgradeFacing(${v.id}, ${i}, this.value)">
-                    <option value="Frontal" ${currentFacing === 'Frontal' ? 'selected' : ''}>Frontal</option>
-                    <option value="Posterior" ${currentFacing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                    <option value="Lateral" ${currentFacing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                    <option value="360º" ${currentFacing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                    ${isMejora ? `<option value="N/A" selected>N/A</option>` : `
+                      <option value="Frontal" ${currentFacing === 'Frontal' ? 'selected' : ''}>Frontal</option>
+                      <option value="Posterior" ${currentFacing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                      <option value="Lateral" ${currentFacing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                      <option value="360º" ${currentFacing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                    `}
                   </select>
                 </div>
               </div>
