@@ -190,7 +190,6 @@
     
     option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
     
-    /* Estilo para opciones deshabilitadas en selectores (opaco / gris oscuro) */
     option:disabled {
       color: #666666 !important;
       background-color: #1a1a1a !important;
@@ -330,7 +329,7 @@
       background: #333;
       color: #000;
       width: 95%;
-      max-width: 1000px;
+      max-width: 1050px;
       max-height: 90vh;
       overflow-y: auto;
       border-radius: 8px;
@@ -353,9 +352,26 @@
       flex-wrap: wrap;
       gap: 15px;
       justify-content: center;
+      transition: transform 0.2s ease;
     }
 
     /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD (63mm x 88mm) */
+    .card-ammo-box {
+      width: 2.8mm;
+      height: 2.8mm;
+      border: 1px solid #000;
+      display: inline-block;
+      margin-left: 1px;
+      vertical-align: middle;
+      background: #fff;
+      box-sizing: border-box;
+    }
+    .ammo-container {
+      margin-top: 1px;
+      font-size: 4.5pt;
+      line-height: 1;
+    }
+
     .printable-card {
       background: #fff;
       color: #000;
@@ -549,6 +565,7 @@
         grid-template-columns: repeat(3, 63mm) !important;
         gap: 4mm 6mm !important;
         justify-content: start !important;
+        transform: scale(1) !important;
       }
       .printable-card {
         box-shadow: none !important;
@@ -557,6 +574,7 @@
       }
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -653,7 +671,13 @@
   <div class="modal-content">
     <div class="modal-header-actions">
       <h3 style="margin: 0; color: #fff;">Fichas de Vehículos (63mm x 88mm)</h3>
-      <div>
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <span style="font-size: 0.85rem;">Zoom:</span>
+        <button onclick="changeZoom(-0.1)" style="padding: 4px 8px;">🔍 -</button>
+        <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold;">100%</span>
+        <button onclick="changeZoom(0.1)" style="padding: 4px 8px;">🔍 +</button>
+        <button onclick="resetZoom()" style="padding: 4px 8px; background: #555;">Restablecer</button>
+        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar Imagen (PNG)</button>
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
@@ -858,7 +882,6 @@
     }
   }
 
-  // AL AÑADIR ARMA: Sin selección por defecto (se crea como "Ninguna")
   function addWeaponToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
@@ -880,7 +903,11 @@
     if (v && v.weapons[index]) {
       v.weapons[index].name = weaponName;
       const wData = WEAPONS.find(w => w.name === weaponName);
-      if (wData && is360Native(wData)) {
+      if (wData && wData.category === "Descarga") {
+        if (v.weapons[index].facing !== "Posterior" && v.weapons[index].facing !== "Lateral") {
+          v.weapons[index].facing = "Posterior";
+        }
+      } else if (wData && is360Native(wData)) {
         v.weapons[index].facing = "360º";
       } else if (v.weapons[index].facing === "360º" && (!wData || !is360Native(wData))) {
         v.weapons[index].facing = "Frontal";
@@ -897,7 +924,6 @@
     }
   }
 
-  // AL AÑADIR MEJORA: Sin selección por defecto (se crea como "Ninguna")
   function addUpgradeToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
@@ -935,7 +961,6 @@
     }
   }
 
-  // Filtrado de opciones para select de Armas con opción neutra "Ninguna" y estilizado de opciones deshabilitadas
   function getWeaponsSelectOptionsHTML(selectedName, currentSponsor, isSlotsFull) {
     let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
     
@@ -955,7 +980,6 @@
           let isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedName;
 
-          // Si los slots están llenos, deshabilitar solo opciones que consuman 1 o más slots (permitiendo opciones de 0 slots)
           if (isSlotsFull && w.slots > 0 && !isSelected) {
             isDisabled = true;
           }
@@ -972,7 +996,6 @@
     return html;
   }
 
-  // Filtrado de opciones para select de Mejoras con opción neutra "Ninguna" y estilizado de opciones deshabilitadas
   function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex, isSlotsFull) {
     let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Mejora --</option>`;
     
@@ -1171,10 +1194,15 @@
                 <div>
                   <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
                   <select ${disableFacing ? 'disabled' : ''} onchange="updateWeaponFacing(${v.id}, ${wIdx}, this.value)">
-                    <option value="Frontal" ${w.facing === 'Frontal' ? 'selected' : ''}>Frontal</option>
-                    <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                    <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                    <option value="360º" ${w.facing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                    ${(wData && wData.category === 'Descarga') ? `
+                      <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                      <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                    ` : `
+                      <option value="Frontal" ${w.facing === 'Frontal' ? 'selected' : ''}>Frontal</option>
+                      <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                      <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                      <option value="360º" ${w.facing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                    `}
                   </select>
                 </div>
                 <div>
@@ -1262,6 +1290,58 @@
     }
   }
 
+  let currentZoom = 1.0;
+
+  function changeZoom(delta) {
+    currentZoom = Math.min(Math.max(currentZoom + delta, 0.5), 2.0);
+    applyZoom();
+  }
+
+  function resetZoom() {
+    currentZoom = 1.0;
+    applyZoom();
+  }
+
+  function applyZoom() {
+    const grid = document.getElementById('cardsPrintContainer');
+    if (grid) {
+      grid.style.transform = `scale(${currentZoom})`;
+      grid.style.transformOrigin = 'top center';
+    }
+    const zoomDisplay = document.getElementById('zoomValDisplay');
+    if (zoomDisplay) {
+      zoomDisplay.innerText = `${Math.round(currentZoom * 100)}%`;
+    }
+  }
+
+  function downloadAllCardsPNG() {
+    const cards = document.querySelectorAll('.printable-card');
+    if (!cards || cards.length === 0) return;
+
+    cards.forEach((card, idx) => {
+      html2canvas(card, { scale: 3 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Ficha_Vehiculo_${idx + 1}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    });
+  }
+
+  function getAmmoBoxesHTML(rules) {
+    if (!rules) return '';
+    const match = rules.match(/munición\s*(\d+)/i) || rules.match(/municion\s*(\d+)/i);
+    if (match && match[1]) {
+      const count = parseInt(match[1]);
+      let boxes = '';
+      for (let i = 0; i < count; i++) {
+        boxes += `<span class="card-ammo-box"></span>`;
+      }
+      return `<div class="ammo-container">Mun (${count}): ${boxes}</div>`;
+    }
+    return '';
+  }
+
   // LÓGICA DE GENERACIÓN DE FICHAS TIPO CARTA STANDARD (63mm x 88mm)
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
@@ -1271,6 +1351,7 @@
     const sponsorPerks = SPONSORS[sponsorName] || "Ninguna";
 
     container.innerHTML = '';
+    resetZoom();
 
     if (team.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
@@ -1282,12 +1363,29 @@
       const vData = VEHICLES.find(item => item.name === v.type);
       if (!vData) return;
 
+      let vehicleBidones = vData.bidones;
+
+      if (v.weapons) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData && wData.name !== "Ninguna") {
+            let cost = wData.bidones;
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            vehicleBidones += cost;
+          }
+        });
+      }
+
       let armorCount = 0;
       let extraCrewCount = 0;
       if (v.upgrades) {
         v.upgrades.forEach(u => {
-          if (u.name === "Blindaje") armorCount++;
-          if (u.name === "Tripulante adicional") extraCrewCount++;
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (uData && uData.name !== "Ninguna") {
+            vehicleBidones += uData.bidones;
+            if (u.name === "Blindaje") armorCount++;
+            if (u.name === "Tripulante adicional") extraCrewCount++;
+          }
         });
       }
 
@@ -1322,9 +1420,14 @@
             else if(rShort === "Corto") rShort = "Cor.";
             else if(rShort === "Ráfaga larga") rShort = "Ráf.L";
 
+            const ammoHTML = getAmmoBoxesHTML(wData.rules);
+
             weaponsRowsHTML += `
               <tr>
-                <td class="left">${wData.name}</td>
+                <td class="left">
+                  ${wData.name}
+                  ${ammoHTML}
+                </td>
                 <td>${rShort}</td>
                 <td>${wData.attack}</td>
                 <td>${w.facing || 'Front.'}</td>
@@ -1341,9 +1444,13 @@
         activeUpgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData && uData.name !== "Ninguna") {
+            const ammoHTML = getAmmoBoxesHTML(uData.rules);
             upgradesRowsHTML += `
               <tr>
-                <td class="left">${uData.name}</td>
+                <td class="left">
+                  ${uData.name}
+                  ${ammoHTML}
+                </td>
                 <td>${uData.bidones} Bid.</td>
               </tr>
             `;
@@ -1359,11 +1466,13 @@
             <div class="card-top-bar">
               <span>ESC: ${teamName}</span>
               <span>PAT: ${sponsorName}</span>
+              <span style="font-weight: bold; color: #d32f2f;">${vehicleBidones} BID.</span>
             </div>
 
             <div class="card-title-box">
               <h2>${v.name}</h2>
               <div class="sub">${vData.name} - Peso ${vData.weight}</div>
+              <div style="font-size: 5pt; font-weight: bold; color: #d84315; margin-top: 1px;">Reglas: ${vData.rules}</div>
             </div>
 
             <div class="card-stats-grid">
