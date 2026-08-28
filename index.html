@@ -186,6 +186,11 @@
       font-style: italic;
       font-size: 0.8rem;
     }
+
+    .total-display {
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
   </style>
 </head>
 <body>
@@ -200,11 +205,11 @@
     <div class="summary-bar">
       <div>
         <label>Escudería: </label>
-        <input type="text" id="teamName" placeholder="Nombre de tu banda" style="width: 180px;">
+        <input type="text" id="teamName" placeholder="Nombre de tu banda" style="width: 150px;">
       </div>
       <div>
         <label>Patrocinador: </label>
-        <select id="sponsorSelect">
+        <select id="sponsorSelect" style="width: 140px;">
           <option value="Ninguno">Sin Patrocinador</option>
           <option value="Rutherford">Rutherford</option>
           <option value="Mishkin">Mishkin</option>
@@ -221,7 +226,15 @@
         </select>
       </div>
       <div>
-        <strong>Total: <span id="totalBidones">0</span> / 50 Bid.</strong>
+        <label>Formato: </label>
+        <select id="maxCansSelect" onchange="renderBuilder()" style="width: 100px;">
+          <option value="25">25 Bid.</option>
+          <option value="50" selected>50 Bid.</option>
+          <option value="100">100 Bid.</option>
+        </select>
+      </div>
+      <div class="total-display">
+        Total: <span id="totalBidones">0</span> / <span id="maxBidonesDisplay">50</span> Bid.
       </div>
     </div>
 
@@ -421,6 +434,9 @@
     const container = document.getElementById('vehiclesList');
     container.innerHTML = '';
     let grandTotalBidones = 0;
+    const maxCans = parseInt(document.getElementById('maxCansSelect').value);
+
+    document.getElementById('maxBidonesDisplay').innerText = maxCans;
 
     team.forEach((v) => {
       const vData = VEHICLES.find(item => item.name === v.type) || VEHICLES[2];
@@ -471,7 +487,13 @@
       container.appendChild(card);
     });
 
-    document.getElementById('totalBidones').innerText = grandTotalBidones;
+    const totalElement = document.getElementById('totalBidones');
+    totalElement.innerText = grandTotalBidones;
+    if (grandTotalBidones > maxCans) {
+      totalElement.style.color = '#ff4444';
+    } else {
+      totalElement.style.color = '#fff';
+    }
   }
 
   // Inicialización
