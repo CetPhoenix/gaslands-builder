@@ -13,6 +13,7 @@
       --accent-hover: #e04b00;
       --text-color: #f0f0f0;
       --text-muted: #aaa;
+      --text-disabled: #555555;
       --border-color: #333;
       --danger-color: #cc2929;
 
@@ -188,6 +189,13 @@
     optgroup.grp-m-vehiculo { color: var(--cat-mejora-veh); font-weight: bold; }
     
     option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
+    
+    /* Estilo para opciones deshabilitadas en selectores (opaco / gris oscuro) */
+    option:disabled {
+      color: #666666 !important;
+      background-color: #1a1a1a !important;
+      font-style: italic;
+    }
 
     button {
       background: var(--accent-color);
@@ -835,10 +843,11 @@
     }
   }
 
+  // AL AÑADIR ARMA: Sin selección por defecto (se crea como "Ninguna")
   function addWeaponToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
-      v.weapons.push({ name: "Ametralladora", facing: "Frontal" });
+      v.weapons.push({ name: "Ninguna", facing: "Frontal" });
       renderBuilder();
     }
   }
@@ -873,10 +882,11 @@
     }
   }
 
+  // AL AÑADIR MEJORA: Sin selección por defecto (se crea como "Ninguna")
   function addUpgradeToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
-      v.upgrades.push({ name: "Ariete", facing: "Frontal" });
+      v.upgrades.push({ name: "Ninguna" });
       renderBuilder();
     }
   }
@@ -910,9 +920,10 @@
     }
   }
 
-  // Filtrado de opciones para select de Armas respetando slots ocupados y permitiendo opciones de 0 slots
+  // Filtrado de opciones para select de Armas con opción neutra "Ninguna" y estilizado de opciones deshabilitadas
   function getWeaponsSelectOptionsHTML(selectedName, currentSponsor, isSlotsFull) {
-    let html = '';
+    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
+    
     const categories = [
       { name: "Básico", label: "Armamento Básico", class: "grp-a-basico" },
       { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado" },
@@ -929,13 +940,15 @@
           let isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedName;
 
-          // Si los slots están llenos, solo deshabilitar las opciones que consuman 1 o más slots (permitir 0 slots)
+          // Si los slots están llenos, deshabilitar solo opciones que consuman 1 o más slots (permitiendo opciones de 0 slots)
           if (isSlotsFull && w.slots > 0 && !isSelected) {
             isDisabled = true;
           }
 
           let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
           if (isMishkinRequired) label += ` [Mishkin]`;
+          if (isDisabled) label += ` (No disponible)`;
+
           html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
         });
         html += `</optgroup>`;
@@ -944,9 +957,10 @@
     return html;
   }
 
-  // Filtrado de opciones para select de Mejoras respetando slots ocupados y permitiendo opciones de 0 slots
+  // Filtrado de opciones para select de Mejoras con opción neutra "Ninguna" y estilizado de opciones deshabilitadas
   function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex, isSlotsFull) {
-    let html = '';
+    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Mejora --</option>`;
+    
     const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
     html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
 
@@ -972,13 +986,13 @@
       if (w.name === "Orugas" && vehicleData && (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero")) isDisabled = true;
       if (w.name === "Tripulante adicional" && vehicleData && crewUpgradeCount >= vehicleData.crew) isDisabled = true;
 
-      // Si los slots están llenos, permitir que se elijan mejoras de 0 casillas
       if (isSlotsFull && w.slots > 0 && !isSelected) {
         isDisabled = true;
       }
 
       let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
+      if (isDisabled) label += ` (No disponible)`;
 
       html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
     });
@@ -1006,7 +1020,7 @@
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
           if (wData && wData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
-            w.name = "Ametralladora";
+            w.name = "Ninguna";
           }
         });
       }
@@ -1014,16 +1028,16 @@
       if (v.upgrades && vData) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") u.name = "Ariete";
-          if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ariete";
-          if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ariete";
+          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") u.name = "Ninguna";
+          if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ninguna";
+          if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ninguna";
         });
       }
 
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData) {
+          if (wData && wData.name !== "Ninguna") {
             usedSlots += wData.slots;
             let cost = wData.bidones;
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
@@ -1038,7 +1052,7 @@
       if (v.upgrades) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData) {
+          if (uData && uData.name !== "Ninguna") {
             usedSlots += uData.slots;
             vehicleBidones += uData.bidones;
             if (u.name === "Blindaje") armorCount++;
@@ -1103,7 +1117,7 @@
 
         const isSlotsFull = usedSlots >= vData.slots;
 
-        // SECCIÓN DE ARMAS (Permite botón "+" de armas siempre, restringiendo luego las opciones de >0 slots en el selector)
+        // SECCIÓN DE ARMAS
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -1117,12 +1131,13 @@
 
         v.weapons.forEach((w, wIdx) => {
           const wData = WEAPONS.find(item => item.name === w.name);
-          const native360 = is360Native(wData);
-          const isPersonal = wData && wData.category === "Personal";
-          const disableFacing = isPersonal || native360;
+          const isSelected = wData && wData.name !== "Ninguna";
+          const native360 = isSelected && is360Native(wData);
+          const isPersonal = isSelected && wData.category === "Personal";
+          const disableFacing = !isSelected || isPersonal || native360;
 
-          let currentCost = wData ? wData.bidones : 0;
-          if (w.facing === "360º" && !native360) currentCost *= 3;
+          let currentCost = isSelected ? wData.bidones : 0;
+          if (isSelected && w.facing === "360º" && !native360) currentCost *= 3;
 
           innerHTML += `
             <div class="upgrade-row">
@@ -1146,19 +1161,19 @@
                   <button class="btn-danger" onclick="removeWeaponFromVehicle(${v.id}, ${wIdx})">X</button>
                 </div>
               </div>
-              ${wData ? `
+              ${isSelected ? `
               <div class="weapon-details-badge">
                 <span><b>Alcance:</b> ${wData.range}</span>
                 <span><b>Ataque:</b> ${wData.attack}</span>
                 <span><b>Especial:</b> ${wData.rules}</span>
                 <span><b>Coste Total:</b> ${currentCost} Bid.</span>
-              </div>` : ''}
+              </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona un arma de la lista.</div>'}
             </div>
           `;
         });
         innerHTML += `</div>`;
 
-        // SECCIÓN DE MEJORAS (Permite botón "+" de mejoras siempre)
+        // SECCIÓN DE MEJORAS
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -1169,7 +1184,8 @@
 
         v.upgrades.forEach((u, uIdx) => {
           const uData = WEAPONS.find(item => item.name === u.name);
-          const isRam = u.name === "Ariete" || u.name === "Ariete explosivo";
+          const isSelected = uData && uData.name !== "Ninguna";
+          const isRam = isSelected && (u.name === "Ariete" || u.name === "Ariete explosivo");
 
           innerHTML += `
             <div class="upgrade-row">
@@ -1194,11 +1210,11 @@
                   <button class="btn-danger" onclick="removeUpgradeFromVehicle(${v.id}, ${uIdx})">X</button>
                 </div>
               </div>
-              ${uData ? `
+              ${isSelected ? `
               <div class="weapon-details-badge">
                 <span><b>Efectos:</b> ${uData.rules}</span>
                 <span><b>Coste Total:</b> ${uData.bidones} Bid.</span>
-              </div>` : ''}
+              </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona una mejora de la lista.</div>'}
             </div>
           `;
         });
@@ -1275,11 +1291,10 @@
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData) {
+          if (wData && wData.name !== "Ninguna") {
             let cost = wData.bidones;
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
             
-            // Abreviar alcances para optimizar espacio en la carta 63x88mm
             let rShort = wData.range;
             if(rShort === "Doble") rShort = "Dob.";
             else if(rShort === "Medio") rShort = "Med.";
@@ -1300,10 +1315,11 @@
       }
 
       let upgradesRowsHTML = '';
-      if (v.upgrades && v.upgrades.length > 0) {
-        v.upgrades.forEach(u => {
+      const activeUpgrades = v.upgrades ? v.upgrades.filter(u => u.name !== "Ninguna") : [];
+      if (activeUpgrades.length > 0) {
+        activeUpgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData) {
+          if (uData && uData.name !== "Ninguna") {
             upgradesRowsHTML += `
               <tr>
                 <td class="left">${uData.name}</td>
