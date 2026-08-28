@@ -566,7 +566,6 @@
       if(items.length > 0) {
         html += `<optgroup label="${cat.label}" class="${cat.class}">`;
         items.forEach(w => {
-          // Si requiere Mishkin y el patrocinador actual no es Mishkin, se deshabilita
           const isMishkinRequired = w.sponsor === "Mishkin";
           const isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedWeaponName;
@@ -670,10 +669,10 @@
             <select onchange="updateVehicleType(${v.id}, this.value)">
               <option value="">-- Seleccionar Vehículo --</option>
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
-                ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid.)</option>`).join('')}
+                ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)</option>`).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
-                ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid.)</option>`).join('')}
+                ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)</option>`).join('')}
               </optgroup>
             </select>
           </div>
