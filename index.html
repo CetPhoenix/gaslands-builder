@@ -319,10 +319,10 @@
     }
 
     .modal-content {
-      background: #fff;
+      background: #333;
       color: #000;
-      width: 90%;
-      max-width: 900px;
+      width: 95%;
+      max-width: 1000px;
       max-height: 90vh;
       overflow-y: auto;
       border-radius: 8px;
@@ -335,135 +335,184 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
-      border-bottom: 2px solid #ccc;
+      border-bottom: 2px solid #555;
       padding-bottom: 10px;
+      color: #fff;
     }
 
-    /* VISTA DE IMPRESIÓN Y DISEÑO DE LA FICHA */
+    .cards-preview-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD (63mm x 88mm) */
     .printable-card {
       background: #fff;
       color: #000;
       border: 2px solid #000;
-      padding: 15px;
-      margin-bottom: 25px;
-      font-size: 11pt;
+      width: 63mm;
+      height: 88mm;
+      padding: 2.5mm;
       box-sizing: border-box;
-      page-break-after: always;
+      font-size: 6.5pt;
+      line-height: 1.1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      border-radius: 3mm;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       page-break-inside: avoid;
     }
 
-    .printable-card:last-child {
-      page-break-after: auto;
-    }
-
-    .sheet-header-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 10px;
-    }
-
-    .sheet-header-table td {
-      border: 1px solid #000;
-      padding: 6px;
-      text-align: center;
+    .card-top-bar {
+      border-bottom: 1px solid #000;
+      padding-bottom: 1px;
+      margin-bottom: 2px;
+      font-size: 5.5pt;
       font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
     }
 
     .card-title-box {
       text-align: center;
-      margin-bottom: 10px;
+      border-bottom: 1.5px solid #000;
+      padding-bottom: 2px;
+      margin-bottom: 3px;
+      background: #f0f0f0;
+      border-radius: 2px;
     }
 
     .card-title-box h2 {
-      margin: 2px 0;
-      font-size: 1.4rem;
+      margin: 0;
+      font-size: 8.5pt;
       text-transform: uppercase;
+      letter-spacing: 0.2px;
+      line-height: 1;
     }
 
-    .stats-boxes-grid {
+    .card-title-box .sub {
+      font-size: 5.5pt;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .card-stats-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-bottom: 3px;
     }
 
-    .stat-card-box {
-      border: 2px solid #000;
-      text-align: center;
-      padding: 6px;
-    }
-
-    .stat-card-box .title {
-      font-weight: bold;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      border-bottom: 1px solid #000;
-      padding-bottom: 2px;
-      margin-bottom: 4px;
-    }
-
-    .stat-card-box .value {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    .hull-boxes-container {
-      margin-bottom: 12px;
+    .card-stat-box {
       border: 1px solid #000;
-      padding: 8px;
+      text-align: center;
+      padding: 1px 0;
+      border-radius: 2px;
+      background: #fafafa;
     }
 
-    .hull-boxes-title {
+    .card-stat-box .lbl {
+      font-size: 4.5pt;
       font-weight: bold;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
+      text-transform: uppercase;
+      border-bottom: 0.5px solid #888;
+      padding-bottom: 1px;
+      line-height: 1;
     }
 
-    .hull-boxes-flex {
+    .card-stat-box .val {
+      font-size: 7.5pt;
+      font-weight: bold;
+      line-height: 1.1;
+    }
+
+    .card-hull-section {
+      border: 1px solid #000;
+      padding: 2px 3px;
+      margin-bottom: 3px;
+      border-radius: 2px;
+      background: #fff;
+    }
+
+    .card-hull-header {
+      font-size: 5.5pt;
+      font-weight: bold;
+      margin-bottom: 1px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card-hull-boxes {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 1.5px;
     }
 
-    .hull-checkbox {
-      width: 22px;
-      height: 22px;
-      border: 2px solid #000;
+    .card-hull-box {
+      width: 3.5mm;
+      height: 3.5mm;
+      border: 1px solid #000;
       display: inline-block;
+      box-sizing: border-box;
+      background: #fff;
     }
 
-    .sheet-table {
+    .card-section-title {
+      font-size: 5.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: #000;
+      color: #fff;
+      padding: 1px 3px;
+      margin-top: 1px;
+      margin-bottom: 1px;
+      border-radius: 1px;
+    }
+
+    .mini-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 2px;
     }
 
-    .sheet-table th, .sheet-table td {
-      border: 1px solid #000;
-      padding: 5px;
+    .mini-table th, .mini-table td {
+      border: 0.5px solid #000;
+      padding: 1px 1.5px;
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 5pt;
     }
 
-    .sheet-table th {
-      background: #eee;
+    .mini-table th {
+      background: #ddd;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
-    .sheet-footer {
-      text-align: center;
-      font-size: 0.8rem;
-      font-style: italic;
-      border-top: 1px solid #aaa;
-      padding-top: 4px;
+    .mini-table td.left {
+      text-align: left;
+      font-weight: bold;
     }
 
-    /* REGLAS CSS PARA IMPRESIÓN A4 */
+    .card-footer {
+      text-align: center;
+      font-size: 4.5pt;
+      font-style: italic;
+      border-top: 0.5px solid #888;
+      padding-top: 1px;
+      margin-top: auto;
+    }
+
+    /* REGLAS CSS PARA IMPRESIÓN A4 Y DISTRIBUCIÓN DE FICHAS (63mm x 88mm) */
     @media print {
       @page {
         size: A4 portrait;
-        margin: 3.5cm;
+        margin: 10mm;
       }
       body {
         background: #fff !important;
@@ -485,11 +534,18 @@
         width: 100% !important;
         padding: 0 !important;
         border: none !important;
+        background: none !important;
+      }
+      .cards-preview-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 63mm) !important;
+        gap: 4mm 6mm !important;
+        justify-content: start !important;
       }
       .printable-card {
-        border: 2px solid #000 !important;
-        margin: 0 0 20px 0 !important;
-        page-break-after: always !important;
+        box-shadow: none !important;
+        border: 1.5px solid #000 !important;
+        page-break-inside: avoid !important;
       }
     }
   </style>
@@ -590,13 +646,13 @@
 <div id="cardsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header-actions">
-      <h3 style="margin: 0;">Fichas de Vehículos de la Escudería</h3>
+      <h3 style="margin: 0; color: #fff;">Fichas de Vehículos (63mm x 88mm)</h3>
       <div>
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
     </div>
-    <div id="cardsPrintContainer"></div>
+    <div id="cardsPrintContainer" class="cards-preview-grid"></div>
   </div>
 </div>
 
@@ -854,7 +910,8 @@
     }
   }
 
-  function getWeaponsSelectOptionsHTML(selectedName, currentSponsor) {
+  // Filtrado de opciones para select de Armas respetando slots ocupados y permitiendo opciones de 0 slots
+  function getWeaponsSelectOptionsHTML(selectedName, currentSponsor, isSlotsFull) {
     let html = '';
     const categories = [
       { name: "Básico", label: "Armamento Básico", class: "grp-a-basico" },
@@ -869,8 +926,14 @@
         html += `<optgroup label="${cat.label}" class="${cat.class}">`;
         items.forEach(w => {
           const isMishkinRequired = w.sponsor === "Mishkin";
-          const isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
+          let isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedName;
+
+          // Si los slots están llenos, solo deshabilitar las opciones que consuman 1 o más slots (permitir 0 slots)
+          if (isSlotsFull && w.slots > 0 && !isSelected) {
+            isDisabled = true;
+          }
+
           let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
           if (isMishkinRequired) label += ` [Mishkin]`;
           html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
@@ -881,7 +944,8 @@
     return html;
   }
 
-  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex) {
+  // Filtrado de opciones para select de Mejoras respetando slots ocupados y permitiendo opciones de 0 slots
+  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex, isSlotsFull) {
     let html = '';
     const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
     html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
@@ -907,6 +971,11 @@
       if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
       if (w.name === "Orugas" && vehicleData && (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero")) isDisabled = true;
       if (w.name === "Tripulante adicional" && vehicleData && crewUpgradeCount >= vehicleData.crew) isDisabled = true;
+
+      // Si los slots están llenos, permitir que se elijan mejoras de 0 casillas
+      if (isSlotsFull && w.slots > 0 && !isSelected) {
+        isDisabled = true;
+      }
 
       let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
@@ -1034,11 +1103,12 @@
 
         const isSlotsFull = usedSlots >= vData.slots;
 
+        // SECCIÓN DE ARMAS (Permite botón "+" de armas siempre, restringiendo luego las opciones de >0 slots en el selector)
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
               <span>Sección de Armas</span>
-              <button class="btn-add" ${isSlotsFull ? 'disabled' : ''} onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button>
+              <button class="btn-add" onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button>
             </div>
             <div class="fixed-weapon-badge">
               <b>Arma Integrada por Defecto:</b> Arma corta (Alcance: Medio | Ataque: 1d6 | Reglas: Personal | Coste: 0 Bid. | Encaramiento: 360º)
@@ -1060,7 +1130,7 @@
                 <div>
                   <label style="font-size: 0.8em; color: var(--text-muted);">Arma ${wIdx + 1}:</label>
                   <select onchange="updateWeaponName(${v.id}, ${wIdx}, this.value)">
-                    ${getWeaponsSelectOptionsHTML(w.name, currentSponsor)}
+                    ${getWeaponsSelectOptionsHTML(w.name, currentSponsor, isSlotsFull)}
                   </select>
                 </div>
                 <div>
@@ -1088,11 +1158,12 @@
         });
         innerHTML += `</div>`;
 
+        // SECCIÓN DE MEJORAS (Permite botón "+" de mejoras siempre)
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
               <span>Sección de Mejoras</span>
-              <button class="btn-add" ${isSlotsFull ? 'disabled' : ''} onclick="addUpgradeToVehicle(${v.id})">+ Añadir Mejora</button>
+              <button class="btn-add" onclick="addUpgradeToVehicle(${v.id})">+ Añadir Mejora</button>
             </div>
         `;
 
@@ -1106,7 +1177,7 @@
                 <div>
                   <label style="font-size: 0.8em; color: var(--text-muted);">Mejora ${uIdx + 1}:</label>
                   <select onchange="updateUpgradeName(${v.id}, ${uIdx}, this.value)">
-                    ${getUpgradesSelectOptionsHTML(u.name, currentSponsor, vData, v.upgrades, uIdx)}
+                    ${getUpgradesSelectOptionsHTML(u.name, currentSponsor, vData, v.upgrades, uIdx, isSlotsFull)}
                   </select>
                 </div>
                 <div>
@@ -1155,7 +1226,7 @@
     }
   }
 
-  // LÓGICA DE GENERACIÓN DE FICHAS DE VEHÍCULOS
+  // LÓGICA DE GENERACIÓN DE FICHAS TIPO CARTA STANDARD (63mm x 88mm)
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
@@ -1165,7 +1236,7 @@
     container.innerHTML = '';
 
     if (team.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding: 20px;">No hay vehículos configurados en la escudería.</div>`;
+      container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
       modal.style.display = 'flex';
       return;
     }
@@ -1188,18 +1259,16 @@
 
       let hullBoxesHTML = '';
       for (let i = 0; i < totalHull; i++) {
-        hullBoxesHTML += `<span class="hull-checkbox"></span>`;
+        hullBoxesHTML += `<span class="card-hull-box"></span>`;
       }
 
       let weaponsRowsHTML = `
         <tr>
-          <td>Arma corta</td>
-          <td>Medio</td>
+          <td class="left">Arma corta</td>
+          <td>Med.</td>
           <td>1d6</td>
           <td>360º</td>
           <td>0</td>
-          <td>0</td>
-          <td>Personal</td>
         </tr>
       `;
 
@@ -1209,15 +1278,21 @@
           if (wData) {
             let cost = wData.bidones;
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            
+            // Abreviar alcances para optimizar espacio en la carta 63x88mm
+            let rShort = wData.range;
+            if(rShort === "Doble") rShort = "Dob.";
+            else if(rShort === "Medio") rShort = "Med.";
+            else if(rShort === "Corto") rShort = "Cor.";
+            else if(rShort === "Ráfaga larga") rShort = "Ráf.L";
+
             weaponsRowsHTML += `
               <tr>
-                <td>${wData.name}</td>
-                <td>${wData.range}</td>
+                <td class="left">${wData.name}</td>
+                <td>${rShort}</td>
                 <td>${wData.attack}</td>
-                <td>${w.facing || 'Frontal'}</td>
-                <td>${wData.slots}</td>
-                <td>${cost}</td>
-                <td>${wData.rules}</td>
+                <td>${w.facing || 'Front.'}</td>
+                <td>${cost}B</td>
               </tr>
             `;
           }
@@ -1231,93 +1306,90 @@
           if (uData) {
             upgradesRowsHTML += `
               <tr>
-                <td>${uData.name}</td>
-                <td>${uData.rules}</td>
-                <td>${uData.slots}</td>
-                <td>${uData.bidones}</td>
+                <td class="left">${uData.name}</td>
+                <td>${uData.bidones} Bid.</td>
               </tr>
             `;
           }
         });
       } else {
-        upgradesRowsHTML = `<tr><td colspan="4" style="font-style:italic;">Sin mejoras equipadas</td></tr>`;
+        upgradesRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin mejoras</td></tr>`;
       }
 
       const cardHTML = `
         <div class="printable-card">
-          <table class="sheet-header-table">
-            <tr>
-              <td style="width: 50%;">ESCUDERÍA: ${teamName.toUpperCase()}</td>
-              <td style="width: 50%;">PATROCINADOR: ${sponsorName.toUpperCase()}</td>
-            </tr>
-          </table>
+          <div>
+            <div class="card-top-bar">
+              <span>ESC: ${teamName}</span>
+              <span>PAT: ${sponsorName}</span>
+            </div>
 
-          <div class="card-title-box">
-            <h2>${v.name}</h2>
-            <div><b>Modelo:</b> ${vData.name} (${vData.weight})</div>
+            <div class="card-title-box">
+              <h2>${v.name}</h2>
+              <div class="sub">${vData.name} (${vData.weight})</div>
+            </div>
+
+            <div class="card-stats-grid">
+              <div class="card-stat-box">
+                <div class="lbl">Marcha</div>
+                <div class="val">${vData.gear}</div>
+              </div>
+              <div class="card-stat-box">
+                <div class="lbl">Peligro</div>
+                <div class="val">[ &nbsp; ]</div>
+              </div>
+              <div class="card-stat-box">
+                <div class="lbl">Maniobra</div>
+                <div class="val">${vData.handling}</div>
+              </div>
+              <div class="card-stat-box">
+                <div class="lbl">Trip.</div>
+                <div class="val">${totalCrew}</div>
+              </div>
+            </div>
+
+            <div class="card-hull-section">
+              <div class="card-hull-header">
+                <span>CARROCERÍA</span>
+                <span>${totalHull} PC</span>
+              </div>
+              <div class="card-hull-boxes">
+                ${hullBoxesHTML}
+              </div>
+            </div>
+
+            <div class="card-section-title">Armas Equipadas</div>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th style="text-align:left;">Arma</th>
+                  <th>Alc.</th>
+                  <th>Atq.</th>
+                  <th>Enc.</th>
+                  <th>Cost.</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${weaponsRowsHTML}
+              </tbody>
+            </table>
+
+            <div class="card-section-title">Mejoras de Vehículo</div>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th style="text-align:left;">Mejora</th>
+                  <th>Coste</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${upgradesRowsHTML}
+              </tbody>
+            </table>
           </div>
 
-          <div class="stats-boxes-grid">
-            <div class="stat-card-box">
-              <div class="title">Marcha Máxima</div>
-              <div class="value">${vData.gear}</div>
-            </div>
-            <div class="stat-card-box">
-              <div class="title">Fichas de Peligro</div>
-              <div class="value">[ &nbsp; ]</div>
-            </div>
-            <div class="stat-card-box">
-              <div class="title">Maniobra</div>
-              <div class="value">${vData.handling}</div>
-            </div>
-            <div class="stat-card-box" style="grid-column: span 3;">
-              <div class="title">Tripulación</div>
-              <div class="value">${totalCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</div>
-            </div>
-          </div>
-
-          <div class="hull-boxes-container">
-            <div class="hull-boxes-title">CARROCERÍA (${totalHull} PC):</div>
-            <div class="hull-boxes-flex">
-              ${hullBoxesHTML}
-            </div>
-          </div>
-
-          <div style="font-weight: bold; margin-top: 10px; text-transform: uppercase;">Armas Equipadas</div>
-          <table class="sheet-table">
-            <thead>
-              <tr>
-                <th>Arma</th>
-                <th>Alcance</th>
-                <th>Ataque</th>
-                <th>Encaramiento</th>
-                <th>Slots</th>
-                <th>Coste</th>
-                <th>Reglas</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${weaponsRowsHTML}
-            </tbody>
-          </table>
-
-          <div style="font-weight: bold; margin-top: 10px; text-transform: uppercase;">Mejoras de Vehículo</div>
-          <table class="sheet-table">
-            <thead>
-              <tr>
-                <th>Mejora</th>
-                <th>Efectos</th>
-                <th>Slots</th>
-                <th>Coste</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${upgradesRowsHTML}
-            </tbody>
-          </table>
-
-          <div class="sheet-footer">
-            Nexo Alpha - Cet Phoenix | Gaslands Refuelled
+          <div class="card-footer">
+            Nexo Alpha - Gaslands Refuelled
           </div>
         </div>
       `;
