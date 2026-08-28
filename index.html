@@ -782,10 +782,40 @@
     { name: "Orugas", category: "Mejora", range: "-", attack: "-", rules: "-1 marcha máxima, +1 a Maniobra", slots: 1, bidones: 4, sponsor: null },
     { name: "Teleportador experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 7, sponsor: "Mishkin" },
     { name: "Tripulante adicional", category: "Mejora", range: "-", attack: "-", rules: "+1 a Tripulación, hasta un máximo del doble inicial", slots: 0, bidones: 4, sponsor: null },
-    { name: "Tubo lanzamierdas", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 2, sponsor: null }
+    { name: "Tubo lanzamierdas", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 2, sponsor: null },
+    
+    // MEJORAS ESPECIALES DE PATROCINADORES
+    { name: "Vehículo carcelario (especial)", category: "Mejora", range: "-", attack: "-", rules: "-4 BD al coste base, -2 PC. Solo Peso Medio.", slots: 0, bidones: 0, sponsor: "La Alcaidesa" },
+    { name: "Blindaje de micro placas", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 0, bidones: 6, sponsor: "Verney" }
   ];
 
   let team = [];
+
+  function getItemCost(wData, currentSponsor) {
+    if (!wData) return 0;
+    if (currentSponsor === "Idris" && wData.name === "Impulsor de nitrometano") return 3;
+    if (currentSponsor === "Scarlett" && wData.name === "Tripulante adicional") return 2;
+    if (wData.name === "Blindaje de micro placas") return 6;
+    if (wData.name === "Vehículo carcelario (especial)") return 0;
+    return wData.bidones || 0;
+  }
+
+  function getItemSlots(wData, currentSponsor) {
+    if (!wData) return 0;
+    if (currentSponsor === "Slime" && wData.name === "Ariete") return 0;
+    if (wData.name === "Blindaje de micro placas") return 0;
+    if (wData.name === "Vehículo carcelario (especial)") return 0;
+    return wData.slots || 0;
+  }
+
+  function getWeaponRules(wData, currentSponsor) {
+    if (!wData) return "";
+    let rules = wData.rules || "-";
+    if (currentSponsor === "Rutherford" && rules.toLowerCase().includes("munición 3")) {
+      rules = rules.replace(/Munición 3/gi, "Munición 4");
+    }
+    return rules;
+  }
 
   function is360Native(weapon) {
     if (!weapon || weapon.name === "Ninguna") return false;
@@ -961,6 +991,19 @@
     }
   }
 
+  function isVehicleDisabledForSponsor(vItem, currentSponsor, currentVehicleId) {
+    if (currentSponsor === "Idris" && vItem.name === "Girocóptero") return true;
+    if (currentSponsor === "Rutherford" && vItem.weight === "Ligero") return true;
+    if (currentSponsor === "Miyazaki" && (vItem.weight === "Pesado" || vItem.gear <= 3)) return true;
+
+    if (currentSponsor === "Rutherford") {
+      const otherVehicles = team.filter(v => v.id !== currentVehicleId);
+      if (vItem.name === "Tanque" && otherVehicles.some(v => v.type === "Tanque")) return true;
+      if (vItem.name === "Helicóptero" && otherVehicles.some(v => v.type === "Helicóptero")) return true;
+    }
+    return false;
+  }
+
   function getWeaponsSelectOptionsHTML(selectedName, currentSponsor, isSlotsFull) {
     let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
     
@@ -979,12 +1022,14 @@
           const isMishkinRequired = w.sponsor === "Mishkin";
           let isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedName;
+          const slots = getItemSlots(w, currentSponsor);
+          const cost = getItemCost(w, currentSponsor);
 
-          if (isSlotsFull && w.slots > 0 && !isSelected) {
+          if (isSlotsFull && slots > 0 && !isSelected) {
             isDisabled = true;
           }
 
-          let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
+          let label = `${w.name} (${cost} Bid. | ${slots} Slot)`;
           if (isMishkinRequired) label += ` [Mishkin]`;
           if (isDisabled) label += ` (No disponible)`;
 
@@ -1011,24 +1056,30 @@
       "Motor nuclear experimental",
       "Orugas",
       "Teleportador experimental",
-      "Tubo lanzamierdas"
+      "Tubo lanzamierdas",
+      "Vehículo carcelario (especial)",
+      "Blindaje de micro placas"
     ];
 
     items.forEach(w => {
       let isDisabled = false;
       const isSelected = w.name === selectedName;
 
-      if (w.sponsor === "Mishkin" && currentSponsor !== "Mishkin") isDisabled = true;
+      if (w.sponsor && w.sponsor !== currentSponsor) isDisabled = true;
       if (uniqueUpgrades.includes(w.name) && equippedNames.includes(w.name)) isDisabled = true;
       if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
       if (w.name === "Orugas" && vehicleData && (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero")) isDisabled = true;
       if (w.name === "Tripulante adicional" && vehicleData && crewUpgradeCount >= vehicleData.crew) isDisabled = true;
+      if (w.name === "Vehículo carcelario (especial)" && vehicleData && vehicleData.weight !== "Medio") isDisabled = true;
 
-      if (isSlotsFull && w.slots > 0 && !isSelected) {
+      const slots = getItemSlots(w, currentSponsor);
+      const cost = getItemCost(w, currentSponsor);
+
+      if (isSlotsFull && slots > 0 && !isSelected) {
         isDisabled = true;
       }
 
-      let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
+      let label = `${w.name} (${cost} Bid. | ${slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
       if (isDisabled) label += ` (No disponible)`;
 
@@ -1054,15 +1105,24 @@
     document.getElementById('maxBidonesDisplay').innerText = maxCans;
 
     team.forEach((v) => {
-      const vData = VEHICLES.find(item => item.name === v.type);
+      let vData = VEHICLES.find(item => item.name === v.type);
+
+      // Deshabilitar tipo si viola regla de patrocinador activo
+      if (vData && isVehicleDisabledForSponsor(vData, currentSponsor, v.id)) {
+        v.type = "";
+        v.weapons = [];
+        v.upgrades = [];
+        vData = null;
+      }
       
-      let vehicleBidones = vData ? vData.bidones : 0;
+      let baseCost = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
+      // Limpieza de armas/mejoras no permitidas con el nuevo patrocinador
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
+          if (wData && wData.sponsor && wData.sponsor !== currentSponsor) {
             w.name = "Ninguna";
           }
         });
@@ -1071,18 +1131,27 @@
       if (v.upgrades && vData) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") u.name = "Ninguna";
+          if (uData && uData.sponsor && uData.sponsor !== currentSponsor) u.name = "Ninguna";
           if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ninguna";
           if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ninguna";
+          if (u.name === "Vehículo carcelario (especial)" && vData.weight !== "Medio") u.name = "Ninguna";
         });
       }
+
+      // Regla La Alcaidesa: Descuento hasta en 4 bidones (Mín. 5 BD base)
+      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
+      if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData && vData.weight === "Medio") {
+        baseCost = Math.max(5, baseCost - 4);
+      }
+
+      let vehicleBidones = baseCost;
 
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
           if (wData && wData.name !== "Ninguna") {
-            usedSlots += wData.slots;
-            let cost = wData.bidones;
+            usedSlots += getItemSlots(wData, currentSponsor);
+            let cost = getItemCost(wData, currentSponsor);
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
             vehicleBidones += cost;
           }
@@ -1091,15 +1160,17 @@
 
       let armorCount = 0;
       let extraCrewCount = 0;
+      let hasMicroPlacas = false;
 
       if (v.upgrades) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData && uData.name !== "Ninguna") {
-            usedSlots += uData.slots;
-            vehicleBidones += uData.bidones;
+            usedSlots += getItemSlots(uData, currentSponsor);
+            vehicleBidones += getItemCost(uData, currentSponsor);
             if (u.name === "Blindaje") armorCount++;
             if (u.name === "Tripulante adicional") extraCrewCount++;
+            if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
           }
         });
       }
@@ -1126,10 +1197,16 @@
             <select onchange="updateVehicleType(${v.id}, this.value)">
               <option value="">-- Seleccionar Vehículo --</option>
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
-                ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)</option>`).join('')}
+                ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
+                  const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
+                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)${disabled ? ' (Restringido)' : ''}</option>`;
+                }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
-                ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)</option>`).join('')}
+                ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
+                  const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
+                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)${disabled ? ' (Restringido)' : ''}</option>`;
+                }).join('')}
               </optgroup>
             </select>
           </div>
@@ -1137,19 +1214,26 @@
       `;
 
       if (!vData) {
-        innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
+        innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo válido para comenzar la configuración.</div>`;
       } else {
-        const currentHull = vData.hull + (armorCount * 2);
+        let currentHull = vData.hull + (armorCount * 2);
+        if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
+          currentHull = Math.max(1, currentHull - 2);
+        }
+        if (currentSponsor === "Verney" && hasMicroPlacas) {
+          currentHull += 2;
+        }
+
         const currentCrew = vData.crew + extraCrewCount;
 
-        const hullClass = armorCount > 0 ? "stat-modified-hull" : "";
+        const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-hull" : "";
         const crewClass = extraCrewCount > 0 ? "stat-modified-crew" : "";
 
         innerHTML += `
           <div class="vehicle-stats-box">
             <div class="vehicle-stats-grid">
               <span><b>Peso:</b> ${vData.weight}</span>
-              <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC ${armorCount > 0 ? `(+${armorCount * 2})` : ''}</span>
+              <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC</span>
               <span><b>Maniobra:</b> ${vData.handling}</span>
               <span><b>Marcha Máx:</b> ${vData.gear}</span>
               <span class="${crewClass}"><b>Tripulación:</b> ${currentCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</span>
@@ -1179,8 +1263,9 @@
           const isPersonal = isSelected && wData.category === "Personal";
           const disableFacing = !isSelected || isPersonal || native360;
 
-          let currentCost = isSelected ? wData.bidones : 0;
+          let currentCost = isSelected ? getItemCost(wData, currentSponsor) : 0;
           if (isSelected && w.facing === "360º" && !native360) currentCost *= 3;
+          const displayRules = isSelected ? getWeaponRules(wData, currentSponsor) : "-";
 
           innerHTML += `
             <div class="upgrade-row">
@@ -1213,7 +1298,7 @@
               <div class="weapon-details-badge">
                 <span><b>Alcance:</b> ${wData.range}</span>
                 <span><b>Ataque:</b> ${wData.attack}</span>
-                <span><b>Especial:</b> ${wData.rules}</span>
+                <span><b>Especial:</b> ${displayRules}</span>
                 <span><b>Coste Total:</b> ${currentCost} Bid.</span>
               </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona un arma de la lista.</div>'}
             </div>
@@ -1234,6 +1319,7 @@
           const uData = WEAPONS.find(item => item.name === u.name);
           const isSelected = uData && uData.name !== "Ninguna";
           const isRam = isSelected && (u.name === "Ariete" || u.name === "Ariete explosivo");
+          const currentCost = isSelected ? getItemCost(uData, currentSponsor) : 0;
 
           innerHTML += `
             <div class="upgrade-row">
@@ -1261,7 +1347,7 @@
               ${isSelected ? `
               <div class="weapon-details-badge">
                 <span><b>Efectos:</b> ${uData.rules}</span>
-                <span><b>Coste Total:</b> ${uData.bidones} Bid.</span>
+                <span><b>Coste Total:</b> ${currentCost} Bid.</span>
               </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona una mejora de la lista.</div>'}
             </div>
           `;
@@ -1363,13 +1449,19 @@
       const vData = VEHICLES.find(item => item.name === v.type);
       if (!vData) return;
 
-      let vehicleBidones = vData.bidones;
+      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
+      let baseCost = vData.bidones;
+      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
+        baseCost = Math.max(5, baseCost - 4);
+      }
+
+      let vehicleBidones = baseCost;
 
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
           if (wData && wData.name !== "Ninguna") {
-            let cost = wData.bidones;
+            let cost = getItemCost(wData, sponsorName);
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
             vehicleBidones += cost;
           }
@@ -1378,18 +1470,28 @@
 
       let armorCount = 0;
       let extraCrewCount = 0;
+      let hasMicroPlacas = false;
+
       if (v.upgrades) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData && uData.name !== "Ninguna") {
-            vehicleBidones += uData.bidones;
+            vehicleBidones += getItemCost(uData, sponsorName);
             if (u.name === "Blindaje") armorCount++;
             if (u.name === "Tripulante adicional") extraCrewCount++;
+            if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
           }
         });
       }
 
-      const totalHull = vData.hull + (armorCount * 2);
+      let totalHull = vData.hull + (armorCount * 2);
+      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
+        totalHull = Math.max(1, totalHull - 2);
+      }
+      if (sponsorName === "Verney" && hasMicroPlacas) {
+        totalHull += 2;
+      }
+
       const totalCrew = vData.crew + extraCrewCount;
 
       let hullBoxesHTML = '';
@@ -1411,7 +1513,7 @@
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
           if (wData && wData.name !== "Ninguna") {
-            let cost = wData.bidones;
+            let cost = getItemCost(wData, sponsorName);
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
             
             let rShort = wData.range;
@@ -1420,7 +1522,8 @@
             else if(rShort === "Corto") rShort = "Cor.";
             else if(rShort === "Ráfaga larga") rShort = "Ráf.L";
 
-            const ammoHTML = getAmmoBoxesHTML(wData.rules);
+            const activeRules = getWeaponRules(wData, sponsorName);
+            const ammoHTML = getAmmoBoxesHTML(activeRules);
 
             weaponsRowsHTML += `
               <tr>
@@ -1444,6 +1547,7 @@
         activeUpgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData && uData.name !== "Ninguna") {
+            const cost = getItemCost(uData, sponsorName);
             const ammoHTML = getAmmoBoxesHTML(uData.rules);
             upgradesRowsHTML += `
               <tr>
@@ -1451,7 +1555,7 @@
                   ${uData.name}
                   ${ammoHTML}
                 </td>
-                <td>${uData.bidones} Bid.</td>
+                <td>${cost} Bid.</td>
               </tr>
             `;
           }
