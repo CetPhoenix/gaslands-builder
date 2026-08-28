@@ -44,7 +44,6 @@
 
     h1 { margin: 0; color: var(--accent-color); font-size: 1.8rem; }
 
-    /* Layout principal */
     .main-layout {
       display: grid;
       grid-template-columns: 1fr 450px;
@@ -57,7 +56,6 @@
       }
     }
 
-    /* Panel del Builder */
     .summary-bar {
       background: var(--panel-bg);
       padding: 15px;
@@ -99,7 +97,24 @@
       margin-top: 15px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
+    }
+
+    .upgrade-row {
+      background: #242424;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: 10px;
+      align-items: end;
+    }
+
+    @media (max-width: 600px) {
+      .upgrade-row {
+        grid-template-columns: 1fr;
+      }
     }
 
     select, input {
@@ -117,7 +132,6 @@
       cursor: not-allowed;
     }
 
-    /* Estilos de colores en los grupos de select */
     optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; }
     optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; }
 
@@ -144,7 +158,6 @@
     button.btn-danger { background: var(--danger-color); }
     button.btn-danger:hover { background: #a81e1e; }
 
-    /* Panel Lateral: Catálogo */
     .catalog-panel {
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
@@ -163,7 +176,6 @@
       padding-bottom: 8px;
     }
 
-    /* Pestañas Plegables Comprimidas con Identificador de Color */
     details {
       background: #242424;
       border: 1px solid var(--border-color);
@@ -258,7 +270,6 @@
 </header>
 
 <div class="main-layout">
-  <!-- COLUMNA IZQUIERDA: CREADOR DE ESCUDERÍA -->
   <div class="builder-column">
     <div class="summary-bar">
       <div>
@@ -301,47 +312,39 @@
     <button onclick="addVehicle()">+ Añadir Vehículo</button>
   </div>
 
-  <!-- COLUMNA DERECHA: CATÁLOGOS PLEGABLES -->
   <div class="catalog-panel">
     <h2>Catálogo de Referencia</h2>
 
-    <!-- Plegable: Vehículos Básicos -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-veh-basico);"></span> Vehículos Básicos</summary>
       <div id="catalogVehiclesBasic"></div>
     </details>
 
-    <!-- Plegable: Vehículos Avanzados -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-veh-avanzado);"></span> Vehículos Avanzados</summary>
       <div id="catalogVehiclesAdvanced"></div>
     </details>
 
-    <!-- Plegable: Armamento Básico -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-arm-basico);"></span> Armamento Básico</summary>
       <div id="catalogWeaponsBasic"></div>
     </details>
 
-    <!-- Plegable: Armamento Avanzado -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-arm-avanzado);"></span> Armamento Avanzado</summary>
       <div id="catalogWeaponsAdvanced"></div>
     </details>
 
-    <!-- Plegable: Armamento Avanzado (Personales) -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-arm-personal);"></span> Armamento Avanzado (Personales)</summary>
       <div id="catalogWeaponsPersonal"></div>
     </details>
 
-    <!-- Plegable: Armamento Avanzado (Descarga) -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-arm-descarga);"></span> Armamento Avanzado (Descarga)</summary>
       <div id="catalogWeaponsDropped"></div>
     </details>
 
-    <!-- Plegable: Mejoras para Vehículo -->
     <details>
       <summary><span class="color-tag" style="background: var(--cat-mejora-veh);"></span> Mejoras para Vehículo</summary>
       <div id="catalogVehicleUpgrades"></div>
@@ -350,9 +353,7 @@
 </div>
 
 <script>
-  // BASE DE DATOS DE VEHÍCULOS
   const VEHICLES = [
-    // BÁSICOS
     { name: "Buggy", category: "Básico", weight: "Ligero", bidones: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
     { name: "Camioneta", category: "Básico", weight: "Medio", bidones: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
     { name: "Coche", category: "Básico", weight: "Medio", bidones: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
@@ -360,7 +361,6 @@
     { name: "Autobús", category: "Básico", weight: "Pesado", bidones: 30, slots: 3, hull: 16, gear: 3, handling: 2, crew: 8, rules: "-" },
     { name: "Camión", category: "Básico", weight: "Pesado", bidones: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
 
-    // AVANZADOS
     { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivotar" },
     { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", bidones: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivotar" },
     { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
@@ -373,7 +373,6 @@
     { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pasar por encima, pivotar, todoterreno, torreta, restringido" }
   ];
 
-  // BASE DE DATOS DE ARMAMENTO Y MEJORAS COMPLETA
   const WEAPONS = [
     { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0, sponsor: null },
     
@@ -422,7 +421,7 @@
     { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
     { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
 
-    // MEJORAS PARA VEHÍCULO
+    // MEJORAS PARA VEHÍCULO (Torreta eliminada de las opciones seleccionables manualmente)
     { name: "Ariete", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
     { name: "Ariete explosivo", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 3, sponsor: null },
     { name: "Blindaje", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 1, bidones: 4, sponsor: null },
@@ -431,14 +430,19 @@
     { name: "Motor nuclear experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 5, sponsor: "Mishkin" },
     { name: "Orugas", category: "Mejora", range: "-", attack: "-", rules: "-1 marcha máxima, +1 a Maniobra", slots: 1, bidones: 4, sponsor: null },
     { name: "Teleportador experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 7, sponsor: "Mishkin" },
-    { name: "Torreta", category: "Mejora", range: "-", attack: "-", rules: "El arma gana un arco de fuego de 360 grados", slots: 0, bidones: 3, sponsor: null },
     { name: "Tripulante adicional", category: "Mejora", range: "-", attack: "-", rules: "+1 a Tripulación, hasta un máximo del doble inicial", slots: 0, bidones: 4, sponsor: null },
     { name: "Tubo lanzamierdas", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 2, sponsor: null }
   ];
 
   let team = [];
 
-  // RENDERIZAR LOS CATÁLOGOS EN SUS PESTAÑAS PLEGABLES
+  function is360Native(weapon) {
+    if (!weapon || weapon.name === "Ninguna") return false;
+    if (weapon.category === "Personal") return true;
+    const r = weapon.rules ? weapon.rules.toLowerCase() : "";
+    return r.includes("360º") || r.includes("360 grados");
+  }
+
   function renderCatalog() {
     const vBasic = document.getElementById('catalogVehiclesBasic');
     const vAdv = document.getElementById('catalogVehiclesAdvanced');
@@ -514,6 +518,21 @@
         else if (w.category === "Descarga") wDropped.appendChild(item);
       }
     });
+
+    // Agregar entrada de referencia para Torreta en las mejoras del catálogo
+    const turretItem = document.createElement('div');
+    turretItem.className = 'catalog-item';
+    turretItem.innerHTML = `
+      <div class="catalog-item-header">
+        <span>Torreta</span>
+        <span style="color: var(--accent-color);">-</span>
+      </div>
+      <div class="catalog-stats">
+        <span><b>Casillas:</b> 0</span>
+      </div>
+      <div class="catalog-rules"><b>Efectos:</b> Otorga arco de fuego de 360º al arma equipada. Se aplica automáticamente al cambiar el encaramiento a 360º (Multiplica el costo del arma x3).</div>
+    `;
+    vUpgrades.appendChild(turretItem);
   }
 
   function addVehicle() {
@@ -521,7 +540,7 @@
       id: Date.now(),
       name: "Nuevo Vehículo",
       type: "",
-      upgrades: []
+      upgrades: [] // Cada upgrade es un objeto { name: "", facing: "Frontal" }
     };
     team.push(newVehicle);
     renderBuilder();
@@ -541,15 +560,34 @@
     }
   }
 
-  function updateVehicleUpgrade(id, index, upgradeName) {
+  function updateVehicleUpgradeName(id, index, upgradeName) {
     const v = team.find(item => item.id === id);
     if (v) {
-      v.upgrades[index] = upgradeName;
+      if (!v.upgrades[index]) {
+        v.upgrades[index] = { name: upgradeName, facing: "Frontal" };
+      } else {
+        v.upgrades[index].name = upgradeName;
+      }
+
+      const wData = WEAPONS.find(w => w.name === upgradeName);
+      if (wData && is360Native(wData)) {
+        v.upgrades[index].facing = "360º";
+      } else if (v.upgrades[index].facing === "360º" && (!wData || !is360Native(wData))) {
+        v.upgrades[index].facing = "Frontal";
+      }
+
       renderBuilder();
     }
   }
 
-  // Genera opciones agrupadas filtrando por Patrocinador (Mishkin)
+  function updateVehicleUpgradeFacing(id, index, facingValue) {
+    const v = team.find(item => item.id === id);
+    if (v && v.upgrades[index]) {
+      v.upgrades[index].facing = facingValue;
+      renderBuilder();
+    }
+  }
+
   function getWeaponSelectOptionsHTML(selectedWeaponName, currentSponsor) {
     let html = `<option value="Ninguna" ${selectedWeaponName === 'Ninguna' ? 'selected' : ''}>-- Ninguna --</option>`;
     
@@ -597,21 +635,29 @@
       let vehicleBidones = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
-      // Resetear items de Mishkin si cambió el patrocinador
       if (v.upgrades) {
-        v.upgrades = v.upgrades.map(uName => {
-          const uData = WEAPONS.find(w => w.name === uName);
-          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
-            return "Ninguna";
+        v.upgrades = v.upgrades.map(u => {
+          if (!u || typeof u === 'string') {
+            return { name: u || "Ninguna", facing: "Frontal" };
           }
-          return uName;
+          const uData = WEAPONS.find(w => w.name === u.name);
+          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
+            return { name: "Ninguna", facing: "Frontal" };
+          }
+          return u;
         });
 
-        v.upgrades.forEach(uName => {
-          const wData = WEAPONS.find(w => w.name === uName);
+        v.upgrades.forEach(u => {
+          const wData = WEAPONS.find(w => w.name === u.name);
           if (wData) {
             usedSlots += wData.slots;
-            vehicleBidones += wData.bidones;
+            
+            let baseCost = wData.bidones;
+            // Regla de Torreta: Si no es nativa 360º y se escoge 360º, se multiplica por 3 el costo del arma
+            if (u.facing === "360º" && !is360Native(wData) && wData.name !== "Ninguna") {
+              baseCost *= 3;
+            }
+            vehicleBidones += baseCost;
           }
         });
       }
@@ -630,25 +676,42 @@
       if (!vData) {
         upgradesHTML = `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
       } else {
-        upgradesHTML += `<div class="default-weapon-badge"><b>Arma Integrada por Defecto:</b> Arma corta (1d6 | Alcance Medio | 0 Bid. | 0 Slots)</div>`;
+        upgradesHTML += `<div class="default-weapon-badge"><b>Arma Integrada por Defecto:</b> Arma corta (1d6 | Alcance Medio | 0 Bid. | Encaramiento: 360º)</div>`;
         upgradesHTML += `<div class="upgrades-container">`;
 
         const maxUpgradeFields = Math.max(vData.slots, 2); 
         
         for (let i = 0; i < maxUpgradeFields; i++) {
-          const currentUpgradeName = v.upgrades[i] || "Ninguna";
+          const currentUpgradeObj = v.upgrades[i] || { name: "Ninguna", facing: "Frontal" };
+          const currentUpgradeName = currentUpgradeObj.name;
+          const currentFacing = currentUpgradeObj.facing || "Frontal";
           const currentWData = WEAPONS.find(w => w.name === currentUpgradeName);
           
           const isSlotsFull = usedSlots >= vData.slots;
           const isThisEmpty = !currentWData || currentWData.slots === 0;
-          const shouldBlock = isSlotsFull && isThisEmpty;
+          const shouldBlock = isSlotsFull && isThisEmpty && currentUpgradeName === "Ninguna";
+
+          const native360 = is360Native(currentWData);
+          const isPersonal = currentWData && currentWData.category === "Personal";
+          const disableFacingSelect = !currentWData || currentWData.name === "Ninguna" || isPersonal || native360;
 
           upgradesHTML += `
-            <div>
-              <label style="font-size: 0.85em; color: var(--text-muted);">Arma / Mejora ${i + 1}:</label>
-              <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgrade(${v.id}, ${i}, this.value)">
-                ${getWeaponSelectOptionsHTML(currentUpgradeName, currentSponsor)}
-              </select>
+            <div class="upgrade-row">
+              <div>
+                <label style="font-size: 0.85em; color: var(--text-muted);">Arma / Mejora ${i + 1}:</label>
+                <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgradeName(${v.id}, ${i}, this.value)">
+                  ${getWeaponSelectOptionsHTML(currentUpgradeName, currentSponsor)}
+                </select>
+              </div>
+              <div>
+                <label style="font-size: 0.85em; color: var(--text-muted);">Encaramiento:</label>
+                <select ${disableFacingSelect ? 'disabled' : ''} onchange="updateVehicleUpgradeFacing(${v.id}, ${i}, this.value)">
+                  <option value="Frontal" ${currentFacing === 'Frontal' ? 'selected' : ''}>Frontal</option>
+                  <option value="Posterior" ${currentFacing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                  <option value="Lateral" ${currentFacing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                  <option value="360º" ${currentFacing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                </select>
+              </div>
             </div>
           `;
         }
@@ -695,7 +758,6 @@
     }
   }
 
-  // Inicialización
   renderCatalog();
   addVehicle();
 </script>
