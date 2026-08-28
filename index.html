@@ -25,6 +25,7 @@
       --cat-arm-avanzado: #FF9800;
       --cat-arm-personal: #00BCD4;
       --cat-arm-descarga: #E91E63;
+      --cat-mejora-veh: #FFD700;
     }
 
     body {
@@ -124,6 +125,7 @@
     optgroup.grp-a-avanzado { color: var(--cat-arm-avanzado); font-weight: bold; }
     optgroup.grp-a-personal { color: var(--cat-arm-personal); font-weight: bold; }
     optgroup.grp-a-descarga { color: var(--cat-arm-descarga); font-weight: bold; }
+    optgroup.grp-m-vehiculo { color: var(--cat-mejora-veh); font-weight: bold; }
     
     option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
 
@@ -241,6 +243,12 @@
       font-size: 0.8rem;
       margin-bottom: 8px;
     }
+
+    .sponsor-badge {
+      color: #FF9800;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
@@ -259,7 +267,7 @@
       </div>
       <div>
         <label>Patrocinador: </label>
-        <select id="sponsorSelect" style="width: 140px;">
+        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 140px;">
           <option value="Ninguno">Sin Patrocinador</option>
           <option value="Rutherford">Rutherford</option>
           <option value="Mishkin">Mishkin</option>
@@ -332,6 +340,12 @@
       <summary><span class="color-tag" style="background: var(--cat-arm-descarga);"></span> Armamento Avanzado (Descarga)</summary>
       <div id="catalogWeaponsDropped"></div>
     </details>
+
+    <!-- Plegable: Mejoras para Vehículo -->
+    <details>
+      <summary><span class="color-tag" style="background: var(--cat-mejora-veh);"></span> Mejoras para Vehículo</summary>
+      <div id="catalogVehicleUpgrades"></div>
+    </details>
   </div>
 </div>
 
@@ -359,54 +373,67 @@
     { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pasar por encima, pivotar, todoterreno, torreta, restringido" }
   ];
 
-  // BASE DE DATOS DE ARMAMENTO Y MEJORAS
+  // BASE DE DATOS DE ARMAMENTO Y MEJORAS COMPLETA
   const WEAPONS = [
-    { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0 },
+    { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0, sponsor: null },
     
     // BÁSICO
-    { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2 },
-    { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3 },
-    { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5 },
+    { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2, sponsor: null },
+    { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3, sponsor: null },
+    { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5, sponsor: null },
 
     // AVANZADO
-    { name: "AJG", category: "Avanzado", range: "Doble", attack: "10d6", rules: "Munición 1", slots: 3, bidones: 1 },
-    { name: "Arpón", category: "Avanzado", range: "Doble", attack: "(5d6)", rules: "-", slots: 1, bidones: 2 },
-    { name: "Batería de amplificadores", category: "Avanzado", range: "Medio", attack: "-", rules: "Arco de fuego de 360º", slots: 3, bidones: 4 },
-    { name: "Bazuca", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Munición 3, Onda expansiva", slots: 2, bidones: 4 },
-    { name: "Bloqueador magnético", category: "Avanzado", range: "Doble", attack: "-", rules: "Eléctrico", slots: 0, bidones: 2 },
-    { name: "Bola de demolición", category: "Avanzado", range: "Corto", attack: "-", rules: "-", slots: 3, bidones: 2 },
-    { name: "Brazo articulado con pinza", category: "Avanzado", range: "Corto", attack: "3d6", rules: "-", slots: 1, bidones: 6 },
-    { name: "Cañón de 125mm", category: "Avanzado", range: "Doble", attack: "8d6", rules: "Munición 3, Onda expansiva", slots: 3, bidones: 6 },
-    { name: "Cañón gravitatorio", category: "Avanzado", range: "Doble", attack: "(3d6)", rules: "Eléctrico, Munición 1", slots: 1, bidones: 2 },
-    { name: "Cohetes", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Munición 3", slots: 2, bidones: 5 },
-    { name: "Lanzachatarra", category: "Avanzado", range: "Doble/Descarga", attack: "-", rules: "Munición 3", slots: 4, bidones: 4 },
-    { name: "Lanzallamas", category: "Avanzado", range: "Ráfaga larga", attack: "6d6", rules: "Indirecto, fuego, munición 3, salpicadura", slots: 2, bidones: 4 },
-    { name: "Láser militar", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Salpicadura", slots: 1, bidones: 5 },
-    { name: "Martilleador", category: "Avanzado", range: "Medio", attack: "-", rules: "360 grados, eléctrico, indirecto, munición 1", slots: 2, bidones: 4 },
-    { name: "Mortero", category: "Avanzado", range: "Doble", attack: "4d6", rules: "indirecto, munición 3", slots: 1, bidones: 4 },
-    { name: "Multiplicador cinético", category: "Avanzado", range: "Doble", attack: "(6d6)", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
-    { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
-    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3 },
+    { name: "AJG", category: "Avanzado", range: "Doble", attack: "10d6", rules: "Munición 1", slots: 3, bidones: 1, sponsor: null },
+    { name: "Arpón", category: "Avanzado", range: "Doble", attack: "(5d6)", rules: "-", slots: 1, bidones: 2, sponsor: null },
+    { name: "Batería de amplificadores", category: "Avanzado", range: "Medio", attack: "-", rules: "Arco de fuego de 360º", slots: 3, bidones: 4, sponsor: null },
+    { name: "Bazuca", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Munición 3, Onda expansiva", slots: 2, bidones: 4, sponsor: null },
+    { name: "Bloqueador magnético", category: "Avanzado", range: "Doble", attack: "-", rules: "Eléctrico", slots: 0, bidones: 2, sponsor: "Mishkin" },
+    { name: "Bola de demolición", category: "Avanzado", range: "Corto", attack: "-", rules: "-", slots: 3, bidones: 2, sponsor: null },
+    { name: "Brazo articulado con pinza", category: "Avanzado", range: "Corto", attack: "3d6", rules: "-", slots: 1, bidones: 6, sponsor: null },
+    { name: "Cañón de 125mm", category: "Avanzado", range: "Doble", attack: "8d6", rules: "Munición 3, Onda expansiva", slots: 3, bidones: 6, sponsor: null },
+    { name: "Cañón gravitatorio", category: "Avanzado", range: "Doble", attack: "(3d6)", rules: "Eléctrico, Munición 1", slots: 1, bidones: 2, sponsor: "Mishkin" },
+    { name: "Cohetes", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Munición 3", slots: 2, bidones: 5, sponsor: null },
+    { name: "Lanzachatarra", category: "Avanzado", range: "Doble/Descarga", attack: "-", rules: "Munición 3", slots: 4, bidones: 4, sponsor: null },
+    { name: "Lanzallamas", category: "Avanzado", range: "Ráfaga larga", attack: "6d6", rules: "Indirecto, fuego, munición 3, salpicadura", slots: 2, bidones: 4, sponsor: null },
+    { name: "Láser militar", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Salpicadura", slots: 1, bidones: 5, sponsor: null },
+    { name: "Martilleador", category: "Avanzado", range: "Medio", attack: "-", rules: "360 grados, eléctrico, indirecto, munición 1", slots: 2, bidones: 4, sponsor: "Mishkin" },
+    { name: "Mortero", category: "Avanzado", range: "Doble", attack: "4d6", rules: "indirecto, munición 3", slots: 1, bidones: 4, sponsor: null },
+    { name: "Multiplicador cinético", category: "Avanzado", range: "Doble", attack: "(6d6)", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
+    { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
+    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3, sponsor: null },
 
     // PERSONALES
-    { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1 },
-    { name: "Escopeta", category: "Personal", range: "Largo", attack: "*", rules: "Personal", slots: 0, bidones: 4 },
-    { name: "Granadas", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1 },
-    { name: "Granadas de gas", category: "Personal", range: "Medio", attack: "(1d6)", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1 },
-    { name: "Magnum", category: "Personal", range: "Doble", attack: "1d6", rules: "Onda expansiva, personal", slots: 0, bidones: 3 },
-    { name: "Red de acero", category: "Personal", range: "Corto", attack: "(3d6)", rules: "Onda expansiva, personal", slots: 0, bidones: 2 },
-    { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5 },
-    { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2 },
+    { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
+    { name: "Escopeta", category: "Personal", range: "Largo", attack: "*", rules: "Personal", slots: 0, bidones: 4, sponsor: null },
+    { name: "Granadas", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
+    { name: "Granadas de gas", category: "Personal", range: "Medio", attack: "(1d6)", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
+    { name: "Magnum", category: "Personal", range: "Doble", attack: "1d6", rules: "Onda expansiva, personal", slots: 0, bidones: 3, sponsor: null },
+    { name: "Red de acero", category: "Personal", range: "Corto", attack: "(3d6)", rules: "Onda expansiva, personal", slots: 0, bidones: 2, sponsor: null },
+    { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5, sponsor: null },
+    { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2, sponsor: null },
 
     // DESCARGA
-    { name: "Dispensador de abrojos", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Explosión pequeña, Munición 3", slots: 1, bidones: 1 },
-    { name: "Dispensador de aceite", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 2 },
-    { name: "Dispensador de humo", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 1 },
-    { name: "Dispensador de minas", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Munición 3, onda expansiva", slots: 1, bidones: 1 },
-    { name: "Dispensador de napalm", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Fuego, Munición 3", slots: 1, bidones: 1 },
-    { name: "Dispensador de pegamento", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 1", slots: 1, bidones: 1 },
-    { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3 },
-    { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3 }
+    { name: "Dispensador de abrojos", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Explosión pequeña, Munición 3", slots: 1, bidones: 1, sponsor: null },
+    { name: "Dispensador de aceite", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 2, sponsor: null },
+    { name: "Dispensador de humo", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 1, sponsor: null },
+    { name: "Dispensador de minas", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Munición 3, onda expansiva", slots: 1, bidones: 1, sponsor: null },
+    { name: "Dispensador de napalm", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Fuego, Munición 3", slots: 1, bidones: 1, sponsor: null },
+    { name: "Dispensador de pegamento", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 1", slots: 1, bidones: 1, sponsor: null },
+    { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
+    { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
+
+    // MEJORAS PARA VEHÍCULO
+    { name: "Ariete", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
+    { name: "Ariete explosivo", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 3, sponsor: null },
+    { name: "Blindaje", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 1, bidones: 4, sponsor: null },
+    { name: "Impulsor de nitrometano", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 6, sponsor: null },
+    { name: "Jaula de seguridad", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
+    { name: "Motor nuclear experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 5, sponsor: "Mishkin" },
+    { name: "Orugas", category: "Mejora", range: "-", attack: "-", rules: "-1 marcha máxima, +1 a Maniobra", slots: 1, bidones: 4, sponsor: null },
+    { name: "Teleportador experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 7, sponsor: "Mishkin" },
+    { name: "Torreta", category: "Mejora", range: "-", attack: "-", rules: "El arma gana un arco de fuego de 360 grados", slots: 0, bidones: 3, sponsor: null },
+    { name: "Tripulante adicional", category: "Mejora", range: "-", attack: "-", rules: "+1 a Tripulación, hasta un máximo del doble inicial", slots: 0, bidones: 4, sponsor: null },
+    { name: "Tubo lanzamierdas", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 2, sponsor: null }
   ];
 
   let team = [];
@@ -419,6 +446,7 @@
     const wAdv = document.getElementById('catalogWeaponsAdvanced');
     const wPersonal = document.getElementById('catalogWeaponsPersonal');
     const wDropped = document.getElementById('catalogWeaponsDropped');
+    const vUpgrades = document.getElementById('catalogVehicleUpgrades');
 
     vBasic.innerHTML = '';
     vAdv.innerHTML = '';
@@ -426,6 +454,7 @@
     wAdv.innerHTML = '';
     wPersonal.innerHTML = '';
     wDropped.innerHTML = '';
+    vUpgrades.innerHTML = '';
 
     VEHICLES.forEach(v => {
       const item = document.createElement('div');
@@ -452,22 +481,38 @@
     WEAPONS.filter(w => w.name !== "Ninguna").forEach(w => {
       const item = document.createElement('div');
       item.className = 'catalog-item';
-      item.innerHTML = `
-        <div class="catalog-item-header">
-          <span>${w.name}</span>
-          <span style="color: var(--accent-color);">${w.bidones} Bid.</span>
-        </div>
-        <div class="catalog-stats">
-          <span><b>Alcance:</b> ${w.range}</span>
-          <span><b>Ataque:</b> ${w.attack}</span>
-          <span><b>Casillas:</b> ${w.slots}</span>
-        </div>
-        <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
-      `;
-      if (w.category === "Básico") wBasic.appendChild(item);
-      else if (w.category === "Avanzado") wAdv.appendChild(item);
-      else if (w.category === "Personal") wPersonal.appendChild(item);
-      else if (w.category === "Descarga") wDropped.appendChild(item);
+      const sponsorText = w.sponsor ? `<span class="sponsor-badge">[${w.sponsor}]</span>` : '';
+      
+      if (w.category === "Mejora") {
+        item.innerHTML = `
+          <div class="catalog-item-header">
+            <span>${w.name} ${sponsorText}</span>
+            <span style="color: var(--accent-color);">${w.bidones} Bid.</span>
+          </div>
+          <div class="catalog-stats">
+            <span><b>Casillas:</b> ${w.slots}</span>
+          </div>
+          <div class="catalog-rules"><b>Efectos:</b> ${w.rules}</div>
+        `;
+        vUpgrades.appendChild(item);
+      } else {
+        item.innerHTML = `
+          <div class="catalog-item-header">
+            <span>${w.name} ${sponsorText}</span>
+            <span style="color: var(--accent-color);">${w.bidones} Bid.</span>
+          </div>
+          <div class="catalog-stats">
+            <span><b>Alcance:</b> ${w.range}</span>
+            <span><b>Ataque:</b> ${w.attack}</span>
+            <span><b>Casillas:</b> ${w.slots}</span>
+          </div>
+          <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
+        `;
+        if (w.category === "Básico") wBasic.appendChild(item);
+        else if (w.category === "Avanzado") wAdv.appendChild(item);
+        else if (w.category === "Personal") wPersonal.appendChild(item);
+        else if (w.category === "Descarga") wDropped.appendChild(item);
+      }
     });
   }
 
@@ -475,7 +520,7 @@
     const newVehicle = {
       id: Date.now(),
       name: "Nuevo Vehículo",
-      type: "", // Sin selección previa por defecto
+      type: "",
       upgrades: []
     };
     team.push(newVehicle);
@@ -491,7 +536,7 @@
     const v = team.find(item => item.id === id);
     if (v) {
       v.type = newType;
-      v.upgrades = []; // Reiniciar equipamiento
+      v.upgrades = [];
       renderBuilder();
     }
   }
@@ -504,24 +549,32 @@
     }
   }
 
-  // Genera las opciones agrupadas y coloreadas para el selector de armas/mejoras
-  function getWeaponSelectOptionsHTML(selectedWeaponName, isBlocked) {
+  // Genera opciones agrupadas filtrando por Patrocinador (Mishkin)
+  function getWeaponSelectOptionsHTML(selectedWeaponName, currentSponsor) {
     let html = `<option value="Ninguna" ${selectedWeaponName === 'Ninguna' ? 'selected' : ''}>-- Ninguna --</option>`;
     
     const categories = [
-      { name: "Básico", class: "grp-a-basico" },
-      { name: "Avanzado", class: "grp-a-avanzado" },
-      { name: "Personal", class: "grp-a-personal" },
-      { name: "Descarga", class: "grp-a-descarga" }
+      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico" },
+      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado" },
+      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal" },
+      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga" },
+      { name: "Mejora", label: "Mejoras para Vehículo", class: "grp-m-vehiculo" }
     ];
 
     categories.forEach(cat => {
       const items = WEAPONS.filter(w => w.category === cat.name && w.name !== "Ninguna");
       if(items.length > 0) {
-        html += `<optgroup label="Armamento ${cat.name}" class="${cat.class}">`;
+        html += `<optgroup label="${cat.label}" class="${cat.class}">`;
         items.forEach(w => {
+          // Si requiere Mishkin y el patrocinador actual no es Mishkin, se deshabilita
+          const isMishkinRequired = w.sponsor === "Mishkin";
+          const isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedWeaponName;
-          html += `<option value="${w.name}" ${isSelected ? 'selected' : ''}>${w.name} (${w.bidones} Bid. | ${w.slots} Slot)</option>`;
+          
+          let displayLabel = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
+          if (isMishkinRequired) displayLabel += ` [Mishkin]`;
+
+          html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${displayLabel}</option>`;
         });
         html += `</optgroup>`;
       }
@@ -535,6 +588,7 @@
     container.innerHTML = '';
     let grandTotalBidones = 0;
     const maxCans = parseInt(document.getElementById('maxCansSelect').value);
+    const currentSponsor = document.getElementById('sponsorSelect').value;
 
     document.getElementById('maxBidonesDisplay').innerText = maxCans;
 
@@ -544,8 +598,16 @@
       let vehicleBidones = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
-      // Calcular slots y bidones de las mejoras seleccionadas
-      if (vData && v.upgrades) {
+      // Resetear items de Mishkin si cambió el patrocinador
+      if (v.upgrades) {
+        v.upgrades = v.upgrades.map(uName => {
+          const uData = WEAPONS.find(w => w.name === uName);
+          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
+            return "Ninguna";
+          }
+          return uName;
+        });
+
         v.upgrades.forEach(uName => {
           const wData = WEAPONS.find(w => w.name === uName);
           if (wData) {
@@ -560,7 +622,6 @@
       const card = document.createElement('div');
       card.className = 'vehicle-card';
       
-      // Borde de color según la categoría del vehículo seleccionado
       if (vData) {
         card.style.borderLeft = `5px solid ${vData.category === 'Básico' ? 'var(--cat-veh-basico)' : 'var(--cat-veh-avanzado)'}`;
       }
@@ -573,23 +634,21 @@
         upgradesHTML += `<div class="default-weapon-badge"><b>Arma Integrada por Defecto:</b> Arma corta (1d6 | Alcance Medio | 0 Bid. | 0 Slots)</div>`;
         upgradesHTML += `<div class="upgrades-container">`;
 
-        // Generar dinámicamente hasta 4 campos de mejora según casillas
         const maxUpgradeFields = Math.max(vData.slots, 2); 
         
         for (let i = 0; i < maxUpgradeFields; i++) {
           const currentUpgradeName = v.upgrades[i] || "Ninguna";
           const currentWData = WEAPONS.find(w => w.name === currentUpgradeName);
           
-          // Bloquear si se alcanzaron las casillas máximas y este campo está vacío
           const isSlotsFull = usedSlots >= vData.slots;
           const isThisEmpty = !currentWData || currentWData.slots === 0;
           const shouldBlock = isSlotsFull && isThisEmpty;
 
           upgradesHTML += `
             <div>
-              <label style="font-size: 0.85em; color: var(--text-muted);">Mejora / Arma ${i + 1}:</label>
+              <label style="font-size: 0.85em; color: var(--text-muted);">Arma / Mejora ${i + 1}:</label>
               <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgrade(${v.id}, ${i}, this.value)">
-                ${getWeaponSelectOptionsHTML(currentUpgradeName, shouldBlock)}
+                ${getWeaponSelectOptionsHTML(currentUpgradeName, currentSponsor)}
               </select>
             </div>
           `;
