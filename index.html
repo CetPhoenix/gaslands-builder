@@ -111,7 +111,7 @@
     }
 
     .stat-modified-hull { color: #ff9800 !important; font-weight: bold; }
-    .stat-modified-crew { color: #4caf50 !important; font-weight: bold; }
+    .stat-modified-crew { color: #ff4444 !important; font-weight: bold; }
 
     .section-block {
       background: #181818;
@@ -591,11 +591,7 @@
       </div>
       <div>
         <label>Formato: </label>
-        <select id="maxCansSelect" onchange="renderBuilder()" style="width: 90px;">
-          <option value="25">25 Bid.</option>
-          <option value="50" selected>50 Bid.</option>
-          <option value="100">100 Bid.</option>
-        </select>
+        <input type="number" id="maxCansSelect" value="50" min="1" oninput="renderBuilder()" style="width: 75px;">
       </div>
       <div class="total-display">
         Total: <span id="totalBidones">0</span> / <span id="maxBidonesDisplay">50</span> Bid.
@@ -1005,7 +1001,7 @@
     const container = document.getElementById('vehiclesList');
     container.innerHTML = '';
     let grandTotalBidones = 0;
-    const maxCans = parseInt(document.getElementById('maxCansSelect').value);
+    const maxCans = parseInt(document.getElementById('maxCansSelect').value) || 0;
     const currentSponsor = document.getElementById('sponsorSelect').value;
 
     document.getElementById('maxBidonesDisplay').innerText = maxCans;
@@ -1280,7 +1276,7 @@
 
       let weaponsRowsHTML = `
         <tr>
-          <td class="left">Arma corta</td>
+          <td class="left">Arma corta (Pistola)</td>
           <td>Med.</td>
           <td>1d6</td>
           <td>360º</td>
@@ -1342,7 +1338,7 @@
 
             <div class="card-title-box">
               <h2>${v.name}</h2>
-              <div class="sub">${vData.name} (${vData.weight})</div>
+              <div class="sub">${vData.name} - Peso ${vData.weight}</div>
             </div>
 
             <div class="card-stats-grid">
