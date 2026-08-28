@@ -15,6 +15,16 @@
       --text-muted: #aaa;
       --border-color: #333;
       --danger-color: #cc2929;
+
+      /* Colores por Categoría de Vehículos */
+      --cat-veh-basico: #2196F3;
+      --cat-veh-avanzado: #9C27B0;
+
+      /* Colores por Categoría de Armas/Mejoras */
+      --cat-arm-basico: #4CAF50;
+      --cat-arm-avanzado: #FF9800;
+      --cat-arm-personal: #00BCD4;
+      --cat-arm-descarga: #E91E63;
     }
 
     body {
@@ -33,7 +43,7 @@
 
     h1 { margin: 0; color: var(--accent-color); font-size: 1.8rem; }
 
-    /* Layout principal en 2 columnas */
+    /* Layout principal */
     .main-layout {
       display: grid;
       grid-template-columns: 1fr 450px;
@@ -66,6 +76,7 @@
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 15px;
+      position: relative;
     }
 
     .vehicle-header {
@@ -79,8 +90,15 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 10px;
+    }
+
+    .upgrades-container {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     select, input {
@@ -92,6 +110,22 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
+    select:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Estilos de colores en los grupos de select */
+    optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; }
+    optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; }
+
+    optgroup.grp-a-basico { color: var(--cat-arm-basico); font-weight: bold; }
+    optgroup.grp-a-avanzado { color: var(--cat-arm-avanzado); font-weight: bold; }
+    optgroup.grp-a-personal { color: var(--cat-arm-personal); font-weight: bold; }
+    optgroup.grp-a-descarga { color: var(--cat-arm-descarga); font-weight: bold; }
+    
+    option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
 
     button {
       background: var(--accent-color);
@@ -127,7 +161,7 @@
       padding-bottom: 8px;
     }
 
-    /* Pestañas Plegables (Details) */
+    /* Pestañas Plegables Comprimidas con Identificador de Color */
     details {
       background: #242424;
       border: 1px solid var(--border-color);
@@ -138,16 +172,21 @@
 
     summary {
       font-weight: bold;
-      color: #ff9900;
       cursor: pointer;
       font-size: 0.95rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       outline: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    summary:hover {
-      color: var(--accent-color);
+    .color-tag {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
     }
 
     .catalog-item {
@@ -190,6 +229,17 @@
     .total-display {
       font-weight: bold;
       font-size: 1.05rem;
+    }
+
+    .default-weapon-badge {
+      display: inline-block;
+      background: #1a3320;
+      color: #4CAF50;
+      border: 1px solid #4CAF50;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -243,43 +293,43 @@
     <button onclick="addVehicle()">+ Añadir Vehículo</button>
   </div>
 
-  <!-- COLUMNA DERECHA: CATÁLOGOS CON ETIQUETAS PLEGABLES -->
+  <!-- COLUMNA DERECHA: CATÁLOGOS PLEGABLES -->
   <div class="catalog-panel">
     <h2>Catálogo de Referencia</h2>
 
     <!-- Plegable: Vehículos Básicos -->
-    <details open>
-      <summary>Vehículos Básicos</summary>
+    <details>
+      <summary><span class="color-tag" style="background: var(--cat-veh-basico);"></span> Vehículos Básicos</summary>
       <div id="catalogVehiclesBasic"></div>
     </details>
 
     <!-- Plegable: Vehículos Avanzados -->
-    <details open>
-      <summary>Vehículos Avanzados</summary>
+    <details>
+      <summary><span class="color-tag" style="background: var(--cat-veh-avanzado);"></span> Vehículos Avanzados</summary>
       <div id="catalogVehiclesAdvanced"></div>
     </details>
 
     <!-- Plegable: Armamento Básico -->
-    <details open>
-      <summary>Armamento Básico</summary>
+    <details>
+      <summary><span class="color-tag" style="background: var(--cat-arm-basico);"></span> Armamento Básico</summary>
       <div id="catalogWeaponsBasic"></div>
     </details>
 
     <!-- Plegable: Armamento Avanzado -->
     <details>
-      <summary>Armamento Avanzado</summary>
+      <summary><span class="color-tag" style="background: var(--cat-arm-avanzado);"></span> Armamento Avanzado</summary>
       <div id="catalogWeaponsAdvanced"></div>
     </details>
 
     <!-- Plegable: Armamento Avanzado (Personales) -->
     <details>
-      <summary>Armamento Avanzado (Personales)</summary>
+      <summary><span class="color-tag" style="background: var(--cat-arm-personal);"></span> Armamento Avanzado (Personales)</summary>
       <div id="catalogWeaponsPersonal"></div>
     </details>
 
     <!-- Plegable: Armamento Avanzado (Descarga) -->
     <details>
-      <summary>Armamento Avanzado (Descarga)</summary>
+      <summary><span class="color-tag" style="background: var(--cat-arm-descarga);"></span> Armamento Avanzado (Descarga)</summary>
       <div id="catalogWeaponsDropped"></div>
     </details>
   </div>
@@ -309,17 +359,16 @@
     { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pasar por encima, pivotar, todoterreno, torreta, restringido" }
   ];
 
-  // BASE DE DATOS FIEL DE ARMAMENTO
+  // BASE DE DATOS DE ARMAMENTO Y MEJORAS
   const WEAPONS = [
     { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0 },
     
-    // ARMAMENTO BÁSICO
+    // BÁSICO
     { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2 },
     { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3 },
-    { name: "Arma corta", category: "Básico", range: "Medio", attack: "1d6", rules: "Personal", slots: 0, bidones: 0 },
     { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5 },
 
-    // ARMAMENTO AVANZADO
+    // AVANZADO
     { name: "AJG", category: "Avanzado", range: "Doble", attack: "10d6", rules: "Munición 1", slots: 3, bidones: 1 },
     { name: "Arpón", category: "Avanzado", range: "Doble", attack: "(5d6)", rules: "-", slots: 1, bidones: 2 },
     { name: "Batería de amplificadores", category: "Avanzado", range: "Medio", attack: "-", rules: "Arco de fuego de 360º", slots: 3, bidones: 4 },
@@ -339,7 +388,7 @@
     { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6 },
     { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3 },
 
-    // ARMAMENTO AVANZADO (PERSONALES)
+    // PERSONALES
     { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1 },
     { name: "Escopeta", category: "Personal", range: "Largo", attack: "*", rules: "Personal", slots: 0, bidones: 4 },
     { name: "Granadas", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1 },
@@ -349,7 +398,7 @@
     { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5 },
     { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2 },
 
-    // ARMAMENTO AVANZADO (DESCARGA)
+    // DESCARGA
     { name: "Dispensador de abrojos", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Explosión pequeña, Munición 3", slots: 1, bidones: 1 },
     { name: "Dispensador de aceite", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 2 },
     { name: "Dispensador de humo", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 1 },
@@ -378,7 +427,6 @@
     wPersonal.innerHTML = '';
     wDropped.innerHTML = '';
 
-    // Render Vehículos
     VEHICLES.forEach(v => {
       const item = document.createElement('div');
       item.className = 'catalog-item';
@@ -401,7 +449,6 @@
       else vAdv.appendChild(item);
     });
 
-    // Render Armas
     WEAPONS.filter(w => w.name !== "Ninguna").forEach(w => {
       const item = document.createElement('div');
       item.className = 'catalog-item';
@@ -428,9 +475,8 @@
     const newVehicle = {
       id: Date.now(),
       name: "Nuevo Vehículo",
-      type: "Coche",
-      weapon1: "Ninguna",
-      weapon2: "Ninguna"
+      type: "", // Sin selección previa por defecto
+      upgrades: []
     };
     team.push(newVehicle);
     renderBuilder();
@@ -441,12 +487,47 @@
     renderBuilder();
   }
 
-  function updateVehicle(id, field, value) {
+  function updateVehicleType(id, newType) {
     const v = team.find(item => item.id === id);
     if (v) {
-      v[field] = value;
+      v.type = newType;
+      v.upgrades = []; // Reiniciar equipamiento
       renderBuilder();
     }
+  }
+
+  function updateVehicleUpgrade(id, index, upgradeName) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      v.upgrades[index] = upgradeName;
+      renderBuilder();
+    }
+  }
+
+  // Genera las opciones agrupadas y coloreadas para el selector de armas/mejoras
+  function getWeaponSelectOptionsHTML(selectedWeaponName, isBlocked) {
+    let html = `<option value="Ninguna" ${selectedWeaponName === 'Ninguna' ? 'selected' : ''}>-- Ninguna --</option>`;
+    
+    const categories = [
+      { name: "Básico", class: "grp-a-basico" },
+      { name: "Avanzado", class: "grp-a-avanzado" },
+      { name: "Personal", class: "grp-a-personal" },
+      { name: "Descarga", class: "grp-a-descarga" }
+    ];
+
+    categories.forEach(cat => {
+      const items = WEAPONS.filter(w => w.category === cat.name && w.name !== "Ninguna");
+      if(items.length > 0) {
+        html += `<optgroup label="Armamento ${cat.name}" class="${cat.class}">`;
+        items.forEach(w => {
+          const isSelected = w.name === selectedWeaponName;
+          html += `<option value="${w.name}" ${isSelected ? 'selected' : ''}>${w.name} (${w.bidones} Bid. | ${w.slots} Slot)</option>`;
+        });
+        html += `</optgroup>`;
+      }
+    });
+
+    return html;
   }
 
   function renderBuilder() {
@@ -458,50 +539,91 @@
     document.getElementById('maxBidonesDisplay').innerText = maxCans;
 
     team.forEach((v) => {
-      const vData = VEHICLES.find(item => item.name === v.type) || VEHICLES[2];
-      const w1Data = WEAPONS.find(w => w.name === v.weapon1) || WEAPONS[0];
-      const w2Data = WEAPONS.find(w => w.name === v.weapon2) || WEAPONS[0];
+      const vData = VEHICLES.find(item => item.name === v.type);
+      
+      let vehicleBidones = vData ? vData.bidones : 0;
+      let usedSlots = 0;
 
-      const usedSlots = w1Data.slots + w2Data.slots;
-      const vehicleBidones = vData.bidones + w1Data.bidones + w2Data.bidones;
+      // Calcular slots y bidones de las mejoras seleccionadas
+      if (vData && v.upgrades) {
+        v.upgrades.forEach(uName => {
+          const wData = WEAPONS.find(w => w.name === uName);
+          if (wData) {
+            usedSlots += wData.slots;
+            vehicleBidones += wData.bidones;
+          }
+        });
+      }
+
       grandTotalBidones += vehicleBidones;
 
       const card = document.createElement('div');
       card.className = 'vehicle-card';
+      
+      // Borde de color según la categoría del vehículo seleccionado
+      if (vData) {
+        card.style.borderLeft = `5px solid ${vData.category === 'Básico' ? 'var(--cat-veh-basico)' : 'var(--cat-veh-avanzado)'}`;
+      }
+
+      let upgradesHTML = '';
+
+      if (!vData) {
+        upgradesHTML = `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
+      } else {
+        upgradesHTML += `<div class="default-weapon-badge"><b>Arma Integrada por Defecto:</b> Arma corta (1d6 | Alcance Medio | 0 Bid. | 0 Slots)</div>`;
+        upgradesHTML += `<div class="upgrades-container">`;
+
+        // Generar dinámicamente hasta 4 campos de mejora según casillas
+        const maxUpgradeFields = Math.max(vData.slots, 2); 
+        
+        for (let i = 0; i < maxUpgradeFields; i++) {
+          const currentUpgradeName = v.upgrades[i] || "Ninguna";
+          const currentWData = WEAPONS.find(w => w.name === currentUpgradeName);
+          
+          // Bloquear si se alcanzaron las casillas máximas y este campo está vacío
+          const isSlotsFull = usedSlots >= vData.slots;
+          const isThisEmpty = !currentWData || currentWData.slots === 0;
+          const shouldBlock = isSlotsFull && isThisEmpty;
+
+          upgradesHTML += `
+            <div>
+              <label style="font-size: 0.85em; color: var(--text-muted);">Mejora / Arma ${i + 1}:</label>
+              <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgrade(${v.id}, ${i}, this.value)">
+                ${getWeaponSelectOptionsHTML(currentUpgradeName, shouldBlock)}
+              </select>
+            </div>
+          `;
+        }
+        upgradesHTML += `</div>`;
+      }
+
       card.innerHTML = `
         <div class="vehicle-header">
           <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 55%;">
           <div>
-            <strong>${vehicleBidones} Bid.</strong> | 
-            <span style="color: ${usedSlots > vData.slots ? '#ff4444' : '#888'}">
-              Slots: ${usedSlots}/${vData.slots}
-            </span>
+            <strong>${vehicleBidones} Bid.</strong> ${vData ? `| <span style="color: ${usedSlots > vData.slots ? '#ff4444' : '#888'}">Slots: ${usedSlots}/${vData.slots}</span>` : ''}
             <button class="btn-danger" style="margin-left: 10px;" onclick="removeVehicle(${v.id})">X</button>
           </div>
         </div>
         <div class="grid">
           <div>
             <label>Tipo de Vehículo:</label>
-            <select onchange="updateVehicle(${v.id}, 'type', this.value)">
-              ${VEHICLES.map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid.)</option>`).join('')}
-            </select>
-          </div>
-          <div>
-            <label>Arma 1:</label>
-            <select onchange="updateVehicle(${v.id}, 'weapon1', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon1 ? 'selected' : ''}>${w.name} (${w.bidones} Bid., ${w.slots} Slot)</option>`).join('')}
-            </select>
-          </div>
-          <div>
-            <label>Arma 2:</label>
-            <select onchange="updateVehicle(${v.id}, 'weapon2', this.value)">
-              ${WEAPONS.map(w => `<option value="${w.name}" ${w.name === v.weapon2 ? 'selected' : ''}>${w.name} (${w.bidones} Bid., ${w.slots} Slot)</option>`).join('')}
+            <select onchange="updateVehicleType(${v.id}, this.value)">
+              <option value="">-- Seleccionar Vehículo --</option>
+              <optgroup label="Vehículos Básicos" class="grp-v-basico">
+                ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid.)</option>`).join('')}
+              </optgroup>
+              <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
+                ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''}>${vItem.name} (${vItem.bidones} Bid.)</option>`).join('')}
+              </optgroup>
             </select>
           </div>
         </div>
+        ${upgradesHTML}
+        ${vData ? `
         <div style="margin-top: 10px; font-size: 0.85em; color: var(--text-muted);">
           <b>Categoría:</b> ${vData.category} | <b>Peso:</b> ${vData.weight} | <b>PC:</b> ${vData.hull} | <b>Marcha Máx:</b> ${vData.gear} | <b>Maniobra:</b> ${vData.handling} | <b>Tripulación:</b> ${vData.crew}
-        </div>
+        </div>` : ''}
       `;
       container.appendChild(card);
     });
