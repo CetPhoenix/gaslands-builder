@@ -51,9 +51,7 @@
     }
 
     @media (max-width: 1024px) {
-      .main-layout {
-        grid-template-columns: 1fr;
-      }
+      .main-layout { grid-template-columns: 1fr; }
     }
 
     .summary-bar {
@@ -87,17 +85,45 @@
       margin-bottom: 10px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
+    .vehicle-stats-box {
+      background: #242424;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      font-size: 0.85rem;
     }
 
-    .upgrades-container {
-      margin-top: 15px;
+    .vehicle-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .vehicle-stats-grid span {
+      background: #1a1a1a;
+      padding: 4px 6px;
+      border-radius: 3px;
+      color: var(--text-muted);
+    }
+
+    .section-block {
+      background: #181818;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin-bottom: 10px;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .upgrade-row {
@@ -105,6 +131,7 @@
       padding: 10px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -112,15 +139,13 @@
 
     .upgrade-controls {
       display: grid;
-      grid-template-columns: 1fr 140px;
-      gap: 10px;
+      grid-template-columns: 1fr 130px 40px;
+      gap: 8px;
       align-items: end;
     }
 
     @media (max-width: 600px) {
-      .upgrade-controls {
-        grid-template-columns: 1fr;
-      }
+      .upgrade-controls { grid-template-columns: 1fr; }
     }
 
     .weapon-details-badge {
@@ -135,10 +160,6 @@
       gap: 12px;
     }
 
-    .weapon-details-badge span {
-      display: inline-block;
-    }
-
     select, input {
       width: 100%;
       padding: 8px;
@@ -149,7 +170,7 @@
       box-sizing: border-box;
     }
 
-    select:disabled {
+    select:disabled, button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
@@ -169,7 +190,7 @@
       background: var(--accent-color);
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 8px 12px;
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
@@ -177,8 +198,10 @@
     }
 
     button:hover { background: var(--accent-hover); }
-    button.btn-danger { background: var(--danger-color); }
+    button.btn-danger { background: var(--danger-color); padding: 8px; }
     button.btn-danger:hover { background: #a81e1e; }
+    button.btn-add { background: #2e7d32; font-size: 0.85rem; }
+    button.btn-add:hover { background: #1b5e20; }
 
     .catalog-panel {
       background: var(--panel-bg);
@@ -267,22 +290,17 @@
       font-size: 1.05rem;
     }
 
-    .default-weapon-badge {
-      display: inline-block;
-      background: #1a3320;
-      color: #4CAF50;
+    .fixed-weapon-badge {
+      background: #1b382b;
       border: 1px solid #4CAF50;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-bottom: 8px;
+      color: #81c784;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
     }
 
-    .sponsor-badge {
-      color: #FF9800;
-      font-weight: bold;
-      font-size: 0.8rem;
-    }
+    .sponsor-badge { color: #FF9800; font-weight: bold; font-size: 0.8rem; }
   </style>
 </head>
 <body>
@@ -474,34 +492,21 @@
     const wDropped = document.getElementById('catalogWeaponsDropped');
     const vUpgrades = document.getElementById('catalogVehicleUpgrades');
 
-    vBasic.innerHTML = '';
-    vAdv.innerHTML = '';
-    wBasic.innerHTML = '';
-    wAdv.innerHTML = '';
-    wPersonal.innerHTML = '';
-    wDropped.innerHTML = '';
-    vUpgrades.innerHTML = '';
+    vBasic.innerHTML = ''; vAdv.innerHTML = ''; wBasic.innerHTML = ''; wAdv.innerHTML = '';
+    wPersonal.innerHTML = ''; wDropped.innerHTML = ''; vUpgrades.innerHTML = '';
 
     VEHICLES.forEach(v => {
       const item = document.createElement('div');
       item.className = 'catalog-item';
       item.innerHTML = `
-        <div class="catalog-item-header">
-          <span>${v.name}</span>
-          <span style="color: var(--accent-color);">${v.bidones} Bid.</span>
-        </div>
+        <div class="catalog-item-header"><span>${v.name}</span><span style="color: var(--accent-color);">${v.bidones} Bid.</span></div>
         <div class="catalog-stats">
-          <span><b>Peso:</b> ${v.weight}</span>
-          <span><b>PC:</b> ${v.hull}</span>
-          <span><b>Marcha:</b> ${v.gear}</span>
-          <span><b>Maniob.:</b> ${v.handling}</span>
-          <span><b>Trip.:</b> ${v.crew}</span>
-          <span><b>Casillas:</b> ${v.slots}</span>
+          <span><b>Peso:</b> ${v.weight}</span><span><b>PC:</b> ${v.hull}</span><span><b>Marcha:</b> ${v.gear}</span>
+          <span><b>Maniob.:</b> ${v.handling}</span><span><b>Trip.:</b> ${v.crew}</span><span><b>Casillas:</b> ${v.slots}</span>
         </div>
         <div class="catalog-rules"><b>Especial:</b> ${v.rules}</div>
       `;
-      if (v.category === "Básico") vBasic.appendChild(item);
-      else vAdv.appendChild(item);
+      if (v.category === "Básico") vBasic.appendChild(item); else vAdv.appendChild(item);
     });
 
     WEAPONS.filter(w => w.name !== "Ninguna").forEach(w => {
@@ -511,27 +516,15 @@
       
       if (w.category === "Mejora") {
         item.innerHTML = `
-          <div class="catalog-item-header">
-            <span>${w.name} ${sponsorText}</span>
-            <span style="color: var(--accent-color);">${w.bidones} Bid.</span>
-          </div>
-          <div class="catalog-stats">
-            <span><b>Casillas:</b> ${w.slots}</span>
-          </div>
+          <div class="catalog-item-header"><span>${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
+          <div class="catalog-stats"><span><b>Casillas:</b> ${w.slots}</span></div>
           <div class="catalog-rules"><b>Efectos:</b> ${w.rules}</div>
         `;
         vUpgrades.appendChild(item);
       } else {
         item.innerHTML = `
-          <div class="catalog-item-header">
-            <span>${w.name} ${sponsorText}</span>
-            <span style="color: var(--accent-color);">${w.bidones} Bid.</span>
-          </div>
-          <div class="catalog-stats">
-            <span><b>Alcance:</b> ${w.range}</span>
-            <span><b>Ataque:</b> ${w.attack}</span>
-            <span><b>Casillas:</b> ${w.slots}</span>
-          </div>
+          <div class="catalog-item-header"><span>${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
+          <div class="catalog-stats"><span><b>Alcance:</b> ${w.range}</span><span><b>Ataque:</b> ${w.attack}</span><span><b>Casillas:</b> ${w.slots}</span></div>
           <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
         `;
         if (w.category === "Básico") wBasic.appendChild(item);
@@ -544,14 +537,9 @@
     const turretItem = document.createElement('div');
     turretItem.className = 'catalog-item';
     turretItem.innerHTML = `
-      <div class="catalog-item-header">
-        <span>Torreta</span>
-        <span style="color: var(--accent-color);">-</span>
-      </div>
-      <div class="catalog-stats">
-        <span><b>Casillas:</b> 0</span>
-      </div>
-      <div class="catalog-rules"><b>Efectos:</b> Otorga arco de fuego de 360º al arma equipada. Se aplica automáticamente al cambiar el encaramiento a 360º (Multiplica el costo del arma x3).</div>
+      <div class="catalog-item-header"><span>Torreta</span><span style="color: var(--accent-color);">-</span></div>
+      <div class="catalog-stats"><span><b>Casillas:</b> 0</span></div>
+      <div class="catalog-rules"><b>Efectos:</b> Otorga arco de fuego de 360º al arma equipada (Multiplica su costo x3).</div>
     `;
     vUpgrades.appendChild(turretItem);
   }
@@ -561,6 +549,7 @@
       id: Date.now(),
       name: "Nuevo Vehículo",
       type: "",
+      weapons: [],
       upgrades: []
     };
     team.push(newVehicle);
@@ -576,48 +565,83 @@
     const v = team.find(item => item.id === id);
     if (v) {
       v.type = newType;
+      v.weapons = [];
       v.upgrades = [];
       renderBuilder();
     }
   }
 
-  function updateVehicleUpgradeName(id, index, upgradeName) {
+  // Operaciones de Armas
+  function addWeaponToVehicle(id) {
     const v = team.find(item => item.id === id);
     if (v) {
-      if (!v.upgrades[index]) {
-        v.upgrades[index] = { name: upgradeName, facing: "Frontal" };
-      } else {
-        v.upgrades[index].name = upgradeName;
-      }
-
-      const wData = WEAPONS.find(w => w.name === upgradeName);
-      if (wData && is360Native(wData)) {
-        v.upgrades[index].facing = "360º";
-      } else if (v.upgrades[index].facing === "360º" && (!wData || !is360Native(wData))) {
-        v.upgrades[index].facing = "Frontal";
-      }
-
+      v.weapons.push({ name: "Ametralladora", facing: "Frontal" });
       renderBuilder();
     }
   }
 
-  function updateVehicleUpgradeFacing(id, index, facingValue) {
+  function removeWeaponFromVehicle(id, index) {
+    const v = team.find(item => item.id === id);
+    if (v && v.weapons[index]) {
+      v.weapons.splice(index, 1);
+      renderBuilder();
+    }
+  }
+
+  function updateWeaponName(id, index, weaponName) {
+    const v = team.find(item => item.id === id);
+    if (v && v.weapons[index]) {
+      v.weapons[index].name = weaponName;
+      const wData = WEAPONS.find(w => w.name === weaponName);
+      if (wData && is360Native(wData)) {
+        v.weapons[index].facing = "360º";
+      } else if (v.weapons[index].facing === "360º" && (!wData || !is360Native(wData))) {
+        v.weapons[index].facing = "Frontal";
+      }
+      renderBuilder();
+    }
+  }
+
+  function updateWeaponFacing(id, index, facingValue) {
+    const v = team.find(item => item.id === id);
+    if (v && v.weapons[index]) {
+      v.weapons[index].facing = facingValue;
+      renderBuilder();
+    }
+  }
+
+  // Operaciones de Mejoras
+  function addUpgradeToVehicle(id) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      v.upgrades.push({ name: "Ariete" });
+      renderBuilder();
+    }
+  }
+
+  function removeUpgradeFromVehicle(id, index) {
     const v = team.find(item => item.id === id);
     if (v && v.upgrades[index]) {
-      v.upgrades[index].facing = facingValue;
+      v.upgrades.splice(index, 1);
       renderBuilder();
     }
   }
 
-  function getWeaponSelectOptionsHTML(selectedWeaponName, currentSponsor) {
-    let html = `<option value="Ninguna" ${selectedWeaponName === 'Ninguna' ? 'selected' : ''}>-- Ninguna --</option>`;
-    
+  function updateUpgradeName(id, index, upgradeName) {
+    const v = team.find(item => item.id === id);
+    if (v && v.upgrades[index]) {
+      v.upgrades[index].name = upgradeName;
+      renderBuilder();
+    }
+  }
+
+  function getWeaponsSelectOptionsHTML(selectedName, currentSponsor) {
+    let html = '';
     const categories = [
       { name: "Básico", label: "Armamento Básico", class: "grp-a-basico" },
       { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado" },
       { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal" },
-      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga" },
-      { name: "Mejora", label: "Mejoras para Vehículo", class: "grp-m-vehiculo" }
+      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga" }
     ];
 
     categories.forEach(cat => {
@@ -627,17 +651,30 @@
         items.forEach(w => {
           const isMishkinRequired = w.sponsor === "Mishkin";
           const isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
-          const isSelected = w.name === selectedWeaponName;
-          
-          let displayLabel = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
-          if (isMishkinRequired) displayLabel += ` [Mishkin]`;
-
-          html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${displayLabel}</option>`;
+          const isSelected = w.name === selectedName;
+          let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
+          if (isMishkinRequired) label += ` [Mishkin]`;
+          html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
         });
         html += `</optgroup>`;
       }
     });
+    return html;
+  }
 
+  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor) {
+    let html = '';
+    const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
+    html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
+    items.forEach(w => {
+      const isMishkinRequired = w.sponsor === "Mishkin";
+      const isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
+      const isSelected = w.name === selectedName;
+      let label = `${w.name} (${w.bidones} Bid. | ${w.slots} Slot)`;
+      if (isMishkinRequired) label += ` [Mishkin]`;
+      html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+    });
+    html += `</optgroup>`;
     return html;
   }
 
@@ -656,28 +693,46 @@
       let vehicleBidones = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
-      if (v.upgrades) {
-        v.upgrades = v.upgrades.map(u => {
-          if (!u || typeof u === 'string') {
-            return { name: u || "Ninguna", facing: "Frontal" };
+      // Resetear items de Mishkin si cambió el patrocinador
+      if (v.weapons) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData && wData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
+            w.name = "Ametralladora";
           }
-          const uData = WEAPONS.find(w => w.name === u.name);
-          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
-            return { name: "Ninguna", facing: "Frontal" };
-          }
-          return u;
         });
-
+      }
+      if (v.upgrades) {
         v.upgrades.forEach(u => {
-          const wData = WEAPONS.find(w => w.name === u.name);
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (uData && uData.sponsor === "Mishkin" && currentSponsor !== "Mishkin") {
+            u.name = "Ariete";
+          }
+        });
+      }
+
+      // Calcular slots y bidones de armas
+      if (v.weapons) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
           if (wData) {
             usedSlots += wData.slots;
-            
-            let baseCost = wData.bidones;
-            if (u.facing === "360º" && !is360Native(wData) && wData.name !== "Ninguna" && wData.category !== "Mejora") {
-              baseCost *= 3;
+            let cost = wData.bidones;
+            if (w.facing === "360º" && !is360Native(wData)) {
+              cost *= 3;
             }
-            vehicleBidones += baseCost;
+            vehicleBidones += cost;
+          }
+        });
+      }
+
+      // Calcular slots y bidones de mejoras
+      if (v.upgrades) {
+        v.upgrades.forEach(u => {
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (uData) {
+            usedSlots += uData.slots;
+            vehicleBidones += uData.bidones;
           }
         });
       }
@@ -686,96 +741,11 @@
 
       const card = document.createElement('div');
       card.className = 'vehicle-card';
-      
       if (vData) {
         card.style.borderLeft = `5px solid ${vData.category === 'Básico' ? 'var(--cat-veh-basico)' : 'var(--cat-veh-avanzado)'}`;
       }
 
-      let upgradesHTML = '';
-
-      if (!vData) {
-        upgradesHTML = `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
-      } else {
-        upgradesHTML += `<div class="default-weapon-badge"><b>Arma Integrada por Defecto:</b> Arma corta (1d6 | Alcance Medio | 0 Bid. | Encaramiento: 360º)</div>`;
-        upgradesHTML += `<div class="upgrades-container">`;
-
-        const maxUpgradeFields = Math.max(vData.slots, 2); 
-        
-        for (let i = 0; i < maxUpgradeFields; i++) {
-          const currentUpgradeObj = v.upgrades[i] || { name: "Ninguna", facing: "Frontal" };
-          const currentUpgradeName = currentUpgradeObj.name;
-          const currentFacing = currentUpgradeObj.facing || "Frontal";
-          const currentWData = WEAPONS.find(w => w.name === currentUpgradeName);
-          
-          const isSlotsFull = usedSlots >= vData.slots;
-          const isThisEmpty = !currentWData || currentWData.slots === 0;
-          const shouldBlock = isSlotsFull && isThisEmpty && currentUpgradeName === "Ninguna";
-
-          const native360 = is360Native(currentWData);
-          const isPersonal = currentWData && currentWData.category === "Personal";
-          const isMejora = currentWData && currentWData.category === "Mejora";
-
-          // Deshabilitar encaramiento si no hay arma seleccionada, si es personal, si tiene 360º nativo o si es una MEJORA
-          const disableFacingSelect = !currentWData || currentWData.name === "Ninguna" || isPersonal || native360 || isMejora;
-
-          let currentCost = 0;
-          if (currentWData && currentWData.name !== "Ninguna") {
-            currentCost = currentWData.bidones;
-            if (currentFacing === "360º" && !native360 && !isMejora) {
-              currentCost *= 3;
-            }
-          }
-
-          let weaponStatsBadge = '';
-          if (currentWData && currentWData.name !== "Ninguna") {
-            if (isMejora) {
-              weaponStatsBadge = `
-                <div class="weapon-details-badge">
-                  <span><b>Efectos:</b> ${currentWData.rules}</span>
-                  <span><b>Coste Total:</b> ${currentCost} Bid.</span>
-                </div>
-              `;
-            } else {
-              weaponStatsBadge = `
-                <div class="weapon-details-badge">
-                  <span><b>Alcance:</b> ${currentWData.range}</span>
-                  <span><b>Ataque:</b> ${currentWData.attack}</span>
-                  <span><b>Especial:</b> ${currentWData.rules}</span>
-                  <span><b>Coste Total:</b> ${currentCost} Bid.</span>
-                </div>
-              `;
-            }
-          }
-
-          upgradesHTML += `
-            <div class="upgrade-row">
-              <div class="upgrade-controls">
-                <div>
-                  <label style="font-size: 0.85em; color: var(--text-muted);">Arma / Mejora ${i + 1}:</label>
-                  <select ${shouldBlock ? 'disabled' : ''} onchange="updateVehicleUpgradeName(${v.id}, ${i}, this.value)">
-                    ${getWeaponSelectOptionsHTML(currentUpgradeName, currentSponsor)}
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size: 0.85em; color: var(--text-muted);">Encaramiento:</label>
-                  <select ${disableFacingSelect ? 'disabled' : ''} onchange="updateVehicleUpgradeFacing(${v.id}, ${i}, this.value)">
-                    ${isMejora ? `<option value="N/A" selected>N/A</option>` : `
-                      <option value="Frontal" ${currentFacing === 'Frontal' ? 'selected' : ''}>Frontal</option>
-                      <option value="Posterior" ${currentFacing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                      <option value="Lateral" ${currentFacing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                      <option value="360º" ${currentFacing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
-                    `}
-                  </select>
-                </div>
-              </div>
-              ${weaponStatsBadge}
-            </div>
-          `;
-        }
-        upgradesHTML += `</div>`;
-      }
-
-      card.innerHTML = `
+      let innerHTML = `
         <div class="vehicle-header">
           <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 55%;">
           <div>
@@ -797,12 +767,121 @@
             </select>
           </div>
         </div>
-        ${upgradesHTML}
-        ${vData ? `
-        <div style="margin-top: 10px; font-size: 0.85em; color: var(--text-muted);">
-          <b>Categoría:</b> ${vData.category} | <b>Peso:</b> ${vData.weight} | <b>PC:</b> ${vData.hull} | <b>Marcha Máx:</b> ${vData.gear} | <b>Maniobra:</b> ${vData.handling} | <b>Tripulación:</b> ${vData.crew}
-        </div>` : ''}
       `;
+
+      if (!vData) {
+        innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo para comenzar la configuración.</div>`;
+      } else {
+        // Ficha del vehículo
+        innerHTML += `
+          <div class="vehicle-stats-box">
+            <div class="vehicle-stats-grid">
+              <span><b>Peso:</b> ${vData.weight}</span>
+              <span><b>Carrocería:</b> ${vData.hull} PC</span>
+              <span><b>Maniobra:</b> ${vData.handling}</span>
+              <span><b>Marcha Máx:</b> ${vData.gear}</span>
+              <span><b>Tripulación:</b> ${vData.crew}</span>
+            </div>
+            <div style="color: #7dcfb6;"><b>Reglas Especiales:</b> ${vData.rules}</div>
+          </div>
+        `;
+
+        const isSlotsFull = usedSlots >= vData.slots;
+
+        // --- BLOQUE DE ARMAS ---
+        innerHTML += `
+          <div class="section-block">
+            <div class="section-title">
+              <span>Sección de Armas</span>
+              <button class="btn-add" ${isSlotsFull ? 'disabled' : ''} onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button>
+            </div>
+            <!-- ARMA CORTA FIJA POR DEFECTO -->
+            <div class="fixed-weapon-badge">
+              <b>Arma Integrada por Defecto:</b> Arma corta (Alcance: Medio | Ataque: 1d6 | Reglas: Personal | Coste: 0 Bid. | Encaramiento: 360º)
+            </div>
+        `;
+
+        v.weapons.forEach((w, wIdx) => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          const native360 = is360Native(wData);
+          const isPersonal = wData && wData.category === "Personal";
+          const disableFacing = isPersonal || native360;
+
+          let currentCost = wData ? wData.bidones : 0;
+          if (w.facing === "360º" && !native360) {
+            currentCost *= 3;
+          }
+
+          innerHTML += `
+            <div class="upgrade-row">
+              <div class="upgrade-controls">
+                <div>
+                  <label style="font-size: 0.8em; color: var(--text-muted);">Arma ${wIdx + 1}:</label>
+                  <select onchange="updateWeaponName(${v.id}, ${wIdx}, this.value)">
+                    ${getWeaponsSelectOptionsHTML(w.name, currentSponsor)}
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
+                  <select ${disableFacing ? 'disabled' : ''} onchange="updateWeaponFacing(${v.id}, ${wIdx}, this.value)">
+                    <option value="Frontal" ${w.facing === 'Frontal' ? 'selected' : ''}>Frontal</option>
+                    <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
+                    <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
+                    <option value="360º" ${w.facing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
+                  </select>
+                </div>
+                <div>
+                  <button class="btn-danger" onclick="removeWeaponFromVehicle(${v.id}, ${wIdx})">X</button>
+                </div>
+              </div>
+              ${wData ? `
+              <div class="weapon-details-badge">
+                <span><b>Alcance:</b> ${wData.range}</span>
+                <span><b>Ataque:</b> ${wData.attack}</span>
+                <span><b>Especial:</b> ${wData.rules}</span>
+                <span><b>Coste Total:</b> ${currentCost} Bid.</span>
+              </div>` : ''}
+            </div>
+          `;
+        });
+        innerHTML += `</div>`;
+
+        // --- BLOQUE DE MEJORAS ---
+        innerHTML += `
+          <div class="section-block">
+            <div class="section-title">
+              <span>Sección de Mejoras</span>
+              <button class="btn-add" ${isSlotsFull ? 'disabled' : ''} onclick="addUpgradeToVehicle(${v.id})">+ Añadir Mejora</button>
+            </div>
+        `;
+
+        v.upgrades.forEach((u, uIdx) => {
+          const uData = WEAPONS.find(item => item.name === u.name);
+          innerHTML += `
+            <div class="upgrade-row">
+              <div class="upgrade-controls" style="grid-template-columns: 1fr 40px;">
+                <div>
+                  <label style="font-size: 0.8em; color: var(--text-muted);">Mejora ${uIdx + 1}:</label>
+                  <select onchange="updateUpgradeName(${v.id}, ${uIdx}, this.value)">
+                    ${getUpgradesSelectOptionsHTML(u.name, currentSponsor)}
+                  </select>
+                </div>
+                <div>
+                  <button class="btn-danger" onclick="removeUpgradeFromVehicle(${v.id}, ${uIdx})">X</button>
+                </div>
+              </div>
+              ${uData ? `
+              <div class="weapon-details-badge">
+                <span><b>Efectos:</b> ${uData.rules}</span>
+                <span><b>Coste Total:</b> ${uData.bidones} Bid.</span>
+              </div>` : ''}
+            </div>
+          `;
+        });
+        innerHTML += `</div>`;
+      }
+
+      card.innerHTML = innerHTML;
       container.appendChild(card);
     });
 
@@ -812,6 +891,14 @@
       totalElement.style.color = '#ff4444';
     } else {
       totalElement.style.color = '#fff';
+    }
+  }
+
+  function updateVehicle(id, field, value) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      v[field] = value;
+      renderBuilder();
     }
   }
 
