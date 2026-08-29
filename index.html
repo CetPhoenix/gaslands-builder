@@ -351,6 +351,27 @@
 
     .sponsor-badge { color: #FF9800; font-weight: bold; font-size: 0.8rem; }
 
+    /* ESTILOS DE IMAGEN DE VEHÍCULO */
+    .vehicle-image-input-container {
+      margin-top: 10px;
+      background: #242424;
+      border: 1px solid var(--border-color);
+      padding: 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .vehicle-image-preview-thumbnail {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: #111;
+    }
+
     /* ESTILOS DEL MODAL DE FICHAS DE VEHÍCULOS */
     .modal-overlay {
       position: fixed;
@@ -366,7 +387,7 @@
       background: #333;
       color: #000;
       width: 95%;
-      max-width: 1050px;
+      max-width: 1200px;
       max-height: 90vh;
       overflow-y: auto;
       border-radius: 8px;
@@ -392,7 +413,7 @@
       transition: transform 0.2s ease;
     }
 
-    /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD (63mm x 88mm) */
+    /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD */
     .card-ammo-box {
       width: 2.8mm;
       height: 2.8mm;
@@ -427,6 +448,11 @@
       border-radius: 3mm;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       page-break-inside: avoid;
+    }
+
+    .printable-card.horizontal {
+      width: 88mm;
+      height: 63mm;
     }
 
     .card-top-bar {
@@ -536,6 +562,32 @@
       border-radius: 1px;
     }
 
+    .card-vehicle-image-box {
+      width: 100%;
+      height: 32mm;
+      border: 1px solid #000;
+      border-radius: 2px;
+      margin-top: 2mm;
+      margin-bottom: 2mm;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: #f9f9f9;
+    }
+
+    .card-vehicle-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-vehicle-image-placeholder {
+      font-size: 5.5pt;
+      color: #888;
+      font-style: italic;
+    }
+
     .mini-table {
       width: 100%;
       border-collapse: collapse;
@@ -577,7 +629,7 @@
       color: #444;
     }
 
-    /* REGLAS CSS PARA IMPRESIÓN A4 Y DISTRIBUCIÓN DE FICHAS (63mm x 88mm) */
+    /* REGLAS CSS PARA IMPRESIÓN A4 Y DISTRIBUCIÓN DE FICHAS */
     @media print {
       @page {
         size: A4 portrait;
@@ -611,6 +663,9 @@
         gap: 4mm 6mm !important;
         justify-content: start !important;
         transform: scale(1) !important;
+      }
+      .cards-preview-grid.horizontal-grid {
+        grid-template-columns: repeat(2, 88mm) !important;
       }
       .printable-card {
         box-shadow: none !important;
@@ -718,14 +773,30 @@
 <div id="cardsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header-actions">
-      <h3 style="margin: 0; color: #fff;">Fichas de Vehículos (63mm x 88mm)</h3>
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <h3 style="margin: 0; color: #fff;">Fichas de Vehículos</h3>
+        
+        <!-- Opciones de Configuración de Ficha -->
+        <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Orientación:</label>
+        <select id="cardOrientationSelect" onchange="openCardsModal()" style="width: 120px; padding: 4px 8px; font-size: 0.85rem;">
+          <option value="vertical">Vertical</option>
+          <option value="horizontal">Horizontal</option>
+        </select>
+
+        <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Formato:</label>
+        <select id="cardPagesSelect" onchange="openCardsModal()" style="width: 150px; padding: 4px 8px; font-size: 0.85rem;">
+          <option value="1page">1 Hoja por Ficha</option>
+          <option value="2pages">Dividir en 2 Hojas</option>
+        </select>
+      </div>
+
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <span style="font-size: 0.85rem;">Zoom:</span>
+        <span style="font-size: 0.85rem; color: #fff;">Zoom:</span>
         <button onclick="changeZoom(-0.1)" style="padding: 4px 8px;">🔍 -</button>
-        <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold;">100%</span>
+        <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold; color: #fff;">100%</span>
         <button onclick="changeZoom(0.1)" style="padding: 4px 8px;">🔍 +</button>
         <button onclick="resetZoom()" style="padding: 4px 8px; background: #555;">Restablecer</button>
-        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar Imagen (PNG)</button>
+        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar PNG</button>
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
@@ -1040,6 +1111,7 @@
       id: Date.now(),
       name: "Nuevo Vehículo",
       type: "",
+      image: null,
       weapons: [],
       upgrades: [],
       perks: []
@@ -1060,6 +1132,27 @@
       v.weapons = [];
       v.upgrades = [];
       v.perks = [];
+      renderBuilder();
+    }
+  }
+
+  function updateVehicleImage(id, event) {
+    const file = event.target.files[0];
+    const v = team.find(item => item.id === id);
+    if (v && file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        v.image = e.target.result;
+        renderBuilder();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function removeVehicleImage(id) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      v.image = null;
       renderBuilder();
     }
   }
@@ -1292,7 +1385,6 @@
 
           if (equippedPerkNames.includes(p.name)) isDisabled = true;
 
-          // Condicional especial: Conductor Especialista
           if (p.name === "Conductor Especialista" && vehicleData) {
             const isValidWeight = vehicleData.weight === "Ligero" || vehicleData.weight === "Medio";
             const isValidHandling = vehicleData.handling >= 3;
@@ -1332,7 +1424,6 @@
 
       if (!v.perks) v.perks = [];
 
-      // Deshabilitar tipo si viola regla de patrocinador activo
       if (vData && isVehicleDisabledForSponsor(vData, currentSponsor, v.id)) {
         v.type = "";
         v.weapons = [];
@@ -1344,7 +1435,6 @@
       let baseCost = vData ? vData.bidones : 0;
       let usedSlots = 0;
 
-      // Limpieza de armas/mejoras no permitidas con el nuevo patrocinador
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -1364,7 +1454,6 @@
         });
       }
 
-      // Limpieza de ventajas no permitidas por el patrocinador activo o condicionales
       const activePerksString = SPONSORS[currentSponsor] || "";
       const activePerkTypes = activePerksString !== "Ninguna" ? activePerksString.split(',').map(s => s.trim()) : [];
 
@@ -1382,7 +1471,6 @@
         });
       }
 
-      // Regla La Alcaidesa: Descuento hasta en 4 bidones (Mín. 5 BD base)
       const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
       if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData && vData.weight === "Medio") {
         baseCost = Math.max(5, baseCost - 4);
@@ -1463,6 +1551,17 @@
               </optgroup>
             </select>
           </div>
+        </div>
+
+        <div class="vehicle-image-input-container">
+          <div style="flex-grow: 1;">
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Se mostrará al dividir la ficha en 2 hojas):</label>
+            <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
+          </div>
+          ${v.image ? `
+            <img src="${v.image}" class="vehicle-image-preview-thumbnail">
+            <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
+          ` : ''}
         </div>
       `;
 
@@ -1718,22 +1817,31 @@
     return '';
   }
 
-  // LÓGICA DE GENERACIÓN DE FICHAS TIPO CARTA STANDARD (63mm x 88mm)
+  // LÓGICA DE GENERACIÓN DE FICHAS CON ORIENTACIÓN Y MÚLTIPLES HOJAS
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
     const teamName = document.getElementById('teamName').value || 'Mi Escudería';
     const sponsorName = document.getElementById('sponsorSelect').value;
-    const sponsorPerks = SPONSORS[sponsorName] || "Ninguna";
+
+    const orientation = document.getElementById('cardOrientationSelect') ? document.getElementById('cardOrientationSelect').value : 'vertical';
+    const pagesMode = document.getElementById('cardPagesSelect') ? document.getElementById('cardPagesSelect').value : '1page';
 
     container.innerHTML = '';
-    resetZoom();
+    
+    if (orientation === 'horizontal') {
+      container.classList.add('horizontal-grid');
+    } else {
+      container.classList.remove('horizontal-grid');
+    }
 
     if (team.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
       modal.style.display = 'flex';
       return;
     }
+
+    const cardClass = `printable-card ${orientation === 'horizontal' ? 'horizontal' : ''}`;
 
     team.forEach(v => {
       const vData = VEHICLES.find(item => item.name === v.type);
@@ -1881,101 +1989,157 @@
         perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
       }
 
-      const cardHTML = `
-        <div class="printable-card">
-          <div>
-            <div class="card-top-bar">
-              <span>ESC: ${teamName}</span>
-              <span>PAT: ${sponsorName}</span>
-              <span style="font-weight: bold; color: #d32f2f;">${vehicleBidones} BID.</span>
-            </div>
+      // PLANTILLA DE IMAGEN DEL VEHÍCULO
+      const imageHTML = `
+        <div class="card-vehicle-image-box">
+          ${v.image ? `<img src="${v.image}">` : `<span class="card-vehicle-image-placeholder">Sin imagen asignada</span>`}
+        </div>
+      `;
 
-            <div class="card-title-box">
-              <h2>${v.name}</h2>
-              <div class="sub">${vData.name} - Peso ${vData.weight}</div>
-              <div style="font-size: 5pt; font-weight: bold; color: #d84315; margin-top: 1px;">Reglas: ${vData.rules}</div>
-            </div>
+      // CABECERA Y ATRIBUTOS BÁSICOS DE LA FICHA
+      const cardHeaderHTML = `
+        <div class="card-top-bar">
+          <span>ESC: ${teamName}</span>
+          <span>PAT: ${sponsorName}</span>
+          <span style="font-weight: bold; color: #d32f2f;">${vehicleBidones} BID.</span>
+        </div>
 
-            <div class="card-stats-grid">
-              <div class="card-stat-box">
-                <div class="lbl">Marcha</div>
-                <div class="val">${vData.gear}</div>
-              </div>
-              <div class="card-stat-box">
-                <div class="lbl">Peligro</div>
-                <div class="val">[ &nbsp; ]</div>
-              </div>
-              <div class="card-stat-box">
-                <div class="lbl">Maniobra</div>
-                <div class="val">${vData.handling}</div>
-              </div>
-              <div class="card-stat-box">
-                <div class="lbl">Trip.</div>
-                <div class="val">${totalCrew}</div>
-              </div>
-            </div>
+        <div class="card-title-box">
+          <h2>${v.name}</h2>
+          <div class="sub">${vData.name} - Peso ${vData.weight}</div>
+          <div style="font-size: 5pt; font-weight: bold; color: #d84315; margin-top: 1px;">Reglas: ${vData.rules}</div>
+        </div>
 
-            <div class="card-hull-section">
-              <div class="card-hull-header">
-                <span>CARROCERÍA</span>
-                <span>${totalHull} PC</span>
-              </div>
-              <div class="card-hull-boxes">
-                ${hullBoxesHTML}
-              </div>
-            </div>
-
-            <div class="card-section-title">Armas Equipadas</div>
-            <table class="mini-table">
-              <thead>
-                <tr>
-                  <th style="text-align:left;">Arma</th>
-                  <th>Alc.</th>
-                  <th>Atq.</th>
-                  <th>Enc.</th>
-                  <th>Cost.</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${weaponsRowsHTML}
-              </tbody>
-            </table>
-
-            <div class="card-section-title">Mejoras de Vehículo</div>
-            <table class="mini-table">
-              <thead>
-                <tr>
-                  <th style="text-align:left;">Mejora</th>
-                  <th>Coste</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${upgradesRowsHTML}
-              </tbody>
-            </table>
-
-            <div class="card-section-title">Ventajas Seleccionadas</div>
-            <table class="mini-table">
-              <thead>
-                <tr>
-                  <th style="text-align:left;">Ventaja</th>
-                  <th>Coste</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${perksRowsHTML}
-              </tbody>
-            </table>
+        <div class="card-stats-grid">
+          <div class="card-stat-box">
+            <div class="lbl">Marcha</div>
+            <div class="val">${vData.gear}</div>
           </div>
+          <div class="card-stat-box">
+            <div class="lbl">Peligro</div>
+            <div class="val">[ &nbsp; ]</div>
+          </div>
+          <div class="card-stat-box">
+            <div class="lbl">Maniobra</div>
+            <div class="val">${vData.handling}</div>
+          </div>
+          <div class="card-stat-box">
+            <div class="lbl">Trip.</div>
+            <div class="val">${totalCrew}</div>
+          </div>
+        </div>
 
-          <div class="card-footer">
-            <div>Nexo Alpha - Gaslands Refuelled</div>
-            <div class="card-footer-author">by Cet Phoenix</div>
+        <div class="card-hull-section">
+          <div class="card-hull-header">
+            <span>CARROCERÍA</span>
+            <span>${totalHull} PC</span>
+          </div>
+          <div class="card-hull-boxes">
+            ${hullBoxesHTML}
           </div>
         </div>
       `;
 
-      container.innerHTML += cardHTML;
+      // TABLAS DE ARMAS, MEJORAS Y VENTAJAS
+      const cardEquipmentHTML = `
+        <div class="card-section-title">Armas Equipadas</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Arma</th>
+              <th>Alc.</th>
+              <th>Atq.</th>
+              <th>Enc.</th>
+              <th>Cost.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${weaponsRowsHTML}
+          </tbody>
+        </table>
+
+        <div class="card-section-title">Mejoras de Vehículo</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Mejora</th>
+              <th>Coste</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${upgradesRowsHTML}
+          </tbody>
+        </table>
+
+        <div class="card-section-title">Ventajas Seleccionadas</div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Ventaja</th>
+              <th>Coste</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${perksRowsHTML}
+          </tbody>
+        </table>
+      `;
+
+      const cardFooterHTML = `
+        <div class="card-footer">
+          <div>Nexo Alpha - Gaslands Refuelled</div>
+          <div class="card-footer-author">by Cet Phoenix</div>
+        </div>
+      `;
+
+      if (pagesMode === '2pages') {
+        // HOJA 1: DESCRIPCIÓN DEL VEHÍCULO E IMAGEN
+        const page1HTML = `
+          <div class="${cardClass}">
+            <div>
+              ${cardHeaderHTML}
+              <div class="card-section-title" style="margin-top: 2mm;">Vista del Vehículo</div>
+              ${imageHTML}
+            </div>
+            <div>
+              <div style="font-size: 4.5pt; text-align: center; font-weight: bold; margin-bottom: 2px;">HOJA 1 / 2 - ATRIBUTOS</div>
+              ${cardFooterHTML}
+            </div>
+          </div>
+        `;
+
+        // HOJA 2: EQUIPAMIENTO, ARMAS, MEJORAS Y VENTAJAS
+        const page2HTML = `
+          <div class="${cardClass}">
+            <div>
+              <div class="card-top-bar">
+                <span>ESC: ${teamName}</span>
+                <span>VEHÍCULO: ${v.name}</span>
+                <span style="font-weight: bold; color: #d32f2f;">${vehicleBidones} BID.</span>
+              </div>
+              ${cardEquipmentHTML}
+            </div>
+            <div>
+              <div style="font-size: 4.5pt; text-align: center; font-weight: bold; margin-bottom: 2px;">HOJA 2 / 2 - EQUIPAMIENTO</div>
+              ${cardFooterHTML}
+            </div>
+          </div>
+        `;
+
+        container.innerHTML += page1HTML + page2HTML;
+      } else {
+        // MODO 1 HOJA STANDARD
+        const singleCardHTML = `
+          <div class="${cardClass}">
+            <div>
+              ${cardHeaderHTML}
+              ${cardEquipmentHTML}
+            </div>
+            ${cardFooterHTML}
+          </div>
+        `;
+        container.innerHTML += singleCardHTML;
+      }
     });
 
     modal.style.display = 'flex';
