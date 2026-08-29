@@ -27,6 +27,20 @@
       --cat-arm-personal: #00BCD4;
       --cat-arm-descarga: #E91E63;
       --cat-mejora-veh: #FFD700;
+
+      /* Colores por Categoría de Ventajas */
+      --perk-agresivo: #e53935;
+      --perk-aterrador: #8e24aa;
+      --perk-intrepido: #fb8c00;
+      --perk-macizo: #6d4c41;
+      --perk-militar: #43a047;
+      --perk-persecucion: #d81b60;
+      --perk-preciso: #7cb342;
+      --perk-rudo: #1e88e5;
+      --perk-tecnologia: #00acc1;
+      --perk-temerario: #546e7a;
+      --perk-tuneo: #fdd835;
+      --perk-velocidad: #3949ab;
     }
 
     body {
@@ -148,8 +162,15 @@
       align-items: end;
     }
 
+    .perk-controls {
+      display: grid;
+      grid-template-columns: 1fr 40px;
+      gap: 8px;
+      align-items: end;
+    }
+
     @media (max-width: 600px) {
-      .upgrade-controls { grid-template-columns: 1fr; }
+      .upgrade-controls, .perk-controls { grid-template-columns: 1fr; }
     }
 
     .weapon-details-badge {
@@ -187,6 +208,20 @@
     optgroup.grp-a-personal { color: var(--cat-arm-personal); font-weight: bold; }
     optgroup.grp-a-descarga { color: var(--cat-arm-descarga); font-weight: bold; }
     optgroup.grp-m-vehiculo { color: var(--cat-mejora-veh); font-weight: bold; }
+
+    /* Clases para Optgroups de Ventajas */
+    optgroup.grp-pk-agresivo { color: var(--perk-agresivo); font-weight: bold; }
+    optgroup.grp-pk-aterrador { color: var(--perk-aterrador); font-weight: bold; }
+    optgroup.grp-pk-intrepido { color: var(--perk-intrepido); font-weight: bold; }
+    optgroup.grp-pk-macizo { color: var(--perk-macizo); font-weight: bold; }
+    optgroup.grp-pk-militar { color: var(--perk-militar); font-weight: bold; }
+    optgroup.grp-pk-persecucion { color: var(--perk-persecucion); font-weight: bold; }
+    optgroup.grp-pk-preciso { color: var(--perk-preciso); font-weight: bold; }
+    optgroup.grp-pk-rudo { color: var(--perk-rudo); font-weight: bold; }
+    optgroup.grp-pk-tecnologia { color: var(--perk-tecnologia); font-weight: bold; }
+    optgroup.grp-pk-temerario { color: var(--perk-temerario); font-weight: bold; }
+    optgroup.grp-pk-tuneo { color: var(--perk-tuneo); font-weight: bold; }
+    optgroup.grp-pk-velocidad { color: var(--perk-velocidad); font-weight: bold; }
     
     option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
     
@@ -790,6 +825,93 @@
     { name: "Blindaje de micro placas", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 0, bidones: 6, sponsor: "Verney" }
   ];
 
+  const PERKS = [
+    // Agresivo
+    { name: "Cañón doble", category: "Agresivo", cost: 2, cond: "-" },
+    { name: "Lunático Aterrador", category: "Agresivo", cost: 5, cond: "-" },
+    { name: "Martillo de guerra", category: "Agresivo", cost: 4, cond: "-" },
+    { name: "Pelotón de Abordaje", category: "Agresivo", cost: 2, cond: "-" },
+    { name: "Tractor Asesino", category: "Agresivo", cost: 5, cond: "-" },
+    { name: "Trituradora", category: "Agresivo", cost: 5, cond: "-" },
+    // Aterrador
+    { name: "Ángel de la Muerte", category: "Aterrador", cost: 4, cond: "-" },
+    { name: "Autopista al Infierno", category: "Aterrador", cost: 2, cond: "-" },
+    { name: "Llamas Purificadoras", category: "Aterrador", cost: 1, cond: "-" },
+    { name: "Manifestación Violenta", category: "Aterrador", cost: 3, cond: "-" },
+    { name: "Simpatía por el Diablo", category: "Aterrador", cost: 1, cond: "-" },
+    { name: "Visiones Eufóricas", category: "Aterrador", cost: 1, cond: "-" },
+    // Intrépido
+    { name: "Artista del Freno de Mano", category: "Intrépido", cost: 3, cond: "-" },
+    { name: "Conductor Especialista", category: "Intrépido", cost: 7, cond: "Solo para vehículos ligeros o medios con maniobra 3 o más" },
+    { name: "Derrape Poderoso", category: "Intrépido", cost: 5, cond: "-" },
+    { name: "Encantador del Cromo", category: "Intrépido", cost: 2, cond: "-" },
+    { name: "Escurridizo", category: "Intrépido", cost: 5, cond: "-" },
+    { name: "Resbaladizo", category: "Intrépido", cost: 3, cond: "-" },
+    // Macizo
+    { name: "Aplastador", category: "Macizo", cost: 7, cond: "-" },
+    { name: "Barrena", category: "Macizo", cost: 2, cond: "-" },
+    { name: "Contraataque", category: "Macizo", cost: 5, cond: "-" },
+    { name: "Matón", category: "Macizo", cost: 4, cond: "-" },
+    { name: "No Hay Dolor", category: "Macizo", cost: 8, cond: "-" },
+    { name: "Peso Muerto", category: "Macizo", cost: 2, cond: "-" },
+    // Militar
+    { name: "Carga Completa", category: "Militar", cost: 2, cond: "-" },
+    { name: "Cargador Rápido", category: "Militar", cost: 2, cond: "-" },
+    { name: "Devolver el Fuego", category: "Militar", cost: 2, cond: "-" },
+    { name: "Fuego Rápido", category: "Militar", cost: 2, cond: "-" },
+    { name: "Puntería", category: "Militar", cost: 2, cond: "-" },
+    { name: "Tiro a la Cabeza", category: "Militar", cost: 4, cond: "-" },
+    // Persecución
+    { name: "Aventajar", category: "Persecución", cost: 2, cond: "-" },
+    { name: "Contacto Visual Perturbador", category: "Persecución", cost: 5, cond: "-" },
+    { name: "Pisar los Talones", category: "Persecución", cost: 2, cond: "-" },
+    { name: "Provocar", category: "Persecución", cost: 2, cond: "-" },
+    { name: "Regodearse", category: "Persecución", cost: 2, cond: "-" },
+    { name: "Tip", category: "Persecución", cost: 4, cond: "-" },
+    // Preciso
+    { name: "Autocontrol", category: "Preciso", cost: 2, cond: "-" },
+    { name: "Conducción Relajada", category: "Preciso", cost: 5, cond: "-" },
+    { name: "Experto", category: "Preciso", cost: 3, cond: "-" },
+    { name: "Hielo en las Venas", category: "Preciso", cost: 2, cond: "-" },
+    { name: "Momento de Gloria", category: "Preciso", cost: 2, cond: "-" },
+    { name: "Trucos de Conducción", category: "Preciso", cost: 3, cond: "-" },
+    // Rudo
+    { name: "¡Cúbreme!", category: "Rudo", cost: 2, cond: "-" },
+    { name: "Frenético", category: "Rudo", cost: 3, cond: "-" },
+    { name: "Guerrero de la Carretera", category: "Rudo", cost: 2, cond: "-" },
+    { name: "Manipular a la Audiencia", category: "Rudo", cost: 1, cond: "-" },
+    { name: "Polvorín", category: "Rudo", cost: 1, cond: "-" },
+    { name: "Tiempo Bala", category: "Rudo", cost: 3, cond: "-" },
+    // Tecnología
+    { name: "Cohetes Propulsores", category: "Tecnología", cost: 1, cond: "-" },
+    { name: "¡Eureka!", category: "Tecnología", cost: 4, cond: "-" },
+    { name: "Giroscópo", category: "Tecnología", cost: 1, cond: "-" },
+    { name: "Mecánico a Bordo", category: "Tecnología", cost: 3, cond: "-" },
+    { name: "Navegación por Satélite", category: "Tecnología", cost: 2, cond: "-" },
+    { name: "¡Sensacional!", category: "Tecnología", cost: 1, cond: "-" },
+    // Temerario
+    { name: "Ahora no Vengas a Buscarme", category: "Temerario", cost: 4, cond: "-" },
+    { name: "Cervezerker", category: "Temerario", cost: 5, cond: "-" },
+    { name: "Conducción Furiosa", category: "Temerario", cost: 1, cond: "-" },
+    { name: "De Perdidos al Río", category: "Temerario", cost: 2, cond: "-" },
+    { name: "Exaltado", category: "Temerario", cost: 2, cond: "-" },
+    { name: "Más Grande que Tú", category: "Temerario", cost: 4, cond: "-" },
+    // Tuneo
+    { name: "Guardabarros", category: "Tuneo", cost: 2, cond: "-" },
+    { name: "Ímpetu", category: "Tuneo", cost: 3, cond: "-" },
+    { name: "Ronroneo", category: "Tuneo", cost: 6, cond: "-" },
+    { name: "Tracción Trasera", category: "Tuneo", cost: 2, cond: "-" },
+    { name: "Volante Sensible", category: "Tuneo", cost: 3, cond: "-" },
+    { name: "Zigzagueo", category: "Tuneo", cost: 6, cond: "-" },
+    // Velocidad
+    { name: "Cambio Descendiente", category: "Velocidad", cost: 3, cond: "-" },
+    { name: "Como alma que lleva el diablo", category: "Velocidad", cost: 5, cond: "-" },
+    { name: "Rebufo", category: "Velocidad", cost: 2, cond: "-" },
+    { name: "Sobrepeso", category: "Velocidad", cost: 2, cond: "-" },
+    { name: "¡Tiempo Extra!", category: "Velocidad", cost: 3, cond: "-" },
+    { name: "Tomar Impulso", category: "Velocidad", cost: 1, cond: "-" }
+  ];
+
   let team = [];
 
   function getItemCost(wData, currentSponsor) {
@@ -894,7 +1016,8 @@
       name: "Nuevo Vehículo",
       type: "",
       weapons: [],
-      upgrades: []
+      upgrades: [],
+      perks: []
     };
     team.push(newVehicle);
     renderBuilder();
@@ -911,6 +1034,7 @@
       v.type = newType;
       v.weapons = [];
       v.upgrades = [];
+      v.perks = [];
       renderBuilder();
     }
   }
@@ -990,6 +1114,31 @@
     const v = team.find(item => item.id === id);
     if (v && v.upgrades[index]) {
       v.upgrades[index].facing = facingValue;
+      renderBuilder();
+    }
+  }
+
+  function addPerkToVehicle(id) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      if (!v.perks) v.perks = [];
+      v.perks.push({ name: "Ninguna" });
+      renderBuilder();
+    }
+  }
+
+  function removePerkFromVehicle(id, index) {
+    const v = team.find(item => item.id === id);
+    if (v && v.perks && v.perks[index]) {
+      v.perks.splice(index, 1);
+      renderBuilder();
+    }
+  }
+
+  function updatePerkName(id, index, perkName) {
+    const v = team.find(item => item.id === id);
+    if (v && v.perks && v.perks[index]) {
+      v.perks[index].name = perkName;
       renderBuilder();
     }
   }
@@ -1094,6 +1243,51 @@
     return html;
   }
 
+  function getPerksSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentPerks, currentIndex) {
+    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Ventaja --</option>`;
+
+    const activePerksString = SPONSORS[currentSponsor] || "";
+    const activePerkTypes = activePerksString !== "Ninguna" ? activePerksString.split(',').map(s => s.trim()) : [];
+
+    if (activePerkTypes.length === 0) {
+      return html + `<option value="" disabled>(Selecciona un patrocinador para habilitar ventajas)</option>`;
+    }
+
+    const equippedPerkNames = (currentPerks || []).map((p, idx) => idx !== currentIndex ? p.name : null).filter(Boolean);
+
+    activePerkTypes.forEach(perkType => {
+      const typeItems = PERKS.filter(p => p.category === perkType);
+      if (typeItems.length > 0) {
+        const cssClass = `grp-pk-${perkType.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
+        html += `<optgroup label="Ventajas de ${perkType}" class="${cssClass}">`;
+
+        typeItems.forEach(p => {
+          let isDisabled = false;
+          const isSelected = p.name === selectedName;
+
+          if (equippedPerkNames.includes(p.name)) isDisabled = true;
+
+          // Condicional especial: Conductor Especialista
+          if (p.name === "Conductor Especialista" && vehicleData) {
+            const isValidWeight = vehicleData.weight === "Ligero" || vehicleData.weight === "Medio";
+            const isValidHandling = vehicleData.handling >= 3;
+            if (!isValidWeight || !isValidHandling) isDisabled = true;
+          }
+
+          let label = `${p.name} (${p.cost} Bid.)`;
+          if (p.cond !== "-") label += ` [${p.cond}]`;
+          if (isDisabled) label += ` (No disponible)`;
+
+          html += `<option value="${p.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+        });
+
+        html += `</optgroup>`;
+      }
+    });
+
+    return html;
+  }
+
   function renderBuilder() {
     const container = document.getElementById('vehiclesList');
     container.innerHTML = '';
@@ -1111,11 +1305,14 @@
     team.forEach((v) => {
       let vData = VEHICLES.find(item => item.name === v.type);
 
+      if (!v.perks) v.perks = [];
+
       // Deshabilitar tipo si viola regla de patrocinador activo
       if (vData && isVehicleDisabledForSponsor(vData, currentSponsor, v.id)) {
         v.type = "";
         v.weapons = [];
         v.upgrades = [];
+        v.perks = [];
         vData = null;
       }
       
@@ -1139,6 +1336,24 @@
           if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ninguna";
           if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ninguna";
           if (u.name === "Vehículo carcelario (especial)" && vData.weight !== "Medio") u.name = "Ninguna";
+        });
+      }
+
+      // Limpieza de ventajas no permitidas por el patrocinador activo o condicionales
+      const activePerksString = SPONSORS[currentSponsor] || "";
+      const activePerkTypes = activePerksString !== "Ninguna" ? activePerksString.split(',').map(s => s.trim()) : [];
+
+      if (v.perks) {
+        v.perks.forEach(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          if (pData) {
+            if (!activePerkTypes.includes(pData.category)) p.name = "Ninguna";
+            if (pData.name === "Conductor Especialista" && vData) {
+              const isValidWeight = vData.weight === "Ligero" || vData.weight === "Medio";
+              const isValidHandling = vData.handling >= 3;
+              if (!isValidWeight || !isValidHandling) p.name = "Ninguna";
+            }
+          }
         });
       }
 
@@ -1175,6 +1390,15 @@
             if (u.name === "Blindaje") armorCount++;
             if (u.name === "Tripulante adicional") extraCrewCount++;
             if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
+          }
+        });
+      }
+
+      if (v.perks) {
+        v.perks.forEach(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          if (pData) {
+            vehicleBidones += pData.cost;
           }
         });
       }
@@ -1357,6 +1581,43 @@
           `;
         });
         innerHTML += `</div>`;
+
+        // SECCIÓN DE VENTAJAS DE PATROCINADOR
+        innerHTML += `
+          <div class="section-block">
+            <div class="section-title">
+              <span>Sección de Ventajas</span>
+              <button class="btn-add" onclick="addPerkToVehicle(${v.id})">+ Añadir Ventaja</button>
+            </div>
+        `;
+
+        v.perks.forEach((p, pIdx) => {
+          const pData = PERKS.find(item => item.name === p.name);
+          const isSelected = pData && pData.name !== "Ninguna";
+
+          innerHTML += `
+            <div class="upgrade-row">
+              <div class="perk-controls">
+                <div>
+                  <label style="font-size: 0.8em; color: var(--text-muted);">Ventaja ${pIdx + 1}:</label>
+                  <select onchange="updatePerkName(${v.id}, ${pIdx}, this.value)">
+                    ${getPerksSelectOptionsHTML(p.name, currentSponsor, vData, v.perks, pIdx)}
+                  </select>
+                </div>
+                <div>
+                  <button class="btn-danger" onclick="removePerkFromVehicle(${v.id}, ${pIdx})">X</button>
+                </div>
+              </div>
+              ${isSelected ? `
+              <div class="weapon-details-badge">
+                <span><b>Tipo:</b> ${pData.category}</span>
+                <span><b>Condicional:</b> ${pData.cond}</span>
+                <span><b>Coste Total:</b> ${pData.cost} Bid.</span>
+              </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona una ventaja de la lista.</div>'}
+            </div>
+          `;
+        });
+        innerHTML += `</div>`;
       }
 
       card.innerHTML = innerHTML;
@@ -1488,6 +1749,15 @@
         });
       }
 
+      if (v.perks) {
+        v.perks.forEach(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          if (pData) {
+            vehicleBidones += pData.cost;
+          }
+        });
+      }
+
       let totalHull = vData.hull + (armorCount * 2);
       if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
         totalHull = Math.max(1, totalHull - 2);
@@ -1568,6 +1838,24 @@
         upgradesRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin mejoras</td></tr>`;
       }
 
+      let perksRowsHTML = '';
+      const activePerksList = v.perks ? v.perks.filter(p => p.name !== "Ninguna") : [];
+      if (activePerksList.length > 0) {
+        activePerksList.forEach(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          if (pData) {
+            perksRowsHTML += `
+              <tr>
+                <td class="left">${pData.name} (${pData.category})</td>
+                <td>${pData.cost} Bid.</td>
+              </tr>
+            `;
+          }
+        });
+      } else {
+        perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
+      }
+
       const cardHTML = `
         <div class="printable-card">
           <div>
@@ -1640,11 +1928,19 @@
                 ${upgradesRowsHTML}
               </tbody>
             </table>
-          </div>
 
-          <div class="card-section-title">Ventajas de Patrocinador</div>
-          <div style="font-size: 5.5pt; text-align: center; border: 0.5px solid #000; padding: 1.5px; margin-bottom: 2px; background: #fafafa;">
-            <b>Ventajas:</b> ${sponsorPerks}
+            <div class="card-section-title">Ventajas Seleccionadas</div>
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th style="text-align:left;">Ventaja</th>
+                  <th>Coste</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${perksRowsHTML}
+              </tbody>
+            </table>
           </div>
 
           <div class="card-footer">
