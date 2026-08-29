@@ -419,16 +419,39 @@
       margin-bottom: 8px;
     }
 
+    .prompt-container-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .prompt-single-block {
+      background: #121212;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 8px;
+    }
+
+    .prompt-block-title {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #ff9800;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .prompt-textarea {
       width: 100%;
-      height: 65px;
-      background: #121212;
+      height: 70px;
+      background: #0a0a0a;
       color: #00ff66;
-      border: 1px solid #444;
+      border: 1px solid #333;
       border-radius: 4px;
       font-family: monospace;
       font-size: 0.78rem;
-      padding: 8px;
+      padding: 6px;
       resize: vertical;
       box-sizing: border-box;
     }
@@ -815,13 +838,12 @@
       </div>
     </div>
 
-    <!-- PANEL DE PROMPT DE IA DE IMAGEN -->
+    <!-- PANEL DE PROMPTS DE IA DE IMAGEN (GENERADO TRAS MOSTRAR LA FICHA) -->
     <div class="prompt-box-panel">
       <div class="prompt-box-header">
-        <span style="font-weight: bold; font-size: 0.9rem; color: #ff5500;">🤖 Prompt para IA de Imagen (ChatGPT / Gemini Imagen / DALL-E / Midjourney)</span>
-        <button onclick="copyAiPrompt()" style="background: #ff5500; font-size: 0.8rem; padding: 4px 10px;">📋 Copiar Prompt Generado</button>
+        <span style="font-weight: bold; font-size: 0.9rem; color: #ff5500;">🤖 Prompts Generados para IA (ChatGPT / Gemini Imagen / Midjourney)</span>
       </div>
-      <textarea id="aiPromptTextarea" class="prompt-textarea" readonly></textarea>
+      <div id="promptContainerList" class="prompt-container-list"></div>
     </div>
 
     <div id="cardsPrintContainer" class="cards-preview-grid"></div>
@@ -1828,31 +1850,100 @@
     return '';
   }
 
-  // GENERACIÓN DE PROMPT PARA IA DE IMAGEN (8K, MAD MAX / GASLANDS)
-  function generateAiPromptText(pagesMode) {
-    const sponsor = document.getElementById('sponsorSelect').value || 'Apocalyptic Gang';
-    const activeVehicles = team.filter(v => v.type !== "").map(v => {
-      const wNames = (v.weapons || []).map(w => w.name).filter(n => n !== "Ninguna").join(', ');
-      return `${v.name} (${v.type}${wNames ? ' equipped with ' + wNames : ''})`;
-    });
-
-    const vehSummary = activeVehicles.length > 0 ? activeVehicles.join('; ') : 'modified post-apocalyptic combat vehicle';
-
-    if (pagesMode === '2pages') {
-      return `An ultra-detailed 8K resolution, photorealistic cinematic concept art of a post-apocalyptic combat vehicle for the tabletop game Gaslands. Vehicles: ${vehSummary}. Team Sponsor Theme: ${sponsor}. The vehicle is fully customized with rusted armor plating, exposed engine pipes, aggressive steel rams, spikes, and mounted heavy weaponry. Desert wasteland background with dust clouds, fire explosions, and intense apocalyptic mood, Mad Max Fury Road style, dramatic volumetric lighting, cinematic color grading, hyper-detailed textures, unreal engine 5 render, 8k resolution. Aspect Ratio formatted perfectly for a vertical card frame (Aspect ratio 63mm x 88mm / Portrait 3:4 or 2:3 ratio).`;
-    } else {
-      return `An ultra-detailed 8K resolution, photorealistic concept art illustration of an apocalyptic battle vehicle for Gaslands. Vehicle setup: ${vehSummary}, aligned with the ${sponsor} faction style. Features heavy metal armor plates, rust, scratches, spiked tires, mounted gatling guns, and flame pipes. Action shot speeding through a desolate wasteland arena with smoke, sparks, and desert dust. Atmospheric cinematic lighting, Mad Max aesthetics, dramatic shot, sharp focus, octane render, 8k resolution. Vertical portrait composition fitting a 63mm x 88mm standard game card.`;
-    }
-  }
-
-  function copyAiPrompt() {
-    const textarea = document.getElementById('aiPromptTextarea');
+  function copySinglePrompt(elemId) {
+    const textarea = document.getElementById(elemId);
     if (!textarea) return;
     textarea.select();
     navigator.clipboard.writeText(textarea.value).then(() => {
-      alert("¡Prompt copiado al portapapeles! Puedes pegarlo en ChatGPT, Gemini Imagen, DALL-E o Midjourney.");
+      alert("¡Prompt copiado al portapapeles!");
     }).catch(err => {
       console.error("Error al copiar: ", err);
+    });
+  }
+
+  // GENERACIÓN DE PROMPTS TRAS RENDERIZAR LAS FICHAS
+  function generatePromptsFromRenderedCards(pagesMode) {
+    const promptContainerList = document.getElementById('promptContainerList');
+    if (!promptContainerList) return;
+    promptContainerList.innerHTML = '';
+
+    const cards = document.querySelectorAll('#cardsPrintContainer .printable-card');
+    if (!cards || cards.length === 0) {
+      promptContainerList.innerHTML = `<div style="font-size:0.8rem; color:#aaa;">No se detectaron fichas para generar prompts.</div>`;
+      return;
+    }
+
+    const sponsorName = document.getElementById('sponsorSelect').value || 'Sin Patrocinador';
+    const teamName = document.getElementById('teamName').value || 'Mi Escudería';
+
+    let promptIndex = 1;
+
+    team.forEach((v, idx) => {
+      const vData = VEHICLES.find(item => item.name === v.type);
+      if (!vData) return;
+
+      const weaponsList = (v.weapons || [])
+        .filter(w => w.name !== "Ninguna")
+        .map(w => `${w.name} (${w.facing || 'Frontal'})`)
+        .join(', ');
+
+      const upgradesList = (v.upgrades || [])
+        .filter(u => u.name !== "Ninguna")
+        .map(u => u.name)
+        .join(', ');
+
+      const perksList = (v.perks || [])
+        .filter(p => p.name !== "Ninguna")
+        .map(p => p.name)
+        .join(', ');
+
+      const vehDescription = `Vehicle Name: "${v.name}" (${vData.name}, Weight Class: ${vData.weight}). Hull Armor: ${vData.hull} HP, Max Gear: ${vData.gear}, Handling: ${vData.handling}, Crew: ${vData.crew}. Faction/Sponsor: ${sponsorName} (Team: ${teamName}). Equipped Weapons: [${weaponsList || 'Handgun only'}]. Upgrades: [${upgradesList || 'None'}]. Perks: [${perksList || 'None'}]. Special Rules: ${vData.rules}.`;
+
+      if (pagesMode === '2pages') {
+        // PROMPT HOJA 1: IMAGEN DE VEHÍCULO
+        const prompt1Text = `[HOJA 1 - VISTA Y ATRIBUTOS DE VEHÍCULO 8K] High-end photorealistic 8K resolution concept art for Gaslands tabletop game. Detailed vehicle illustration: ${vehDescription} The vehicle is visually customized with post-apocalyptic rusty armor plates, aggressive steel rams, heavy exhausts, and mounted weapons. Action shot speeding through a dust-filled wasteland arena, Mad Max Fury Road aesthetic, cinematic dynamic lighting, Unreal Engine 5 render, sharp focus, 8K, vertical portrait orientation matching standard card dimensions (63mm x 88mm ratio).`;
+
+        // PROMPT HOJA 2: EQUIPAMIENTO Y BANNER
+        const prompt2Text = `[HOJA 2 - EQUIPAMIENTO Y ARMAS 8K] Detailed 8K concept art banner and technical visual presentation for Gaslands equipment sheet. Focus on post-apocalyptic weapons and armor upgrades: Weapons equipped: ${weaponsList || 'Pistols'}. Upgrades: ${upgradesList || 'Standard armor'}. Dark industrial rusted metal texture, bullet holes, scorched armor plating, high-contrast dramatic studio lighting, 8k resolution, octane render, stylized tabletop card graphic design background.`;
+
+        const block1 = document.createElement('div');
+        block1.className = 'prompt-single-block';
+        block1.innerHTML = `
+          <div class="prompt-block-title">
+            <span>📷 Prompts para "${v.name}" (Dividido en 2 Hojas)</span>
+          </div>
+          <div style="margin-bottom: 6px;">
+            <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
+              <span>Hoja 1: Ilustración del Vehículo</span>
+              <button onclick="copySinglePrompt('prompt_p1_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 1</button>
+            </div>
+            <textarea id="prompt_p1_${idx}" class="prompt-textarea" readonly>${prompt1Text}</textarea>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
+              <span>Hoja 2: Equipamiento / Concept Art</span>
+              <button onclick="copySinglePrompt('prompt_p2_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 2</button>
+            </div>
+            <textarea id="prompt_p2_${idx}" class="prompt-textarea" readonly>${prompt2Text}</textarea>
+          </div>
+        `;
+        promptContainerList.appendChild(block1);
+
+      } else {
+        // PROMPT ÚNICO PARA 1 HOJA
+        const promptSingleText = `[FICHA 1 HOJA - 8K CONCEPT ART] Ultra-detailed 8K photorealistic illustration of a Gaslands post-apocalyptic combat vehicle card. Vehicle Specs: ${vehDescription} Features customized spiked tires, rusted iron sheets, mounted heavy machine guns and cannons, flames from exhausts, high speed dust clouds in a desert wasteland, cinematic volumetric lighting, Mad Max aesthetic, 8K resolution, detailed textures, Unreal Engine 5 render, perfect vertical card frame aspect ratio (63mm x 88mm).`;
+
+        const block = document.createElement('div');
+        block.className = 'prompt-single-block';
+        block.innerHTML = `
+          <div class="prompt-block-title">
+            <span>📷 Prompt para "${v.name}" (Ficha de 1 Hoja)</span>
+            <button onclick="copySinglePrompt('prompt_s_${idx}')" style="font-size:0.75rem; padding:3px 8px;">📋 Copiar Prompt</button>
+          </div>
+          <textarea id="prompt_s_${idx}" class="prompt-textarea" readonly>${promptSingleText}</textarea>
+        `;
+        promptContainerList.appendChild(block);
+      }
     });
   }
 
@@ -1866,15 +1957,10 @@
 
     container.innerHTML = '';
 
-    // Actualizar prompt para IA
-    const promptArea = document.getElementById('aiPromptTextarea');
-    if (promptArea) {
-      promptArea.value = generateAiPromptText(pagesMode);
-    }
-
     if (team.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
       modal.style.display = 'flex';
+      generatePromptsFromRenderedCards(pagesMode);
       return;
     }
 
@@ -2172,6 +2258,9 @@
     });
 
     modal.style.display = 'flex';
+
+    // Generar prompts recién cuando la ficha ya fue completamente dibujada
+    generatePromptsFromRenderedCards(pagesMode);
   }
 
   function closeCardsModal() {
