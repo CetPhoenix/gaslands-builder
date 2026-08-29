@@ -249,6 +249,8 @@
     button.btn-add:hover { background: #1b5e20; }
     button.btn-print { background: #008CBA; }
     button.btn-print:hover { background: #007399; }
+    button.btn-new-squad { background: #7b1fa2; }
+    button.btn-new-squad:hover { background: #6a1b9a; }
 
     .catalog-panel {
       background: var(--panel-bg);
@@ -621,12 +623,15 @@
   <div class="builder-column">
     <div class="summary-bar">
       <div>
+        <button class="btn-new-squad" onclick="createNewSquadron()">✨ Nuevo Escuadrón</button>
+      </div>
+      <div>
         <label>Escudería: </label>
-        <input type="text" id="teamName" placeholder="Nombre de tu banda" value="Mi Escudería" onchange="renderBuilder()" style="width: 140px;">
+        <input type="text" id="teamName" placeholder="Nombre de tu banda" value="Mi Escudería" onchange="renderBuilder()" style="width: 130px;">
       </div>
       <div>
         <label>Patrocinador: </label>
-        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 210px;">
+        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 200px;">
           <option value="Ninguno">Sin Patrocinador</option>
           <option value="La Alcaidesa">La Alcaidesa</option>
           <option value="Beverly, La Diablesa de la Autopista">Beverly, La Diablesa de la Autopista</option>
@@ -646,7 +651,7 @@
       </div>
       <div>
         <label>Formato: </label>
-        <input type="number" id="maxCansSelect" value="50" min="1" oninput="renderBuilder()" style="width: 75px;">
+        <input type="number" id="maxCansSelect" value="50" min="1" oninput="renderBuilder()" style="width: 65px;">
       </div>
       <div class="total-display">
         Total: <span id="totalBidones">0</span> / <span id="maxBidonesDisplay">50</span> Bid.
@@ -913,6 +918,18 @@
   ];
 
   let team = [];
+
+  function createNewSquadron() {
+    if (team.length > 0) {
+      const confirmReset = confirm("¿Estás seguro de que deseas reiniciar todo? Se eliminarán los vehículos creados.");
+      if (!confirmReset) return;
+    }
+    team = [];
+    document.getElementById('teamName').value = "Mi Escudería";
+    document.getElementById('sponsorSelect').value = "Ninguno";
+    document.getElementById('maxCansSelect').value = "50";
+    renderBuilder();
+  }
 
   function getItemCost(wData, currentSponsor) {
     if (!wData) return 0;
