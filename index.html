@@ -444,7 +444,7 @@
 
     .prompt-textarea {
       width: 100%;
-      height: 70px;
+      height: 90px;
       background: #0a0a0a;
       color: #00ff66;
       border: 1px solid #333;
@@ -838,7 +838,7 @@
       </div>
     </div>
 
-    <!-- PANEL DE PROMPTS DE IA DE IMAGEN (GENERADO TRAS MOSTRAR LA FICHA) -->
+    <!-- PANEL DE PROMPTS DE IA EN ESPAÑOL -->
     <div class="prompt-box-panel">
       <div class="prompt-box-header">
         <span style="font-weight: bold; font-size: 0.9rem; color: #ff5500;">🤖 Prompts Generados para IA (ChatGPT / Gemini Imagen / Midjourney)</span>
@@ -1076,6 +1076,12 @@
     if (weapon.category === "Personal") return true;
     const r = weapon.rules ? weapon.rules.toLowerCase() : "";
     return r.includes("360º") || r.includes("360 grados");
+  }
+
+  function getAmmoCountFromRules(rules) {
+    if (!rules) return 0;
+    const match = rules.match(/munición\s*(\d+)/i) || rules.match(/municion\s*(\d+)/i);
+    return (match && match[1]) ? parseInt(match[1]) : 0;
   }
 
   function renderCatalog() {
@@ -1838,9 +1844,8 @@
 
   function getAmmoBoxesHTML(rules) {
     if (!rules) return '';
-    const match = rules.match(/munición\s*(\d+)/i) || rules.match(/municion\s*(\d+)/i);
-    if (match && match[1]) {
-      const count = parseInt(match[1]);
+    const count = getAmmoCountFromRules(rules);
+    if (count > 0) {
       let boxes = '';
       for (let i = 0; i < count; i++) {
         boxes += `<span class="card-ammo-box"></span>`;
@@ -1861,7 +1866,7 @@
     });
   }
 
-  // GENERACIÓN DE PROMPTS TRAS RENDERIZAR LAS FICHAS
+  // GENERACIÓN DE PROMPTS 100% EN ESPAÑOL TRAS MOSTRAR LA FICHA
   function generatePromptsFromRenderedCards(pagesMode) {
     const promptContainerList = document.getElementById('promptContainerList');
     if (!promptContainerList) return;
@@ -1876,35 +1881,137 @@
     const sponsorName = document.getElementById('sponsorSelect').value || 'Sin Patrocinador';
     const teamName = document.getElementById('teamName').value || 'Mi Escudería';
 
-    let promptIndex = 1;
-
     team.forEach((v, idx) => {
       const vData = VEHICLES.find(item => item.name === v.type);
       if (!vData) return;
 
-      const weaponsList = (v.weapons || [])
-        .filter(w => w.name !== "Ninguna")
-        .map(w => `${w.name} (${w.facing || 'Frontal'})`)
-        .join(', ');
+      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
+      let armorCount = 0;
+      let extraCrewCount = 0;
+      let hasMicroPlacas = false;
 
-      const upgradesList = (v.upgrades || [])
-        .filter(u => u.name !== "Ninguna")
-        .map(u => u.name)
-        .join(', ');
+      if (v.upgrades) {
+        v.upgrades.forEach(u => {
+          if (u.name === "Blindaje") armorCount++;
+          if (u.name === "Tripulante adicional") extraCrewCount++;
+          if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
+        });
+      }
 
-      const perksList = (v.perks || [])
-        .filter(p => p.name !== "Ninguna")
-        .map(p => p.name)
-        .join(', ');
+      let totalHull = vData.hull + (armorCount * 2);
+      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
+        totalHull = Math.max(1, totalHull - 2);
+      }
+      if (sponsorName === "Verney" && hasMicroPlacas) {
+        totalHull += 2;
+      }
 
-      const vehDescription = `Vehicle Name: "${v.name}" (${vData.name}, Weight Class: ${vData.weight}). Hull Armor: ${vData.hull} HP, Max Gear: ${vData.gear}, Handling: ${vData.handling}, Crew: ${vData.crew}. Faction/Sponsor: ${sponsorName} (Team: ${teamName}). Equipped Weapons: [${weaponsList || 'Handgun only'}]. Upgrades: [${upgradesList || 'None'}]. Perks: [${perksList || 'None'}]. Special Rules: ${vData.rules}.`;
+      const totalCrew = vData.crew + extraCrewCount;
+
+      let vehicleBidones = vData.bidones;
+      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
+        vehicleBidones = Math.max(5, vehicleBidones - 4);
+      }
+
+      // CONSTRUCCIÓN DE DETALLES DE ARMAS
+      let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid.`;
+      
+      if (v.weapons) {
+        v.weapons.forEach((w, wIdx) => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData && wData.name !== "Ninguna") {
+            let cost = getItemCost(wData, sponsorName);
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            vehicleBidones += cost;
+
+            const rulesText = getWeaponRules(wData, sponsorName);
+            const ammoCount = getAmmoCountFromRules(rulesText);
+            const ammoString = ammoCount > 0 ? ` [Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}]` : '';
+
+            weaponsText += `\n${wIdx + 2}. ${wData.name}${ammoString} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} Bid.`;
+          }
+        });
+      }
+
+      // CONSTRUCCIÓN DE DETALLES DE MEJORAS
+      let upgradesText = 'Sin mejoras equipadas';
+      const activeUpgrades = v.upgrades ? v.upgrades.filter(u => u.name !== "Ninguna") : [];
+      if (activeUpgrades.length > 0) {
+        upgradesText = activeUpgrades.map(u => {
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (!uData) return '';
+          const cost = getItemCost(uData, sponsorName);
+          const ammoCount = getAmmoCountFromRules(uData.rules);
+          const ammoString = ammoCount > 0 ? ` [Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}]` : '';
+          return `- ${uData.name}${ammoString} | Costo: ${cost} Bid. (Efecto: ${uData.rules})`;
+        }).join('\n');
+      }
+
+      // CONSTRUCCIÓN DE DETALLES DE VENTAJAS
+      let perksText = 'Sin ventajas equipadas';
+      const activePerksList = v.perks ? v.perks.filter(p => p.name !== "Ninguna") : [];
+      if (activePerksList.length > 0) {
+        perksText = activePerksList.map(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          return pData ? `- ${pData.name} (${pData.category}) | Costo: ${pData.cost} Bid.` : '';
+        }).join('\n');
+      }
+
+      const hullBoxesString = ' [ ]'.repeat(totalHull);
+
+      const headerStatsSpanish = `
+DATOS Y ESTADÍSTICAS DEL VEHÍCULO:
+- Nombre del Vehículo: "${v.name}"
+- Escudería: ${teamName} | Patrocinador: ${sponsorName} | Costo Total: ${vehicleBidones} Bid.
+- Tipo de Vehículo: ${vData.name} (Peso ${vData.weight})
+- Atributos Básicos: Marcha Máx: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
+- Carrocería (${totalHull} PC): Muestra exactamente ${totalHull} casillas cuadradas interactivas para marcar daño: ${hullBoxesString}
+- Reglas Especiales: ${vData.rules}
+
+ARMAS EQUIPADAS (Incluir tabla con Alcance, Ataque, Encaramiento y Costo):
+${weaponsText}
+
+MEJORAS DE VEHÍCULO (Incluir tabla con Nombre y Costo):
+${upgradesText}
+
+VENTAJAS SELECCIONADAS (Incluir tabla con Nombre y Costo):
+${perksText}
+`;
 
       if (pagesMode === '2pages') {
-        // PROMPT HOJA 1: IMAGEN DE VEHÍCULO
-        const prompt1Text = `[HOJA 1 - VISTA Y ATRIBUTOS DE VEHÍCULO 8K] High-end photorealistic 8K resolution concept art for Gaslands tabletop game. Detailed vehicle illustration: ${vehDescription} The vehicle is visually customized with post-apocalyptic rusty armor plates, aggressive steel rams, heavy exhausts, and mounted weapons. Action shot speeding through a dust-filled wasteland arena, Mad Max Fury Road aesthetic, cinematic dynamic lighting, Unreal Engine 5 render, sharp focus, 8K, vertical portrait orientation matching standard card dimensions (63mm x 88mm ratio).`;
+        const prompt1Spanish = `Diseña una imagen e ilustración técnica en calidad 8K para la HOJA 1 de una ficha de vehículo de juego de mesa estilo Gaslands Refuelled. La ficha debe ser de formato vertical (medidas 63mm x 88mm) totalmente en ESPAÑOL.
 
-        // PROMPT HOJA 2: EQUIPAMIENTO Y BANNER
-        const prompt2Text = `[HOJA 2 - EQUIPAMIENTO Y ARMAS 8K] Detailed 8K concept art banner and technical visual presentation for Gaslands equipment sheet. Focus on post-apocalyptic weapons and armor upgrades: Weapons equipped: ${weaponsList || 'Pistols'}. Upgrades: ${upgradesList || 'Standard armor'}. Dark industrial rusted metal texture, bullet holes, scorched armor plating, high-contrast dramatic studio lighting, 8k resolution, octane render, stylized tabletop card graphic design background.`;
+${headerStatsSpanish}
+
+ESTRUCTURA DE LA HOJA 1:
+1. Cabecera superior con los datos de Escudería, Patrocinador y Costo Total en Bidones.
+2. Título destacado con el nombre "${v.name}", Tipo: ${vData.name} y Peso: ${vData.weight}.
+3. Cuadrícula con las características principales: Marcha (${vData.gear}), Peligro [ ], Maniobra (${vData.handling}), Tripulación (${totalCrew}).
+4. Sección de CarrocerÍA (${totalHull} PC) mostrando la fila de ${totalHull} casillas/cuadrados en blanco.
+5. Cuadro central con una ilustración hiperrealista 8K del vehículo en el desierto postapocalíptico estilo Mad Max Fury Road.
+6. Pie de página con el texto: "HOJA 1 / 2 - ATRIBUTOS" y "Nexo Alpha - Gaslands Refuelled".`;
+
+        const prompt2Spanish = `Diseña una ficha de equipamiento técnico en calidad 8K para la HOJA 2 del vehículo "${v.name}" del juego Gaslands Refuelled. Formato vertical (63mm x 88mm) totalmente redactado en ESPAÑOL.
+
+DATOS DEL VEHÍCULO:
+- Vehículo: ${v.name} | Escudería: ${teamName} | Costo: ${vehicleBidones} Bid.
+
+ESTRUCTURA DE LA HOJA 2:
+1. Tabla completa de ARMAS EQUIPADAS mostrando columnas para: Arma, Alcance, Ataque, Encaramiento y Costo en Bidones. Si el arma requiere munición, incluye las casillas en blanco "Mun (X): [ ]".
+2. Tabla de MEJORAS DE VEHÍCULO con columnas para Mejora y Costo en Bidones.
+3. Tabla de VENTAJAS SELECCIONADAS con columnas para Ventaja y Costo en Bidones.
+
+DESGLOSE DE EQUIPAMIENTO A MOSTRAR:
+ARMAS:
+${weaponsText}
+
+MEJORAS:
+${upgradesText}
+
+VENTAJAS:
+${perksText}
+
+4. Pie de página con el texto: "HOJA 2 / 2 - EQUIPAMIENTO" y "Nexo Alpha - Gaslands Refuelled". Estilo visual postapocalíptico, chapa de metal oxidada, tipografía clara y limpia.`;
 
         const block1 = document.createElement('div');
         block1.className = 'prompt-single-block';
@@ -1914,24 +2021,33 @@
           </div>
           <div style="margin-bottom: 6px;">
             <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 1: Ilustración del Vehículo</span>
+              <span>Hoja 1: Ilustración y Atributos</span>
               <button onclick="copySinglePrompt('prompt_p1_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 1</button>
             </div>
-            <textarea id="prompt_p1_${idx}" class="prompt-textarea" readonly>${prompt1Text}</textarea>
+            <textarea id="prompt_p1_${idx}" class="prompt-textarea" readonly>${prompt1Spanish}</textarea>
           </div>
           <div>
             <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 2: Equipamiento / Concept Art</span>
+              <span>Hoja 2: Equipamiento, Armas y Casillas de Munición</span>
               <button onclick="copySinglePrompt('prompt_p2_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 2</button>
             </div>
-            <textarea id="prompt_p2_${idx}" class="prompt-textarea" readonly>${prompt2Text}</textarea>
+            <textarea id="prompt_p2_${idx}" class="prompt-textarea" readonly>${prompt2Spanish}</textarea>
           </div>
         `;
         promptContainerList.appendChild(block1);
 
       } else {
-        // PROMPT ÚNICO PARA 1 HOJA
-        const promptSingleText = `[FICHA 1 HOJA - 8K CONCEPT ART] Ultra-detailed 8K photorealistic illustration of a Gaslands post-apocalyptic combat vehicle card. Vehicle Specs: ${vehDescription} Features customized spiked tires, rusted iron sheets, mounted heavy machine guns and cannons, flames from exhausts, high speed dust clouds in a desert wasteland, cinematic volumetric lighting, Mad Max aesthetic, 8K resolution, detailed textures, Unreal Engine 5 render, perfect vertical card frame aspect ratio (63mm x 88mm).`;
+        const promptSingleSpanish = `Genera la imagen de una ficha completa de vehículo en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical de carta de juego (63mm x 88mm) redactada ÍNTEGRAMENTE EN ESPAÑOL.
+
+${headerStatsSpanish}
+
+INSTRUCCIONES DE DISEÑO:
+1. Cabecera con Escudería, Patrocinador y Costo Total en Bidones.
+2. Atributos en cuadrícula (Marcha, Peligro, Maniobra, Tripulación).
+3. Sección de Carrocería con exactamente ${totalHull} casillas cuadradas en blanco.
+4. Tabla de Armas Equipadas indicando Nombre, Alcance, Ataque, Encaramiento, Costo en Bidones y las casillas de munición en blanco "Mun (X): [ ]".
+5. Tabla de Mejoras de Vehículo y Tabla de Ventajas Seleccionadas con sus respectivos costos en Bidones.
+6. Estilo estético postapocalíptico, bordes gastados, hierro oxidado, alta resolución 8K y texto en español totalmente legible. Pie de página: "Nexo Alpha - Gaslands Refuelled".`;
 
         const block = document.createElement('div');
         block.className = 'prompt-single-block';
@@ -1940,7 +2056,7 @@
             <span>📷 Prompt para "${v.name}" (Ficha de 1 Hoja)</span>
             <button onclick="copySinglePrompt('prompt_s_${idx}')" style="font-size:0.75rem; padding:3px 8px;">📋 Copiar Prompt</button>
           </div>
-          <textarea id="prompt_s_${idx}" class="prompt-textarea" readonly>${promptSingleText}</textarea>
+          <textarea id="prompt_s_${idx}" class="prompt-textarea" readonly>${promptSingleSpanish}</textarea>
         `;
         promptContainerList.appendChild(block);
       }
@@ -2259,7 +2375,7 @@
 
     modal.style.display = 'flex';
 
-    // Generar prompts recién cuando la ficha ya fue completamente dibujada
+    // Generar los prompts en español con casillas y estadísticas tras dibujar la ficha
     generatePromptsFromRenderedCards(pagesMode);
   }
 
