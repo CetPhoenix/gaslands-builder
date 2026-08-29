@@ -786,6 +786,7 @@
     
     // MEJORAS ESPECIALES DE PATROCINADORES
     { name: "Vehículo carcelario (especial)", category: "Mejora", range: "-", attack: "-", rules: "-4 BD al coste base, -2 PC. Solo Peso Medio.", slots: 0, bidones: 0, sponsor: "La Alcaidesa" },
+    { name: "Sirena Mejorada", category: "Mejora", range: "-", attack: "-", rules: "Sustituye 'bandido' por 'cualquier vehículo enemigo'", slots: 0, bidones: 2, sponsor: "La Patrulla de la Autopista" },
     { name: "Blindaje de micro placas", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 0, bidones: 6, sponsor: "Verney" }
   ];
 
@@ -795,6 +796,7 @@
     if (!wData) return 0;
     if (currentSponsor === "Idris" && wData.name === "Impulsor de nitrometano") return 3;
     if (currentSponsor === "Scarlett" && wData.name === "Tripulante adicional") return 2;
+    if (wData.name === "Sirena Mejorada") return 2;
     if (wData.name === "Blindaje de micro placas") return 6;
     if (wData.name === "Vehículo carcelario (especial)") return 0;
     return wData.bidones || 0;
@@ -803,6 +805,7 @@
   function getItemSlots(wData, currentSponsor) {
     if (!wData) return 0;
     if (currentSponsor === "Slime" && wData.name === "Ariete") return 0;
+    if (wData.name === "Sirena Mejorada") return 0;
     if (wData.name === "Blindaje de micro placas") return 0;
     if (wData.name === "Vehículo carcelario (especial)") return 0;
     return wData.slots || 0;
@@ -1058,6 +1061,7 @@
       "Teleportador experimental",
       "Tubo lanzamierdas",
       "Vehículo carcelario (especial)",
+      "Sirena Mejorada",
       "Blindaje de micro placas"
     ];
 
