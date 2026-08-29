@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V1.1</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -444,7 +444,7 @@
 
     .prompt-textarea {
       width: 100%;
-      height: 90px;
+      height: 100px;
       background: #0a0a0a;
       color: #00ff66;
       border: 1px solid #333;
@@ -838,7 +838,7 @@
       </div>
     </div>
 
-    <!-- PANEL DE PROMPTS DE IA EN ESPAÑOL -->
+    <!-- PANEL DE PROMPTS DE IA DINÁMICOS -->
     <div class="prompt-box-panel">
       <div class="prompt-box-header">
         <span style="font-weight: bold; font-size: 0.9rem; color: #ff5500;">🤖 Prompts Generados para IA (ChatGPT / Gemini Imagen / Midjourney)</span>
@@ -1866,7 +1866,7 @@
     });
   }
 
-  // GENERACIÓN DE PROMPTS 100% EN ESPAÑOL TRAS MOSTRAR LA FICHA
+  // GENERACIÓN EXCLUSIVA DE PROMPTS SEGÚN FORMATO TRAS MOSTRAR LA FICHA
   function generatePromptsFromRenderedCards(pagesMode) {
     const promptContainerList = document.getElementById('promptContainerList');
     if (!promptContainerList) return;
@@ -1913,8 +1913,8 @@
         vehicleBidones = Math.max(5, vehicleBidones - 4);
       }
 
-      // CONSTRUCCIÓN DE DETALLES DE ARMAS
-      let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid.`;
+      // ARMAS Y MUNICIÓN
+      let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid. [Icono/Imagen referencial de pistola]`;
       
       if (v.weapons) {
         v.weapons.forEach((w, wIdx) => {
@@ -1926,14 +1926,14 @@
 
             const rulesText = getWeaponRules(wData, sponsorName);
             const ammoCount = getAmmoCountFromRules(rulesText);
-            const ammoString = ammoCount > 0 ? ` [Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}]` : '';
+            const ammoString = ammoCount > 0 ? ` | CASILLAS DE MUNICIÓN: Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}` : '';
 
-            weaponsText += `\n${wIdx + 2}. ${wData.name}${ammoString} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} Bid.`;
+            weaponsText += `\n${wIdx + 2}. ${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} Bid.${ammoString} [Incluir icono/imagen referencial de ${wData.name}]`;
           }
         });
       }
 
-      // CONSTRUCCIÓN DE DETALLES DE MEJORAS
+      // MEJORAS
       let upgradesText = 'Sin mejoras equipadas';
       const activeUpgrades = v.upgrades ? v.upgrades.filter(u => u.name !== "Ninguna") : [];
       if (activeUpgrades.length > 0) {
@@ -1942,93 +1942,71 @@
           if (!uData) return '';
           const cost = getItemCost(uData, sponsorName);
           const ammoCount = getAmmoCountFromRules(uData.rules);
-          const ammoString = ammoCount > 0 ? ` [Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}]` : '';
-          return `- ${uData.name}${ammoString} | Costo: ${cost} Bid. (Efecto: ${uData.rules})`;
+          const ammoString = ammoCount > 0 ? ` | CASILLAS DE MUNICIÓN: Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}` : '';
+          return `- ${uData.name} | Costo: ${cost} Bid. (Efecto: ${uData.rules})${ammoString} [Incluir icono/imagen referencial de ${uData.name}]`;
         }).join('\n');
       }
 
-      // CONSTRUCCIÓN DE DETALLES DE VENTAJAS
+      // VENTAJAS
       let perksText = 'Sin ventajas equipadas';
       const activePerksList = v.perks ? v.perks.filter(p => p.name !== "Ninguna") : [];
       if (activePerksList.length > 0) {
         perksText = activePerksList.map(p => {
           const pData = PERKS.find(item => item.name === p.name);
-          return pData ? `- ${pData.name} (${pData.category}) | Costo: ${pData.cost} Bid.` : '';
+          return pData ? `- ${pData.name} (${pData.category}) | Costo: ${pData.cost} Bid. [Incluir icono/imagen referencial de la ventaja]` : '';
         }).join('\n');
       }
 
       const hullBoxesString = ' [ ]'.repeat(totalHull);
 
-      const headerStatsSpanish = `
-DATOS Y ESTADÍSTICAS DEL VEHÍCULO:
-- Nombre del Vehículo: "${v.name}"
-- Escudería: ${teamName} | Patrocinador: ${sponsorName} | Costo Total: ${vehicleBidones} Bid.
-- Tipo de Vehículo: ${vData.name} (Peso ${vData.weight})
-- Atributos Básicos: Marcha Máx: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
-- Carrocería (${totalHull} PC): Muestra exactamente ${totalHull} casillas cuadradas interactivas para marcar daño: ${hullBoxesString}
-- Reglas Especiales: ${vData.rules}
-
-ARMAS EQUIPADAS (Incluir tabla con Alcance, Ataque, Encaramiento y Costo):
-${weaponsText}
-
-MEJORAS DE VEHÍCULO (Incluir tabla con Nombre y Costo):
-${upgradesText}
-
-VENTAJAS SELECCIONADAS (Incluir tabla con Nombre y Costo):
-${perksText}
-`;
-
       if (pagesMode === '2pages') {
-        const prompt1Spanish = `Diseña una imagen e ilustración técnica en calidad 8K para la HOJA 1 de una ficha de vehículo de juego de mesa estilo Gaslands Refuelled. La ficha debe ser de formato vertical (medidas 63mm x 88mm) totalmente en ESPAÑOL.
+        // PROMPT EXCLUSIVO Y SÓLO CON DATOS DE HOJA 1
+        const prompt1Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo de juego de mesa Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
-${headerStatsSpanish}
+SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
+- Cabecera: Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
+- Título: "${v.name}" (${vData.name} - Peso ${vData.weight})
+- Reglas Especiales del Vehículo: ${vData.rules}
+- Cuadrícula de Estadísticas: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
+- Sección de CARROCERÍA (${totalHull} PC): Dibujar exactamente una fila de ${totalHull} casillas/cuadrados en blanco para marcar daño: ${hullBoxesString}
+- Sección Central (Ilustración del Vehículo): Cuadro con la vista conceptual e ilustración hiperrealista 8K del vehículo "${v.name}" en un desierto postapocalíptico estilo Mad Max.
+- Pie de Página: "HOJA 1 / 2 - ATRIBUTOS" | "Nexo Alpha - Gaslands Refuelled"`;
 
-ESTRUCTURA DE LA HOJA 1:
-1. Cabecera superior con los datos de Escudería, Patrocinador y Costo Total en Bidones.
-2. Título destacado con el nombre "${v.name}", Tipo: ${vData.name} y Peso: ${vData.weight}.
-3. Cuadrícula con las características principales: Marcha (${vData.gear}), Peligro [ ], Maniobra (${vData.handling}), Tripulación (${totalCrew}).
-4. Sección de CarrocerÍA (${totalHull} PC) mostrando la fila de ${totalHull} casillas/cuadrados en blanco.
-5. Cuadro central con una ilustración hiperrealista 8K del vehículo en el desierto postapocalíptico estilo Mad Max Fury Road.
-6. Pie de página con el texto: "HOJA 1 / 2 - ATRIBUTOS" y "Nexo Alpha - Gaslands Refuelled".`;
+        // PROMPT EXCLUSIVO Y SÓLO CON DATOS DE HOJA 2
+        const prompt2Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
-        const prompt2Spanish = `Diseña una ficha de equipamiento técnico en calidad 8K para la HOJA 2 del vehículo "${v.name}" del juego Gaslands Refuelled. Formato vertical (63mm x 88mm) totalmente redactado en ESPAÑOL.
+SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 2:
+- Cabecera: ESC: "${teamName}" | VEHÍCULO: "${v.name}" | Costo: ${vehicleBidones} BID.
 
-DATOS DEL VEHÍCULO:
-- Vehículo: ${v.name} | Escudería: ${teamName} | Costo: ${vehicleBidones} Bid.
-
-ESTRUCTURA DE LA HOJA 2:
-1. Tabla completa de ARMAS EQUIPADAS mostrando columnas para: Arma, Alcance, Ataque, Encaramiento y Costo en Bidones. Si el arma requiere munición, incluye las casillas en blanco "Mun (X): [ ]".
-2. Tabla de MEJORAS DE VEHÍCULO con columnas para Mejora y Costo en Bidones.
-3. Tabla de VENTAJAS SELECCIONADAS con columnas para Ventaja y Costo en Bidones.
-
-DESGLOSE DE EQUIPAMIENTO A MOSTRAR:
-ARMAS:
+SECCIÓN 1 - TABLA DE ARMAS EQUIPADAS (Columnas: Arma + Imagen Referencial, Alcance, Ataque, Encaramiento, Costo):
 ${weaponsText}
 
-MEJORAS:
+SECCIÓN 2 - TABLA DE MEJORAS DE VEHÍCULO (Columnas: Mejora + Imagen Referencial, Costo):
 ${upgradesText}
 
-VENTAJAS:
+SECCIÓN 3 - TABLA DE VENTAJAS SELECCIONADAS (Columnas: Ventaja + Imagen Referencial, Costo):
 ${perksText}
 
-4. Pie de página con el texto: "HOJA 2 / 2 - EQUIPAMIENTO" y "Nexo Alpha - Gaslands Refuelled". Estilo visual postapocalíptico, chapa de metal oxidada, tipografía clara y limpia.`;
+INSTRUCCIÓN CLAVE PARA CASILLAS EN HOJA 2:
+- Para cada arma o mejora que contenga casillas de munición, dibujar explícitamente los recuadros vacíos "Mun (X): [ ] [ ]" tal como se indica en los datos.
+- Pie de Página: "HOJA 2 / 2 - EQUIPAMIENTO" | "Nexo Alpha - Gaslands Refuelled"`;
 
         const block1 = document.createElement('div');
         block1.className = 'prompt-single-block';
         block1.innerHTML = `
           <div class="prompt-block-title">
-            <span>📷 Prompts para "${v.name}" (Dividido en 2 Hojas)</span>
+            <span>📷 Prompts para "${v.name}" (Dividido en 2 Hojas Independientes)</span>
           </div>
           <div style="margin-bottom: 6px;">
             <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 1: Ilustración y Atributos</span>
+              <span>Hoja 1: Atributos, Carrocería y Vista del Vehículo</span>
               <button onclick="copySinglePrompt('prompt_p1_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 1</button>
             </div>
             <textarea id="prompt_p1_${idx}" class="prompt-textarea" readonly>${prompt1Spanish}</textarea>
           </div>
           <div>
             <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 2: Equipamiento, Armas y Casillas de Munición</span>
+              <span>Hoja 2: Equipamiento, Armas, Imágenes y Munición</span>
               <button onclick="copySinglePrompt('prompt_p2_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 2</button>
             </div>
             <textarea id="prompt_p2_${idx}" class="prompt-textarea" readonly>${prompt2Spanish}</textarea>
@@ -2037,23 +2015,34 @@ ${perksText}
         promptContainerList.appendChild(block1);
 
       } else {
-        const promptSingleSpanish = `Genera la imagen de una ficha completa de vehículo en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical de carta de juego (63mm x 88mm) redactada ÍNTEGRAMENTE EN ESPAÑOL.
+        // PROMPT COMPLETO PARA 1 HOJA POR FICHA
+        const promptSingleSpanish = `Diseña la imagen de una FICHA ÚNICA COMPLETA en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical de carta (63mm x 88mm) totalmente redactada EN ESPAÑOL.
 
-${headerStatsSpanish}
+DATOS MOSTRADOS EN LA FICHA COMPLETA:
+- Cabecera: Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
+- Título: "${v.name}" (${vData.name} - Peso ${vData.weight})
+- Reglas Especiales: ${vData.rules}
+- Cuadrícula de Atributos: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
+- CARROCERÍA (${totalHull} PC): Fila visible con exactamente ${totalHull} casillas/cuadrados en blanco: ${hullBoxesString}
 
-INSTRUCCIONES DE DISEÑO:
-1. Cabecera con Escudería, Patrocinador y Costo Total en Bidones.
-2. Atributos en cuadrícula (Marcha, Peligro, Maniobra, Tripulación).
-3. Sección de Carrocería con exactamente ${totalHull} casillas cuadradas en blanco.
-4. Tabla de Armas Equipadas indicando Nombre, Alcance, Ataque, Encaramiento, Costo en Bidones y las casillas de munición en blanco "Mun (X): [ ]".
-5. Tabla de Mejoras de Vehículo y Tabla de Ventajas Seleccionadas con sus respectivos costos en Bidones.
-6. Estilo estético postapocalíptico, bordes gastados, hierro oxidado, alta resolución 8K y texto en español totalmente legible. Pie de página: "Nexo Alpha - Gaslands Refuelled".`;
+TABLA DE ARMAS EQUIPADAS (Con Alcance, Ataque, Encaramiento, Costo, Casillas de Munición e Imágenes/Iconos Referenciales):
+${weaponsText}
+
+TABLA DE MEJORAS DE VEHÍCULO (Con Costo, Casillas de Munición e Imágenes Referenciales):
+${upgradesText}
+
+TABLA DE VENTAJAS SELECCIONADAS (Con Costo e Imágenes Referenciales):
+${perksText}
+
+REQUISITOS VISUALES:
+- Incluir pequeños iconos e imágenes referenciales ilustradas para cada arma, mejora y ventaja.
+- Mantener bordes gastados estilo postapocalíptico y chapa de metal oxidado. Pie de página: "Nexo Alpha - Gaslands Refuelled".`;
 
         const block = document.createElement('div');
         block.className = 'prompt-single-block';
         block.innerHTML = `
           <div class="prompt-block-title">
-            <span>📷 Prompt para "${v.name}" (Ficha de 1 Hoja)</span>
+            <span>📷 Prompt para "${v.name}" (Ficha Completa de 1 Hoja)</span>
             <button onclick="copySinglePrompt('prompt_s_${idx}')" style="font-size:0.75rem; padding:3px 8px;">📋 Copiar Prompt</button>
           </div>
           <textarea id="prompt_s_${idx}" class="prompt-textarea" readonly>${promptSingleSpanish}</textarea>
@@ -2375,7 +2364,7 @@ INSTRUCCIONES DE DISEÑO:
 
     modal.style.display = 'flex';
 
-    // Generar los prompts en español con casillas y estadísticas tras dibujar la ficha
+    // Generar prompts dinámicos adaptados al selector tras procesar la ficha
     generatePromptsFromRenderedCards(pagesMode);
   }
 
