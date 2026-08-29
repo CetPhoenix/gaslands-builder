@@ -209,7 +209,6 @@
     optgroup.grp-a-descarga { color: var(--cat-arm-descarga); font-weight: bold; }
     optgroup.grp-m-vehiculo { color: var(--cat-mejora-veh); font-weight: bold; }
 
-    /* Clases para Optgroups de Ventajas */
     optgroup.grp-pk-agresivo { color: var(--perk-agresivo); font-weight: bold; }
     optgroup.grp-pk-aterrador { color: var(--perk-aterrador); font-weight: bold; }
     optgroup.grp-pk-intrepido { color: var(--perk-intrepido); font-weight: bold; }
@@ -351,7 +350,6 @@
 
     .sponsor-badge { color: #FF9800; font-weight: bold; font-size: 0.8rem; }
 
-    /* ESTILOS DE IMAGEN DE VEHÍCULO */
     .vehicle-image-input-container {
       margin-top: 10px;
       background: #242424;
@@ -405,6 +403,36 @@
       color: #fff;
     }
 
+    .prompt-box-panel {
+      background: #1e1e1e;
+      border: 1px solid #ff5500;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 15px;
+      color: #f0f0f0;
+    }
+
+    .prompt-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .prompt-textarea {
+      width: 100%;
+      height: 65px;
+      background: #121212;
+      color: #00ff66;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      padding: 8px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
     .cards-preview-grid {
       display: flex;
       flex-wrap: wrap;
@@ -448,11 +476,6 @@
       border-radius: 3mm;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       page-break-inside: avoid;
-    }
-
-    .printable-card.horizontal {
-      width: 88mm;
-      height: 63mm;
     }
 
     .card-top-bar {
@@ -629,7 +652,7 @@
       color: #444;
     }
 
-    /* REGLAS CSS PARA IMPRESIÓN A4 Y DISTRIBUCIÓN DE FICHAS */
+    /* REGLAS CSS PARA IMPRESIÓN A4 */
     @media print {
       @page {
         size: A4 portrait;
@@ -640,7 +663,7 @@
         color: #000 !important;
         padding: 0 !important;
       }
-      header, .main-layout, .modal-header-actions {
+      header, .main-layout, .modal-header-actions, .prompt-box-panel {
         display: none !important;
       }
       .modal-overlay {
@@ -663,9 +686,6 @@
         gap: 4mm 6mm !important;
         justify-content: start !important;
         transform: scale(1) !important;
-      }
-      .cards-preview-grid.horizontal-grid {
-        grid-template-columns: repeat(2, 88mm) !important;
       }
       .printable-card {
         box-shadow: none !important;
@@ -774,15 +794,8 @@
   <div class="modal-content">
     <div class="modal-header-actions">
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <h3 style="margin: 0; color: #fff;">Fichas de Vehículos</h3>
+        <h3 style="margin: 0; color: #fff;">Fichas de Vehículos (63mm x 88mm)</h3>
         
-        <!-- Opciones de Configuración de Ficha -->
-        <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Orientación:</label>
-        <select id="cardOrientationSelect" onchange="openCardsModal()" style="width: 120px; padding: 4px 8px; font-size: 0.85rem;">
-          <option value="vertical">Vertical</option>
-          <option value="horizontal">Horizontal</option>
-        </select>
-
         <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Formato:</label>
         <select id="cardPagesSelect" onchange="openCardsModal()" style="width: 150px; padding: 4px 8px; font-size: 0.85rem;">
           <option value="1page">1 Hoja por Ficha</option>
@@ -801,6 +814,16 @@
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
     </div>
+
+    <!-- PANEL DE PROMPT DE IA DE IMAGEN -->
+    <div class="prompt-box-panel">
+      <div class="prompt-box-header">
+        <span style="font-weight: bold; font-size: 0.9rem; color: #ff5500;">🤖 Prompt para IA de Imagen (ChatGPT / Gemini Imagen / DALL-E / Midjourney)</span>
+        <button onclick="copyAiPrompt()" style="background: #ff5500; font-size: 0.8rem; padding: 4px 10px;">📋 Copiar Prompt Generado</button>
+      </div>
+      <textarea id="aiPromptTextarea" class="prompt-textarea" readonly></textarea>
+    </div>
+
     <div id="cardsPrintContainer" class="cards-preview-grid"></div>
   </div>
 </div>
@@ -910,84 +933,72 @@
   ];
 
   const PERKS = [
-    // Agresivo
     { name: "Cañón doble", category: "Agresivo", cost: 2, cond: "-" },
     { name: "Lunático Aterrador", category: "Agresivo", cost: 5, cond: "-" },
     { name: "Martillo de guerra", category: "Agresivo", cost: 4, cond: "-" },
     { name: "Pelotón de Abordaje", category: "Agresivo", cost: 2, cond: "-" },
     { name: "Tractor Asesino", category: "Agresivo", cost: 5, cond: "-" },
     { name: "Trituradora", category: "Agresivo", cost: 5, cond: "-" },
-    // Aterrador
     { name: "Ángel de la Muerte", category: "Aterrador", cost: 4, cond: "-" },
     { name: "Autopista al Infierno", category: "Aterrador", cost: 2, cond: "-" },
     { name: "Llamas Purificadoras", category: "Aterrador", cost: 1, cond: "-" },
     { name: "Manifestación Violenta", category: "Aterrador", cost: 3, cond: "-" },
     { name: "Simpatía por el Diablo", category: "Aterrador", cost: 1, cond: "-" },
     { name: "Visiones Eufóricas", category: "Aterrador", cost: 1, cond: "-" },
-    // Intrépido
     { name: "Artista del Freno de Mano", category: "Intrépido", cost: 3, cond: "-" },
     { name: "Conductor Especialista", category: "Intrépido", cost: 7, cond: "Solo para vehículos ligeros o medios con maniobra 3 o más" },
     { name: "Derrape Poderoso", category: "Intrépido", cost: 5, cond: "-" },
     { name: "Encantador del Cromo", category: "Intrépido", cost: 2, cond: "-" },
     { name: "Escurridizo", category: "Intrépido", cost: 5, cond: "-" },
     { name: "Resbaladizo", category: "Intrépido", cost: 3, cond: "-" },
-    // Macizo
     { name: "Aplastador", category: "Macizo", cost: 7, cond: "-" },
     { name: "Barrena", category: "Macizo", cost: 2, cond: "-" },
     { name: "Contraataque", category: "Macizo", cost: 5, cond: "-" },
     { name: "Matón", category: "Macizo", cost: 4, cond: "-" },
     { name: "No Hay Dolor", category: "Macizo", cost: 8, cond: "-" },
     { name: "Peso Muerto", category: "Macizo", cost: 2, cond: "-" },
-    // Militar
     { name: "Carga Completa", category: "Militar", cost: 2, cond: "-" },
     { name: "Cargador Rápido", category: "Militar", cost: 2, cond: "-" },
     { name: "Devolver el Fuego", category: "Militar", cost: 2, cond: "-" },
     { name: "Fuego Rápido", category: "Militar", cost: 2, cond: "-" },
     { name: "Puntería", category: "Militar", cost: 2, cond: "-" },
     { name: "Tiro a la Cabeza", category: "Militar", cost: 4, cond: "-" },
-    // Persecución
     { name: "Aventajar", category: "Persecución", cost: 2, cond: "-" },
     { name: "Contacto Visual Perturbador", category: "Persecución", cost: 5, cond: "-" },
     { name: "Pisar los Talones", category: "Persecución", cost: 2, cond: "-" },
     { name: "Provocar", category: "Persecución", cost: 2, cond: "-" },
     { name: "Regodearse", category: "Persecución", cost: 2, cond: "-" },
     { name: "Tip", category: "Persecución", cost: 4, cond: "-" },
-    // Preciso
     { name: "Autocontrol", category: "Preciso", cost: 2, cond: "-" },
     { name: "Conducción Relajada", category: "Preciso", cost: 5, cond: "-" },
     { name: "Experto", category: "Preciso", cost: 3, cond: "-" },
     { name: "Hielo en las Venas", category: "Preciso", cost: 2, cond: "-" },
     { name: "Momento de Gloria", category: "Preciso", cost: 2, cond: "-" },
     { name: "Trucos de Conducción", category: "Preciso", cost: 3, cond: "-" },
-    // Rudo
     { name: "¡Cúbreme!", category: "Rudo", cost: 2, cond: "-" },
     { name: "Frenético", category: "Rudo", cost: 3, cond: "-" },
     { name: "Guerrero de la Carretera", category: "Rudo", cost: 2, cond: "-" },
     { name: "Manipular a la Audiencia", category: "Rudo", cost: 1, cond: "-" },
     { name: "Polvorín", category: "Rudo", cost: 1, cond: "-" },
     { name: "Tiempo Bala", category: "Rudo", cost: 3, cond: "-" },
-    // Tecnología
     { name: "Cohetes Propulsores", category: "Tecnología", cost: 1, cond: "-" },
     { name: "¡Eureka!", category: "Tecnología", cost: 4, cond: "-" },
     { name: "Giroscópo", category: "Tecnología", cost: 1, cond: "-" },
     { name: "Mecánico a Bordo", category: "Tecnología", cost: 3, cond: "-" },
     { name: "Navegación por Satélite", category: "Tecnología", cost: 2, cond: "-" },
     { name: "¡Sensacional!", category: "Tecnología", cost: 1, cond: "-" },
-    // Temerario
     { name: "Ahora no Vengas a Buscarme", category: "Temerario", cost: 4, cond: "-" },
     { name: "Cervezerker", category: "Temerario", cost: 5, cond: "-" },
     { name: "Conducción Furiosa", category: "Temerario", cost: 1, cond: "-" },
     { name: "De Perdidos al Río", category: "Temerario", cost: 2, cond: "-" },
     { name: "Exaltado", category: "Temerario", cost: 2, cond: "-" },
     { name: "Más Grande que Tú", category: "Temerario", cost: 4, cond: "-" },
-    // Tuneo
     { name: "Guardabarros", category: "Tuneo", cost: 2, cond: "-" },
     { name: "Ímpetu", category: "Tuneo", cost: 3, cond: "-" },
     { name: "Ronroneo", category: "Tuneo", cost: 6, cond: "-" },
     { name: "Tracción Trasera", category: "Tuneo", cost: 2, cond: "-" },
     { name: "Volante Sensible", category: "Tuneo", cost: 3, cond: "-" },
     { name: "Zigzagueo", category: "Tuneo", cost: 6, cond: "-" },
-    // Velocidad
     { name: "Cambio Descendiente", category: "Velocidad", cost: 3, cond: "-" },
     { name: "Como alma que lleva el diablo", category: "Velocidad", cost: 5, cond: "-" },
     { name: "Rebufo", category: "Velocidad", cost: 2, cond: "-" },
@@ -1555,7 +1566,7 @@
 
         <div class="vehicle-image-input-container">
           <div style="flex-grow: 1;">
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Se mostrará al dividir la ficha en 2 hojas):</label>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Para ficha de 2 Hojas):</label>
             <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
           </div>
           ${v.image ? `
@@ -1817,22 +1828,48 @@
     return '';
   }
 
-  // LÓGICA DE GENERACIÓN DE FICHAS CON ORIENTACIÓN Y MÚLTIPLES HOJAS
+  // GENERACIÓN DE PROMPT PARA IA DE IMAGEN (8K, MAD MAX / GASLANDS)
+  function generateAiPromptText(pagesMode) {
+    const sponsor = document.getElementById('sponsorSelect').value || 'Apocalyptic Gang';
+    const activeVehicles = team.filter(v => v.type !== "").map(v => {
+      const wNames = (v.weapons || []).map(w => w.name).filter(n => n !== "Ninguna").join(', ');
+      return `${v.name} (${v.type}${wNames ? ' equipped with ' + wNames : ''})`;
+    });
+
+    const vehSummary = activeVehicles.length > 0 ? activeVehicles.join('; ') : 'modified post-apocalyptic combat vehicle';
+
+    if (pagesMode === '2pages') {
+      return `An ultra-detailed 8K resolution, photorealistic cinematic concept art of a post-apocalyptic combat vehicle for the tabletop game Gaslands. Vehicles: ${vehSummary}. Team Sponsor Theme: ${sponsor}. The vehicle is fully customized with rusted armor plating, exposed engine pipes, aggressive steel rams, spikes, and mounted heavy weaponry. Desert wasteland background with dust clouds, fire explosions, and intense apocalyptic mood, Mad Max Fury Road style, dramatic volumetric lighting, cinematic color grading, hyper-detailed textures, unreal engine 5 render, 8k resolution. Aspect Ratio formatted perfectly for a vertical card frame (Aspect ratio 63mm x 88mm / Portrait 3:4 or 2:3 ratio).`;
+    } else {
+      return `An ultra-detailed 8K resolution, photorealistic concept art illustration of an apocalyptic battle vehicle for Gaslands. Vehicle setup: ${vehSummary}, aligned with the ${sponsor} faction style. Features heavy metal armor plates, rust, scratches, spiked tires, mounted gatling guns, and flame pipes. Action shot speeding through a desolate wasteland arena with smoke, sparks, and desert dust. Atmospheric cinematic lighting, Mad Max aesthetics, dramatic shot, sharp focus, octane render, 8k resolution. Vertical portrait composition fitting a 63mm x 88mm standard game card.`;
+    }
+  }
+
+  function copyAiPrompt() {
+    const textarea = document.getElementById('aiPromptTextarea');
+    if (!textarea) return;
+    textarea.select();
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      alert("¡Prompt copiado al portapapeles! Puedes pegarlo en ChatGPT, Gemini Imagen, DALL-E o Midjourney.");
+    }).catch(err => {
+      console.error("Error al copiar: ", err);
+    });
+  }
+
+  // LÓGICA DE GENERACIÓN DE FICHAS
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
     const teamName = document.getElementById('teamName').value || 'Mi Escudería';
     const sponsorName = document.getElementById('sponsorSelect').value;
-
-    const orientation = document.getElementById('cardOrientationSelect') ? document.getElementById('cardOrientationSelect').value : 'vertical';
     const pagesMode = document.getElementById('cardPagesSelect') ? document.getElementById('cardPagesSelect').value : '1page';
 
     container.innerHTML = '';
-    
-    if (orientation === 'horizontal') {
-      container.classList.add('horizontal-grid');
-    } else {
-      container.classList.remove('horizontal-grid');
+
+    // Actualizar prompt para IA
+    const promptArea = document.getElementById('aiPromptTextarea');
+    if (promptArea) {
+      promptArea.value = generateAiPromptText(pagesMode);
     }
 
     if (team.length === 0) {
@@ -1840,8 +1877,6 @@
       modal.style.display = 'flex';
       return;
     }
-
-    const cardClass = `printable-card ${orientation === 'horizontal' ? 'horizontal' : ''}`;
 
     team.forEach(v => {
       const vData = VEHICLES.find(item => item.name === v.type);
@@ -1989,14 +2024,12 @@
         perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
       }
 
-      // PLANTILLA DE IMAGEN DEL VEHÍCULO
       const imageHTML = `
         <div class="card-vehicle-image-box">
           ${v.image ? `<img src="${v.image}">` : `<span class="card-vehicle-image-placeholder">Sin imagen asignada</span>`}
         </div>
       `;
 
-      // CABECERA Y ATRIBUTOS BÁSICOS DE LA FICHA
       const cardHeaderHTML = `
         <div class="card-top-bar">
           <span>ESC: ${teamName}</span>
@@ -2040,7 +2073,6 @@
         </div>
       `;
 
-      // TABLAS DE ARMAS, MEJORAS Y VENTAJAS
       const cardEquipmentHTML = `
         <div class="card-section-title">Armas Equipadas</div>
         <table class="mini-table">
@@ -2093,9 +2125,8 @@
       `;
 
       if (pagesMode === '2pages') {
-        // HOJA 1: DESCRIPCIÓN DEL VEHÍCULO E IMAGEN
         const page1HTML = `
-          <div class="${cardClass}">
+          <div class="printable-card">
             <div>
               ${cardHeaderHTML}
               <div class="card-section-title" style="margin-top: 2mm;">Vista del Vehículo</div>
@@ -2108,9 +2139,8 @@
           </div>
         `;
 
-        // HOJA 2: EQUIPAMIENTO, ARMAS, MEJORAS Y VENTAJAS
         const page2HTML = `
-          <div class="${cardClass}">
+          <div class="printable-card">
             <div>
               <div class="card-top-bar">
                 <span>ESC: ${teamName}</span>
@@ -2128,9 +2158,8 @@
 
         container.innerHTML += page1HTML + page2HTML;
       } else {
-        // MODO 1 HOJA STANDARD
         const singleCardHTML = `
-          <div class="${cardClass}">
+          <div class="printable-card">
             <div>
               ${cardHeaderHTML}
               ${cardEquipmentHTML}
