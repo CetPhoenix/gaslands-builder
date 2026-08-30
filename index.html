@@ -124,8 +124,8 @@
       color: var(--text-muted);
     }
 
-    .stat-modified-hull { color: #ff9800 !important; font-weight: bold; }
-    .stat-modified-crew { color: #ff4444 !important; font-weight: bold; }
+    /* ESTILO MODIFICADO PARA VARIACIONES DE VALORES EN VERDE */
+    .stat-modified-green { color: #00e676 !important; font-weight: bold; }
 
     .section-block {
       background: #181818;
@@ -361,8 +361,17 @@
       padding: 10px;
       border-radius: 6px;
       display: flex;
-      align-items: center;
-      gap: 15px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .diecast-details-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 10px;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px dashed #444;
     }
 
     .vehicle-image-preview-thumbnail {
@@ -1075,7 +1084,6 @@
     renderBuilder();
   }
 
-  // --- FUNCIONES PARA GUARDAR Y CARGAR CONFIGURACIÓN .CET ---
   function saveConfiguration() {
     const configData = {
       version: "1.1",
@@ -1234,6 +1242,8 @@
       name: "Nuevo Vehículo",
       type: "",
       image: null,
+      diecastBrand: "",
+      diecastModel: "",
       weapons: [],
       upgrades: [],
       perks: []
@@ -1676,14 +1686,36 @@
         </div>
 
         <div class="vehicle-image-input-container">
-          <div style="flex-grow: 1;">
-            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Para ficha de 2 Hojas):</label>
-            <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
+          <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="flex-grow: 1;">
+              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Para ficha de 2 Hojas):</label>
+              <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
+            </div>
+            ${v.image ? `
+              <img src="${v.image}" class="vehicle-image-preview-thumbnail">
+              <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
+            ` : ''}
           </div>
-          ${v.image ? `
-            <img src="${v.image}" class="vehicle-image-preview-thumbnail">
-            <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
-          ` : ''}
+
+          <!-- MEJORA 2: CAMPOS OPCIONALES DE MARCA Y MODELO DEL Coche FÍSICO (DIE-CAST) -->
+          <div class="diecast-details-grid">
+            <div>
+              <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Marca (Coche Usado):</label>
+              <select onchange="updateVehicle(${v.id}, 'diecastBrand', this.value)" style="font-size: 0.8rem; padding: 4px;">
+                <option value="" ${!v.diecastBrand ? 'selected' : ''}>-- Opcional --</option>
+                <option value="Hot Wheels" ${v.diecastBrand === 'Hot Wheels' ? 'selected' : ''}>Hot Wheels</option>
+                <option value="Matchbox" ${v.diecastBrand === 'Matchbox' ? 'selected' : ''}>Matchbox</option>
+                <option value="Greenlight" ${v.diecastBrand === 'Greenlight' ? 'selected' : ''}>Greenlight</option>
+                <option value="Maisto" ${v.diecastBrand === 'Maisto' ? 'selected' : ''}>Maisto</option>
+                <option value="Bburago" ${v.diecastBrand === 'Bburago' ? 'selected' : ''}>Bburago</option>
+                <option value="Otro" ${v.diecastBrand === 'Otro' ? 'selected' : ''}>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Modelo del Coche:</label>
+              <input type="text" placeholder="Ej: '67 Mustang, Baja Bug, etc." value="${v.diecastModel || ''}" onchange="updateVehicle(${v.id}, 'diecastModel', this.value)" style="font-size: 0.8rem; padding: 4px;">
+            </div>
+          </div>
         </div>
       `;
 
@@ -1700,8 +1732,9 @@
 
         const currentCrew = vData.crew + extraCrewCount;
 
-        const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-hull" : "";
-        const crewClass = extraCrewCount > 0 ? "stat-modified-crew" : "";
+        // MEJORA 1: VARIACIONES CAMBIADAS A COLOR VERDE RADIANTE (stat-modified-green)
+        const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-green" : "";
+        const crewClass = extraCrewCount > 0 ? "stat-modified-green" : "";
 
         innerHTML += `
           <div class="vehicle-stats-box">
@@ -1949,7 +1982,7 @@
     });
   }
 
-  // GENERACIÓN EXCLUSIVA DE PROMPTS SEGÚN FORMATO TRAS MOSTRAR LA FICHA (CORREGIDO)
+  // MEJORA 3: LÓGICA DE PROMPTS CON CONSTRUCTORES DE IMAGEN/MARCA/MODELO CON TEMÁTICA GASLANDS
   function generatePromptsFromRenderedCards(pagesMode) {
     const promptContainerList = document.getElementById('promptContainerList');
     if (!promptContainerList) return;
@@ -1981,7 +2014,6 @@
         });
       }
 
-      // 1. Cálculo de Carrocería
       let totalHull = vData.hull + (armorCount * 2);
       if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
         totalHull = Math.max(1, totalHull - 2);
@@ -1992,13 +2024,11 @@
 
       const totalCrew = vData.crew + extraCrewCount;
 
-      // 2. CÁLCULO EXACTO DEL TOTAL DE BIDONES ANTES DE CONSTRUIR EL PROMPT
       let vehicleBidones = vData.bidones;
       if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
         vehicleBidones = Math.max(5, vehicleBidones - 4);
       }
 
-      // Sumar costo de armas
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -2010,7 +2040,6 @@
         });
       }
 
-      // Sumar costo de mejoras
       if (v.upgrades) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
@@ -2020,7 +2049,6 @@
         });
       }
 
-      // Sumar costo de ventajas
       if (v.perks) {
         v.perks.forEach(p => {
           const pData = PERKS.find(item => item.name === p.name);
@@ -2030,8 +2058,7 @@
         });
       }
 
-      // 3. CONSTRUCCIÓN DE TEXTOS PARA ARMAS, MEJORAS Y VENTAJAS
-      let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid. [Icono/Imagen referencial de pistola]`;
+      let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid. [Icono referencial de pistola]`;
       
       if (v.weapons) {
         v.weapons.forEach((w, wIdx) => {
@@ -2044,7 +2071,7 @@
             const ammoCount = getAmmoCountFromRules(rulesText);
             const ammoString = ammoCount > 0 ? ` | CASILLAS DE MUNICIÓN: Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}` : '';
 
-            weaponsText += `\n${wIdx + 2}. ${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} Bid.${ammoString} [Incluir icono/imagen referencial de ${wData.name}]`;
+            weaponsText += `\n${wIdx + 2}. ${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} Bid.${ammoString} [Icono referencial de ${wData.name}]`;
           }
         });
       }
@@ -2058,7 +2085,7 @@
           const cost = getItemCost(uData, sponsorName);
           const ammoCount = getAmmoCountFromRules(uData.rules);
           const ammoString = ammoCount > 0 ? ` | CASILLAS DE MUNICIÓN: Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}` : '';
-          return `- ${uData.name} | Costo: ${cost} Bid. (Efecto: ${uData.rules})${ammoString} [Incluir icono/imagen referencial de ${uData.name}]`;
+          return `- ${uData.name} | Costo: ${cost} Bid. (Efecto: ${uData.rules})${ammoString} [Icono referencial de ${uData.name}]`;
         }).join('\n');
       }
 
@@ -2067,19 +2094,32 @@
       if (activePerksList.length > 0) {
         perksText = activePerksList.map(p => {
           const pData = PERKS.find(item => item.name === p.name);
-          return pData ? `- ${pData.name} (${pData.category}) | Costo: ${pData.cost} Bid. [Incluir icono/imagen referencial de la ventaja]` : '';
+          return pData ? `- ${pData.name} (${pData.category}) | Costo: ${pData.cost} Bid. [Icono referencial de la ventaja]` : '';
         }).join('\n');
       }
 
       const hullBoxesString = ' [ ]'.repeat(totalHull);
 
-      const imagePromptDescription = v.image 
-        ? `Basar la ilustración detallada del vehículo íntegramente en la estructura, forma, color y características de la FOTOGRAFÍA/IMAGEN DE REFERENCIA ADJUNTA, adaptándola con acabados de combate, suciedad, blindaje y estética postapocalíptica estilo Mad Max.` 
-        : `Generar una ilustración hiperrealista 8K basada en las características generales del vehículo de tipo "${v.name}" (Categoría: ${vData.category}, Peso: ${vData.weight}), ambientado en un desierto postapocalíptico estilo Mad Max.`;
+      // CONSTRUCCIÓN DINÁMICA DE LA DESCRIPCIÓN DE LA ILUSTRACIÓN SEGÚN PRIORIDAD (IMAGEN > MARCA/MODELO > TIPO GENÉRICO)
+      let diecastInfo = "";
+      if (v.diecastBrand || v.diecastModel) {
+        diecastInfo = `basado en la miniatura die-cast ${v.diecastBrand ? 'de la marca ' + v.diecastBrand : ''} ${v.diecastModel ? 'modelo "' + v.diecastModel + '"' : ''}, `;
+      }
 
-      // 4. GENERACIÓN DE PROMPTS CON "vehicleBidones" YA TOTALIZADO
+      let imagePromptDescription = "";
+      if (v.image) {
+        imagePromptDescription = `Basar la ilustración conceptual del vehículo íntegramente en la estructura, proporciones y características de la FOTOGRAFÍA DE REFERENCIA ADJUNTA (${diecastInfo}adaptándola con temáticas postapocalípticas de combate vehicular de Gaslands: blindaje oxidado, remaches, tuberías de escape gigantes, barro, suciedad y armas montadas).`;
+      } else if (diecastInfo !== "") {
+        imagePromptDescription = `Generar una ilustración hiperrealista 8K con temática postapocalíptica de combate vehicular Gaslands, ${diecastInfo}transformado con placas de acero soldado, rejillas de protección, óxido, armas visibles e impactos de bala en un desierto postapocalíptico estilo Mad Max.`;
+      } else {
+        imagePromptDescription = `Generar una ilustración hiperrealista 8K con temática postapocalíptica de combate vehicular Gaslands para un vehículo de tipo "${v.name}" (Categoría: ${vData.category}, Peso: ${vData.weight}), equipado con blindaje improvisado, chasis reforzado, tubos de nitrometano y estética de combate diésel diablo en un paramo desértico.`;
+      }
+
       if (pagesMode === '2pages') {
-        const prompt1Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo de juego de mesa Gaslands Refuelled. Formato vertical carta (63mm x 88mm).
+        const prompt1Spanish = `Diseña una imagen de ficha en calidad 8K con ambientación y temática de juego de mesa Gaslands Refuelled para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo "${v.name}". Formato vertical carta (63mm x 88mm) totalmente EN ESPAÑOL.
+
+ESTILO VISUAL Y TEMÁTICA:
+- Estética postapocalíptica, chapa de metal oxidado, textura de acero gastado y remaches de combate estilo Mad Max / Gaslands.
 
 SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
 - Cabecera: Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
@@ -2087,10 +2127,13 @@ SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
 - Reglas Especiales del Vehículo: ${vData.rules}
 - Cuadrícula de Estadísticas: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
 - Sección de CARROCERÍA (${totalHull} PC): Dibujar exactamente una fila de ${totalHull} casillas/cuadrados en blanco para marcar daño: ${hullBoxesString}
-- Sección Central (Ilustración del Vehículo): Cuadro central con vista conceptual. ${imagePromptDescription}
+- Sección Central (Ilustración del Vehículo): ${imagePromptDescription}
 - Pie de Página: "HOJA 1 / 2 - ATRIBUTOS" | "Nexo Alpha - Gaslands Refuelled"`;
 
-        const prompt2Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
+        const prompt2Spanish = `Diseña una imagen de ficha en calidad 8K con temática Gaslands Refuelled para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}". Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
+
+ESTILO VISUAL Y TEMÁTICA:
+- Estética de panel de control o taller mecánico clandestino en el páramo, bordes con óxido y metal industrial.
 
 SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 2:
 - Cabecera: ESC: "${teamName}" | VEHÍCULO: "${v.name}" | Costo: ${vehicleBidones} BID.
@@ -2116,7 +2159,7 @@ INSTRUCCIÓN CLAVE PARA CASILLAS EN HOJA 2:
           </div>
           <div style="margin-bottom: 6px;">
             <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 1: Atributos, Carrocería y Vista del Vehículo</span>
+              <span>Hoja 1: Atributos, Carrocería e Ilustración del Coche</span>
               <button onclick="copySinglePrompt('prompt_p1_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 1</button>
             </div>
             <textarea id="prompt_p1_${idx}" class="prompt-textarea" readonly>${prompt1Spanish}</textarea>
@@ -2132,7 +2175,10 @@ INSTRUCCIÓN CLAVE PARA CASILLAS EN HOJA 2:
         promptContainerList.appendChild(block1);
 
       } else {
-        const promptSingleSpanish = `Diseña la imagen de una FICHA ÚNICA COMPLETA en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical de carta (63mm x 88mm) totalmente redactada EN ESPAÑOL.
+        const promptSingleSpanish = `Diseña la imagen de una FICHA ÚNICA COMPLETA en calidad 8K para el juego de mesa de combate vehicular Gaslands Refuelled. Formato vertical de carta (63mm x 88mm) totalmente redactada EN ESPAÑOL.
+
+ESTILO VISUAL Y TEMÁTICA:
+- Estética postapocalíptica post-nuclear, chapa de metal oxidado, remaches, suciedad diésel y textura gastada.
 
 DATOS MOSTRADOS EN LA FICHA COMPLETA:
 - Cabecera: Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
@@ -2144,13 +2190,13 @@ DATOS MOSTRADOS EN LA FICHA COMPLETA:
 ILUSTRACIÓN DEL VEHÍCULO:
 - ${imagePromptDescription}
 
-TABLA DE ARMAS EQUIPADAS (Con Alcance, Ataque, Encaramiento, Costo, Casillas de Munición e Imágenes/Iconos Referenciales):
+TABLA DE ARMAS EQUIPADAS (Con Alcance, Ataque, Encaramiento, Costo, Casillas de Munición e Iconos Referenciales):
 ${weaponsText}
 
-TABLA DE MEJORAS DE VEHÍCULO (Con Costo, Casillas de Munición e Imágenes Referenciales):
+TABLA DE MEJORAS DE VEHÍCULO (Con Costo, Casillas de Munición e Iconos Referenciales):
 ${upgradesText}
 
-TABLA DE VENTAJAS SELECCIONADAS (Con Costo e Imágenes Referenciales):
+TABLA DE VENTAJAS SELECCIONADAS (Con Costo e Iconos Referenciales):
 ${perksText}
 
 REQUISITOS VISUALES:
@@ -2171,7 +2217,7 @@ REQUISITOS VISUALES:
     });
   }
 
-  // LÓGICA DE GENERACIÓN DE FICHAS
+  // LÓGICA DE GENERACIÓN DE FICHAS IMPRIMIBLES
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
@@ -2482,8 +2528,6 @@ REQUISITOS VISUALES:
     });
 
     modal.style.display = 'flex';
-
-    // Generar prompts dinámicos adaptados al selector tras procesar la ficha
     generatePromptsFromRenderedCards(pagesMode);
   }
 
