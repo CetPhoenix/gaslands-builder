@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V 1.1</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V1.1</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -370,6 +370,27 @@
       background: #111;
     }
 
+    .app-footer {
+      margin-top: 40px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .app-footer a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .app-footer a:hover {
+      text-decoration: underline;
+      color: var(--accent-hover);
+    }
+
     /* ESTILOS DEL MODAL DE FICHAS DE VEHÍCULOS */
     .modal-overlay {
       position: fixed;
@@ -686,7 +707,7 @@
         color: #000 !important;
         padding: 0 !important;
       }
-      header, .main-layout, .modal-header-actions, .prompt-box-panel {
+      header, .main-layout, .modal-header-actions, .prompt-box-panel, .app-footer {
         display: none !important;
       }
       .modal-overlay {
@@ -811,6 +832,10 @@
     </details>
   </div>
 </div>
+
+<footer class="app-footer">
+  Desarrollado por <a href="mailto:cespinal826@gmail.com">Cet Phoenix</a>
+</footer>
 
 <!-- MODAL PARA VISTA PREVIA E IMPRESIÓN DE FICHAS -->
 <div id="cardsModal" class="modal-overlay">
@@ -1959,6 +1984,11 @@
 
       const hullBoxesString = ' [ ]'.repeat(totalHull);
 
+      // DESCRIPCIÓN DE LA IMAGEN DEL VEHÍCULO SEGÚN SI SUBIERON IMAGEN O NO
+      const imagePromptDescription = v.image 
+        ? `Basar la ilustración detallada del vehículo íntegramente en la estructura, forma, color y características de la FOTOGRAFÍA/IMAGEN DE REFERENCIA ADJUNTA, adaptándola con acabados de combate, suciedad, blindaje y estética postapocalíptica estilo Mad Max.` 
+        : `Generar una ilustración hiperrealista 8K basada en las características generales del vehículo de tipo "${v.name}" (Categoría: ${vData.category}, Peso: ${vData.weight}), ambientado en un desierto postapocalíptico estilo Mad Max.`;
+
       if (pagesMode === '2pages') {
         // PROMPT EXCLUSIVO Y SÓLO CON DATOS DE HOJA 1
         const prompt1Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo de juego de mesa Gaslands Refuelled. Formato vertical carta (63mm x 88mm).
@@ -1969,7 +1999,7 @@ SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
 - Reglas Especiales del Vehículo: ${vData.rules}
 - Cuadrícula de Estadísticas: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
 - Sección de CARROCERÍA (${totalHull} PC): Dibujar exactamente una fila de ${totalHull} casillas/cuadrados en blanco para marcar daño: ${hullBoxesString}
-- Sección Central (Ilustración del Vehículo): Cuadro con la vista conceptual e ilustración hiperrealista 8K del vehículo "${v.name}" en un desierto postapocalíptico estilo Mad Max.
+- Sección Central (Ilustración del Vehículo): Cuadro central con vista conceptual. ${imagePromptDescription}
 - Pie de Página: "HOJA 1 / 2 - ATRIBUTOS" | "Nexo Alpha - Gaslands Refuelled"`;
 
         // PROMPT EXCLUSIVO Y SÓLO CON DATOS DE HOJA 2
@@ -2024,6 +2054,9 @@ DATOS MOSTRADOS EN LA FICHA COMPLETA:
 - Reglas Especiales: ${vData.rules}
 - Cuadrícula de Atributos: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
 - CARROCERÍA (${totalHull} PC): Fila visible con exactamente ${totalHull} casillas/cuadrados en blanco: ${hullBoxesString}
+
+ILUSTRACIÓN DEL VEHÍCULO:
+- ${imagePromptDescription}
 
 TABLA DE ARMAS EQUIPADAS (Con Alcance, Ataque, Encaramiento, Costo, Casillas de Munición e Imágenes/Iconos Referenciales):
 ${weaponsText}
