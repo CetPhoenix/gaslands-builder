@@ -250,6 +250,10 @@
     button.btn-print:hover { background: #007399; }
     button.btn-new-squad { background: #7b1fa2; }
     button.btn-new-squad:hover { background: #6a1b9a; }
+    button.btn-save { background: #2e7d32; }
+    button.btn-save:hover { background: #1b5e20; }
+    button.btn-load { background: #e65100; }
+    button.btn-load:hover { background: #bf360c; }
 
     .catalog-panel {
       background: var(--panel-bg);
@@ -749,8 +753,11 @@
 <div class="main-layout">
   <div class="builder-column">
     <div class="summary-bar">
-      <div>
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <button class="btn-new-squad" onclick="createNewSquadron()">✨ Nuevo Escuadrón</button>
+        <button class="btn-save" onclick="saveConfiguration()">💾 Guardar (.cet)</button>
+        <button class="btn-load" onclick="document.getElementById('fileLoader').click()">📂 Cargar (.cet)</button>
+        <input type="file" id="fileLoader" accept=".cet" style="display: none;" onchange="loadConfiguration(event)">
       </div>
       <div>
         <label>Escudería: </label>
@@ -1066,6 +1073,57 @@
     document.getElementById('sponsorSelect').value = "Ninguno";
     document.getElementById('maxCansSelect').value = "50";
     renderBuilder();
+  }
+
+  // --- FUNCIONES PARA GUARDAR Y CARGAR CONFIGURACIÓN .CET ---
+  function saveConfiguration() {
+    const configData = {
+      version: "1.1",
+      teamName: document.getElementById('teamName').value || "Mi Escudería",
+      sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
+      maxCans: document.getElementById('maxCansSelect').value || 50,
+      vehicles: team
+    };
+
+    const jsonString = JSON.stringify(configData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const link = document.createElement("a");
+    
+    const safeFileName = configData.teamName.replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
+    link.download = `${safeFileName}.cet`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  function loadConfiguration(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const loadedData = JSON.parse(e.target.result);
+
+        if (!loadedData || !Array.isArray(loadedData.vehicles)) {
+          alert("El archivo no tiene una estructura válida de escudería .cet");
+          return;
+        }
+
+        document.getElementById('teamName').value = loadedData.teamName || "Mi Escudería";
+        document.getElementById('sponsorSelect').value = loadedData.sponsor || "Ninguno";
+        document.getElementById('maxCansSelect').value = loadedData.maxCans || 50;
+        
+        team = loadedData.vehicles;
+        renderBuilder();
+        alert("¡Escudería cargada con éxito!");
+      } catch (err) {
+        alert("Error al leer el archivo .cet. Asegúrate de que sea un archivo válido.");
+        console.error("Error al cargar la configuración: ", err);
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
   }
 
   function getItemCost(wData, currentSponsor) {
@@ -1891,7 +1949,7 @@
     });
   }
 
-  // GENERACIÓN EXCLUSIVA DE PROMPTS SEGÚN FORMATO TRAS MOSTRAR LA FICHA
+  // GENERACIÓN EXCLUSIVA DE PROMPTS SEGÚN FORMATO TRAS MOSTRAR LA FICHA (CORREGIDO)
   function generatePromptsFromRenderedCards(pagesMode) {
     const promptContainerList = document.getElementById('promptContainerList');
     if (!promptContainerList) return;
@@ -1923,6 +1981,7 @@
         });
       }
 
+      // 1. Cálculo de Carrocería
       let totalHull = vData.hull + (armorCount * 2);
       if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
         totalHull = Math.max(1, totalHull - 2);
@@ -1933,12 +1992,45 @@
 
       const totalCrew = vData.crew + extraCrewCount;
 
+      // 2. CÁLCULO EXACTO DEL TOTAL DE BIDONES ANTES DE CONSTRUIR EL PROMPT
       let vehicleBidones = vData.bidones;
       if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
         vehicleBidones = Math.max(5, vehicleBidones - 4);
       }
 
-      // ARMAS Y MUNICIÓN
+      // Sumar costo de armas
+      if (v.weapons) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData && wData.name !== "Ninguna") {
+            let cost = getItemCost(wData, sponsorName);
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            vehicleBidones += cost;
+          }
+        });
+      }
+
+      // Sumar costo de mejoras
+      if (v.upgrades) {
+        v.upgrades.forEach(u => {
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (uData && uData.name !== "Ninguna") {
+            vehicleBidones += getItemCost(uData, sponsorName);
+          }
+        });
+      }
+
+      // Sumar costo de ventajas
+      if (v.perks) {
+        v.perks.forEach(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          if (pData) {
+            vehicleBidones += pData.cost;
+          }
+        });
+      }
+
+      // 3. CONSTRUCCIÓN DE TEXTOS PARA ARMAS, MEJORAS Y VENTAJAS
       let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid. [Icono/Imagen referencial de pistola]`;
       
       if (v.weapons) {
@@ -1947,7 +2039,6 @@
           if (wData && wData.name !== "Ninguna") {
             let cost = getItemCost(wData, sponsorName);
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-            vehicleBidones += cost;
 
             const rulesText = getWeaponRules(wData, sponsorName);
             const ammoCount = getAmmoCountFromRules(rulesText);
@@ -1958,7 +2049,6 @@
         });
       }
 
-      // MEJORAS
       let upgradesText = 'Sin mejoras equipadas';
       const activeUpgrades = v.upgrades ? v.upgrades.filter(u => u.name !== "Ninguna") : [];
       if (activeUpgrades.length > 0) {
@@ -1972,7 +2062,6 @@
         }).join('\n');
       }
 
-      // VENTAJAS
       let perksText = 'Sin ventajas equipadas';
       const activePerksList = v.perks ? v.perks.filter(p => p.name !== "Ninguna") : [];
       if (activePerksList.length > 0) {
@@ -1984,13 +2073,12 @@
 
       const hullBoxesString = ' [ ]'.repeat(totalHull);
 
-      // DESCRIPCIÓN DE LA IMAGEN DEL VEHÍCULO SEGÚN SI SUBIERON IMAGEN O NO
       const imagePromptDescription = v.image 
         ? `Basar la ilustración detallada del vehículo íntegramente en la estructura, forma, color y características de la FOTOGRAFÍA/IMAGEN DE REFERENCIA ADJUNTA, adaptándola con acabados de combate, suciedad, blindaje y estética postapocalíptica estilo Mad Max.` 
         : `Generar una ilustración hiperrealista 8K basada en las características generales del vehículo de tipo "${v.name}" (Categoría: ${vData.category}, Peso: ${vData.weight}), ambientado en un desierto postapocalíptico estilo Mad Max.`;
 
+      // 4. GENERACIÓN DE PROMPTS CON "vehicleBidones" YA TOTALIZADO
       if (pagesMode === '2pages') {
-        // PROMPT EXCLUSIVO Y SÓLO CON DATOS DE HOJA 1
         const prompt1Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo de juego de mesa Gaslands Refuelled. Formato vertical carta (63mm x 88mm).
 
 SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
@@ -2002,7 +2090,6 @@ SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
 - Sección Central (Ilustración del Vehículo): Cuadro central con vista conceptual. ${imagePromptDescription}
 - Pie de Página: "HOJA 1 / 2 - ATRIBUTOS" | "Nexo Alpha - Gaslands Refuelled"`;
 
-        // PROMPT EXCLUSIVO Y SÓLO CON DATOS DE HOJA 2
         const prompt2Spanish = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
 SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 2:
@@ -2045,7 +2132,6 @@ INSTRUCCIÓN CLAVE PARA CASILLAS EN HOJA 2:
         promptContainerList.appendChild(block1);
 
       } else {
-        // PROMPT COMPLETO PARA 1 HOJA POR FICHA
         const promptSingleSpanish = `Diseña la imagen de una FICHA ÚNICA COMPLETA en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical de carta (63mm x 88mm) totalmente redactada EN ESPAÑOL.
 
 DATOS MOSTRADOS EN LA FICHA COMPLETA:
