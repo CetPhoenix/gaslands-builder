@@ -1672,14 +1672,15 @@
         const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-green" : "";
         const crewClass = extraCrewCount > 0 ? "stat-modified-green" : "";
 
+        /* ORDEN ACTUALIZADO DE ESTADÍSTICAS EN EDICIÓN: MARCHA - MANIOBRA - TRIPULACIÓN - CARROCERÍA */
         innerHTML += `
           <div class="vehicle-stats-box">
             <div class="vehicle-stats-grid">
               <span><b>Peso:</b> ${vData.weight}</span>
-              <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC</span>
-              <span><b>Maniobra:</b> ${vData.handling}</span>
               <span><b>Marcha Máx:</b> ${vData.gear}</span>
+              <span><b>Maniobra:</b> ${vData.handling}</span>
               <span class="${crewClass}"><b>Tripulación:</b> ${currentCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</span>
+              <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC</span>
             </div>
             <div style="color: #7dcfb6;"><b>Reglas Especiales:</b> ${vData.rules}</div>
           </div>
@@ -2075,6 +2076,7 @@
         </div>
       `;
 
+      /* CABECERA DE FICHA CON EL NUEVO ORDEN DE CASILLEROS: MARCHA - MANIOBRA - TRIP. - PELIGRO */
       const cardHeaderHTML = `
         <div class="card-top-bar">
           <span>ESC: ${teamName}</span>
@@ -2094,16 +2096,16 @@
             <div class="val">${vData.gear}</div>
           </div>
           <div class="card-stat-box">
-            <div class="lbl">Peligro</div>
-            <div class="val">[ &nbsp; ]</div>
-          </div>
-          <div class="card-stat-box">
             <div class="lbl">Maniobra</div>
             <div class="val">${vData.handling}</div>
           </div>
           <div class="card-stat-box">
             <div class="lbl">Trip.</div>
             <div class="val">${totalCrew}</div>
+          </div>
+          <div class="card-stat-box">
+            <div class="lbl">Peligro</div>
+            <div class="val">[ &nbsp; ]</div>
           </div>
         </div>
 
