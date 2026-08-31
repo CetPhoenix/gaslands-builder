@@ -124,7 +124,6 @@
       color: var(--text-muted);
     }
 
-    /* ESTILO MODIFICADO PARA VARIACIONES DE VALORES EN VERDE */
     .stat-modified-green { color: #00e676 !important; font-weight: bold; }
 
     .section-block {
@@ -437,59 +436,6 @@
       color: #fff;
     }
 
-    .prompt-box-panel {
-      background: #1e1e1e;
-      border: 1px solid #ff5500;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 15px;
-      color: #f0f0f0;
-    }
-
-    .prompt-box-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .prompt-container-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .prompt-single-block {
-      background: #121212;
-      border: 1px solid #444;
-      border-radius: 4px;
-      padding: 8px;
-    }
-
-    .prompt-block-title {
-      font-size: 0.8rem;
-      font-weight: bold;
-      color: #ff9800;
-      margin-bottom: 4px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .prompt-textarea {
-      width: 100%;
-      height: 100px;
-      background: #0a0a0a;
-      color: #00ff66;
-      border: 1px solid #333;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.78rem;
-      padding: 6px;
-      resize: vertical;
-      box-sizing: border-box;
-    }
-
     .cards-preview-grid {
       display: flex;
       flex-wrap: wrap;
@@ -720,7 +666,7 @@
         color: #000 !important;
         padding: 0 !important;
       }
-      header, .main-layout, .modal-header-actions, .prompt-box-panel, .app-footer {
+      header, .main-layout, .modal-header-actions, .app-footer {
         display: none !important;
       }
       .modal-overlay {
@@ -877,14 +823,6 @@
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
-    </div>
-
-    <!-- PANEL DE PROMPTS DE IA DINÁMICOS -->
-    <div class="prompt-box-panel">
-      <div class="prompt-box-header">
-        <span style="font-weight: bold; font-size: 0.9rem; color: #ff5500;">🤖 Prompts Generados para IA (ChatGPT / Gemini Imagen / Midjourney)</span>
-      </div>
-      <div id="promptContainerList" class="prompt-container-list"></div>
     </div>
 
     <div id="cardsPrintContainer" class="cards-preview-grid"></div>
@@ -1697,7 +1635,6 @@
             ` : ''}
           </div>
 
-          <!-- MEJORA 2: CAMPOS OPCIONALES DE MARCA Y MODELO DEL Coche FÍSICO (DIE-CAST) -->
           <div class="diecast-details-grid">
             <div>
               <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Marca (Coche Usado):</label>
@@ -1732,7 +1669,6 @@
 
         const currentCrew = vData.crew + extraCrewCount;
 
-        // MEJORA 1: VARIACIONES CAMBIADAS A COLOR VERDE RADIANTE (stat-modified-green)
         const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-green" : "";
         const crewClass = extraCrewCount > 0 ? "stat-modified-green" : "";
 
@@ -1971,252 +1907,6 @@
     return '';
   }
 
-  function copySinglePrompt(elemId) {
-    const textarea = document.getElementById(elemId);
-    if (!textarea) return;
-    textarea.select();
-    navigator.clipboard.writeText(textarea.value).then(() => {
-      alert("¡Prompt copiado al portapapeles!");
-    }).catch(err => {
-      console.error("Error al copiar: ", err);
-    });
-  }
-
-  // MEJORA 3: LÓGICA DE PROMPTS CON CONSTRUCTORES DE IMAGEN/MARCA/MODELO CON TEMÁTICA GASLANDS
-  function generatePromptsFromRenderedCards(pagesMode) {
-    const promptContainerList = document.getElementById('promptContainerList');
-    if (!promptContainerList) return;
-    promptContainerList.innerHTML = '';
-
-    const cards = document.querySelectorAll('#cardsPrintContainer .printable-card');
-    if (!cards || cards.length === 0) {
-      promptContainerList.innerHTML = `<div style="font-size:0.8rem; color:#aaa;">No se detectaron fichas para generar prompts.</div>`;
-      return;
-    }
-
-    const sponsorName = document.getElementById('sponsorSelect').value || 'Sin Patrocinador';
-    const teamName = document.getElementById('teamName').value || 'Mi Escudería';
-
-    team.forEach((v, idx) => {
-      const vData = VEHICLES.find(item => item.name === v.type);
-      if (!vData) return;
-
-      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
-      let armorCount = 0;
-      let extraCrewCount = 0;
-      let hasMicroPlacas = false;
-
-      if (v.upgrades) {
-        v.upgrades.forEach(u => {
-          if (u.name === "Blindaje") armorCount++;
-          if (u.name === "Tripulante adicional") extraCrewCount++;
-          if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
-        });
-      }
-
-      let totalHull = vData.hull + (armorCount * 2);
-      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
-        totalHull = Math.max(1, totalHull - 2);
-      }
-      if (sponsorName === "Verney" && hasMicroPlacas) {
-        totalHull += 2;
-      }
-
-      const totalCrew = vData.crew + extraCrewCount;
-
-      let vehicleBidones = vData.bidones;
-      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
-        vehicleBidones = Math.max(5, vehicleBidones - 4);
-      }
-
-      if (v.weapons) {
-        v.weapons.forEach(w => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.name !== "Ninguna") {
-            let cost = getItemCost(wData, sponsorName);
-            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-            vehicleBidones += cost;
-          }
-        });
-      }
-
-      if (v.upgrades) {
-        v.upgrades.forEach(u => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.name !== "Ninguna") {
-            vehicleBidones += getItemCost(uData, sponsorName);
-          }
-        });
-      }
-
-      if (v.perks) {
-        v.perks.forEach(p => {
-          const pData = PERKS.find(item => item.name === p.name);
-          if (pData) {
-            vehicleBidones += pData.cost;
-          }
-        });
-      }
-
-      let weaponsText = `1. Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 Bid. [Icono referencial de pistola]`;
-      
-      if (v.weapons) {
-        v.weapons.forEach((w, wIdx) => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.name !== "Ninguna") {
-            let cost = getItemCost(wData, sponsorName);
-            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-
-            const rulesText = getWeaponRules(wData, sponsorName);
-            const ammoCount = getAmmoCountFromRules(rulesText);
-            const ammoString = ammoCount > 0 ? ` | CASILLAS DE MUNICIÓN: Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}` : '';
-
-            weaponsText += `\n${wIdx + 2}. ${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} Bid.${ammoString} [Icono referencial de ${wData.name}]`;
-          }
-        });
-      }
-
-      let upgradesText = 'Sin mejoras equipadas';
-      const activeUpgrades = v.upgrades ? v.upgrades.filter(u => u.name !== "Ninguna") : [];
-      if (activeUpgrades.length > 0) {
-        upgradesText = activeUpgrades.map(u => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          if (!uData) return '';
-          const cost = getItemCost(uData, sponsorName);
-          const ammoCount = getAmmoCountFromRules(uData.rules);
-          const ammoString = ammoCount > 0 ? ` | CASILLAS DE MUNICIÓN: Mun (${ammoCount}): ${' [ ]'.repeat(ammoCount)}` : '';
-          return `- ${uData.name} | Costo: ${cost} Bid. (Efecto: ${uData.rules})${ammoString} [Icono referencial de ${uData.name}]`;
-        }).join('\n');
-      }
-
-      let perksText = 'Sin ventajas equipadas';
-      const activePerksList = v.perks ? v.perks.filter(p => p.name !== "Ninguna") : [];
-      if (activePerksList.length > 0) {
-        perksText = activePerksList.map(p => {
-          const pData = PERKS.find(item => item.name === p.name);
-          return pData ? `- ${pData.name} (${pData.category}) | Costo: ${pData.cost} Bid. [Icono referencial de la ventaja]` : '';
-        }).join('\n');
-      }
-
-      const hullBoxesString = ' [ ]'.repeat(totalHull);
-
-      // CONSTRUCCIÓN DINÁMICA DE LA DESCRIPCIÓN DE LA ILUSTRACIÓN SEGÚN PRIORIDAD (IMAGEN > MARCA/MODELO > TIPO GENÉRICO)
-      let diecastInfo = "";
-      if (v.diecastBrand || v.diecastModel) {
-        diecastInfo = `basado en la miniatura die-cast ${v.diecastBrand ? 'de la marca ' + v.diecastBrand : ''} ${v.diecastModel ? 'modelo "' + v.diecastModel + '"' : ''}, `;
-      }
-
-      let imagePromptDescription = "";
-      if (v.image) {
-        imagePromptDescription = `Basar la ilustración conceptual del vehículo íntegramente en la estructura, proporciones y características de la FOTOGRAFÍA DE REFERENCIA ADJUNTA (${diecastInfo}adaptándola con temáticas postapocalípticas de combate vehicular de Gaslands: blindaje oxidado, remaches, tuberías de escape gigantes, barro, suciedad y armas montadas).`;
-      } else if (diecastInfo !== "") {
-        imagePromptDescription = `Generar una ilustración hiperrealista 8K con temática postapocalíptica de combate vehicular Gaslands, ${diecastInfo}transformado con placas de acero soldado, rejillas de protección, óxido, armas visibles e impactos de bala en un desierto postapocalíptico estilo Mad Max.`;
-      } else {
-        imagePromptDescription = `Generar una ilustración hiperrealista 8K con temática postapocalíptica de combate vehicular Gaslands para un vehículo de tipo "${v.name}" (Categoría: ${vData.category}, Peso: ${vData.weight}), equipado con blindaje improvisado, chasis reforzado, tubos de nitrometano y estética de combate diésel diablo en un paramo desértico.`;
-      }
-
-      if (pagesMode === '2pages') {
-        const prompt1Spanish = `Diseña una imagen de ficha en calidad 8K con ambientación y temática de juego de mesa Gaslands Refuelled para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo "${v.name}". Formato vertical carta (63mm x 88mm) totalmente EN ESPAÑOL.
-
-ESTILO VISUAL Y TEMÁTICA:
-- Estética postapocalíptica, chapa de metal oxidado, textura de acero gastado y remaches de combate estilo Mad Max / Gaslands.
-
-SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 1:
-- Cabecera: Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
-- Título: "${v.name}" (${vData.name} - Peso ${vData.weight})
-- Reglas Especiales del Vehículo: ${vData.rules}
-- Cuadrícula de Estadísticas: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
-- Sección de CARROCERÍA (${totalHull} PC): Dibujar exactamente una fila de ${totalHull} casillas/cuadrados en blanco para marcar daño: ${hullBoxesString}
-- Sección Central (Ilustración del Vehículo): ${imagePromptDescription}
-- Pie de Página: "HOJA 1 / 2 - ATRIBUTOS" | "Nexo Alpha - Gaslands Refuelled"`;
-
-        const prompt2Spanish = `Diseña una imagen de ficha en calidad 8K con temática Gaslands Refuelled para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}". Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
-
-ESTILO VISUAL Y TEMÁTICA:
-- Estética de panel de control o taller mecánico clandestino en el páramo, bordes con óxido y metal industrial.
-
-SÓLO MOSTRAR LOS SIGUIENTES DATOS DE LA HOJA 2:
-- Cabecera: ESC: "${teamName}" | VEHÍCULO: "${v.name}" | Costo: ${vehicleBidones} BID.
-
-SECCIÓN 1 - TABLA DE ARMAS EQUIPADAS (Columnas: Arma + Imagen Referencial, Alcance, Ataque, Encaramiento, Costo):
-${weaponsText}
-
-SECCIÓN 2 - TABLA DE MEJORAS DE VEHÍCULO (Columnas: Mejora + Imagen Referencial, Costo):
-${upgradesText}
-
-SECCIÓN 3 - TABLA DE VENTAJAS SELECCIONADAS (Columnas: Ventaja + Imagen Referencial, Costo):
-${perksText}
-
-INSTRUCCIÓN CLAVE PARA CASILLAS EN HOJA 2:
-- Para cada arma o mejora que contenga casillas de munición, dibujar explícitamente los recuadros vacíos "Mun (X): [ ] [ ]" tal como se indica en los datos.
-- Pie de Página: "HOJA 2 / 2 - EQUIPAMIENTO" | "Nexo Alpha - Gaslands Refuelled"`;
-
-        const block1 = document.createElement('div');
-        block1.className = 'prompt-single-block';
-        block1.innerHTML = `
-          <div class="prompt-block-title">
-            <span>📷 Prompts para "${v.name}" (Dividido en 2 Hojas Independientes)</span>
-          </div>
-          <div style="margin-bottom: 6px;">
-            <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 1: Atributos, Carrocería e Ilustración del Coche</span>
-              <button onclick="copySinglePrompt('prompt_p1_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 1</button>
-            </div>
-            <textarea id="prompt_p1_${idx}" class="prompt-textarea" readonly>${prompt1Spanish}</textarea>
-          </div>
-          <div>
-            <div style="font-size:0.75rem; color:#ff9800; font-weight:bold; margin-bottom:2px; display:flex; justify-content:space-between;">
-              <span>Hoja 2: Equipamiento, Armas, Imágenes y Munición</span>
-              <button onclick="copySinglePrompt('prompt_p2_${idx}')" style="font-size:0.7rem; padding:2px 6px;">📋 Copiar Hoja 2</button>
-            </div>
-            <textarea id="prompt_p2_${idx}" class="prompt-textarea" readonly>${prompt2Spanish}</textarea>
-          </div>
-        `;
-        promptContainerList.appendChild(block1);
-
-      } else {
-        const promptSingleSpanish = `Diseña la imagen de una FICHA ÚNICA COMPLETA en calidad 8K para el juego de mesa de combate vehicular Gaslands Refuelled. Formato vertical de carta (63mm x 88mm) totalmente redactada EN ESPAÑOL.
-
-ESTILO VISUAL Y TEMÁTICA:
-- Estética postapocalíptica post-nuclear, chapa de metal oxidado, remaches, suciedad diésel y textura gastada.
-
-DATOS MOSTRADOS EN LA FICHA COMPLETA:
-- Cabecera: Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
-- Título: "${v.name}" (${vData.name} - Peso ${vData.weight})
-- Reglas Especiales: ${vData.rules}
-- Cuadrícula de Atributos: Marcha: ${vData.gear} | Peligro: [ ] | Maniobra: ${vData.handling} | Tripulación: ${totalCrew}
-- CARROCERÍA (${totalHull} PC): Fila visible con exactamente ${totalHull} casillas/cuadrados en blanco: ${hullBoxesString}
-
-ILUSTRACIÓN DEL VEHÍCULO:
-- ${imagePromptDescription}
-
-TABLA DE ARMAS EQUIPADAS (Con Alcance, Ataque, Encaramiento, Costo, Casillas de Munición e Iconos Referenciales):
-${weaponsText}
-
-TABLA DE MEJORAS DE VEHÍCULO (Con Costo, Casillas de Munición e Iconos Referenciales):
-${upgradesText}
-
-TABLA DE VENTAJAS SELECCIONADAS (Con Costo e Iconos Referenciales):
-${perksText}
-
-REQUISITOS VISUALES:
-- Incluir pequeños iconos e imágenes referenciales ilustradas para cada arma, mejora y ventaja.
-- Mantener bordes gastados estilo postapocalíptico y chapa de metal oxidado. Pie de página: "Nexo Alpha - Gaslands Refuelled".`;
-
-        const block = document.createElement('div');
-        block.className = 'prompt-single-block';
-        block.innerHTML = `
-          <div class="prompt-block-title">
-            <span>📷 Prompt para "${v.name}" (Ficha Completa de 1 Hoja)</span>
-            <button onclick="copySinglePrompt('prompt_s_${idx}')" style="font-size:0.75rem; padding:3px 8px;">📋 Copiar Prompt</button>
-          </div>
-          <textarea id="prompt_s_${idx}" class="prompt-textarea" readonly>${promptSingleSpanish}</textarea>
-        `;
-        promptContainerList.appendChild(block);
-      }
-    });
-  }
-
   // LÓGICA DE GENERACIÓN DE FICHAS IMPRIMIBLES
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
@@ -2230,7 +1920,6 @@ REQUISITOS VISUALES:
     if (team.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
       modal.style.display = 'flex';
-      generatePromptsFromRenderedCards(pagesMode);
       return;
     }
 
@@ -2528,7 +2217,6 @@ REQUISITOS VISUALES:
     });
 
     modal.style.display = 'flex';
-    generatePromptsFromRenderedCards(pagesMode);
   }
 
   function closeCardsModal() {
