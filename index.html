@@ -2,17 +2,18 @@
 <html lang="es">
 <head>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
-     crossorigin="anonymous"></script>
-
-<!-- Fuente uniforme de Google Fonts -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
+       crossorigin="anonymous"></script>
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V 1.6</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V 1.7</title>
+  
+  <!-- Carga de Fuente Uniforme (Roboto) para evitar errores de renderizado en móviles/PCs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg-color: #121212;
@@ -90,10 +91,7 @@
       margin-bottom: 20px;
       border: 1px solid var(--border-color);
     }
-     .printable-card {
-       font-family: 'Roboto', sans-serif !important;
-     }
-       
+
     .vehicle-card {
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
@@ -488,24 +486,9 @@
       margin-top: 6px;
     }
 
-    /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD */
-    .card-ammo-box {
-      width: 2.8mm;
-      height: 2.8mm;
-      border: 1px solid #000;
-      display: inline-block;
-      margin-left: 1px;
-      vertical-align: middle;
-      background: #fff;
-      box-sizing: border-box;
-    }
-    .ammo-container {
-      margin-top: 1px;
-      font-size: 4.5pt;
-      line-height: 1;
-    }
-
+    /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD CON FUENTE CONTROLADA */
     .printable-card {
+      font-family: 'Roboto', sans-serif !important;
       background: #fff;
       color: #000;
       border: 2px solid #000;
@@ -523,6 +506,27 @@
       border-radius: 3mm;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       page-break-inside: avoid;
+    }
+
+    .printable-card * {
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+    }
+
+    .card-ammo-box {
+      width: 2.8mm;
+      height: 2.8mm;
+      border: 1px solid #000;
+      display: inline-block;
+      margin-left: 1px;
+      vertical-align: middle;
+      background: #fff;
+      box-sizing: border-box;
+    }
+    .ammo-container {
+      margin-top: 1px;
+      font-size: 4.5pt;
+      line-height: 1;
     }
 
     .card-top-bar {
@@ -551,6 +555,7 @@
       text-transform: uppercase;
       letter-spacing: 0.2px;
       line-height: 1;
+      font-weight: 900;
     }
 
     .card-title-box .sub {
@@ -746,7 +751,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V1.6</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled</h1>
 </header>
 
 <div class="main-layout">
@@ -837,23 +842,20 @@
       <div id="catalogVehicleUpgrades"></div>
     </details>
 
-<!-- BLOQUE DE ANUNCIO ADSENSE -->
+    <!-- BLOQUE DE ANUNCIO ADSENSE -->
     <div style="margin-top: 20px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
       <span style="font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 5px;">PUBLICIDAD</span>
       
-      <!-- Pega aquí el código que te dio AdSense -->
-    <!--   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
-     crossorigin="anonymous"></script> -->
-          <!-- Banner Lateral Gaslands Builder -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-0555222123747987"
-               data-ad-slot="6232265180"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-          <script>
-               (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+      <!-- Banner Lateral Gaslands Builder -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-0555222123747987"
+           data-ad-slot="6232265180"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
        
   </div>
@@ -887,7 +889,7 @@
         <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold; color: #fff;">100%</span>
         <button onclick="changeZoom(0.1)" style="padding: 4px 8px;">🔍 +</button>
         <button onclick="resetZoom()" style="padding: 4px 8px; background: #555;">Restablecer</button>
-        <button onclick="" style="background: #2e7d32;">💾 Descargar PNG</button>
+        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar PNG</button>
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
@@ -1957,36 +1959,35 @@
     }
   }
 
+  // DESCARGA PNG OPTIMIZADA PARA MÓVILES Y PCS
   function downloadAllCardsPNG() {
-  const cards = document.querySelectorAll('.printable-card');
-  if (!cards || cards.length === 0) return;
+    const cards = document.querySelectorAll('.printable-card');
+    if (!cards || cards.length === 0) return;
 
-  cards.forEach((card, idx) => {
-    // Forzamos el uso de fuentes web cargadas antes de la captura
     document.fonts.ready.then(() => {
-      html2canvas(card, {
-        scale: 3,                 // Alta resolución
-        useCORS: true,           // Carga de imágenes externas
-        allowTaint: true,
-        logging: false,
-        letterRendering: true,   // Corrige el renderizado de espacio entre letras
-        windowWidth: 1200,       // Previene colapsos de layout móviles
-        onclone: (clonedDoc) => {
-          // Asegura que las fuentes estén aplicadas correctamente en el DOM clonado
-          const clonedCard = clonedDoc.querySelectorAll('.printable-card')[idx];
-          if (clonedCard) {
-            clonedCard.style.transform = "none"; // Evita distorsiones de zoom
+      cards.forEach((card, idx) => {
+        html2canvas(card, {
+          scale: 3,                 // Calidad alta 8K
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          letterRendering: true,   // Elimina distorsión de espaciados de fuente
+          windowWidth: 1200,       // Previene colapso responsivo
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.querySelectorAll('.printable-card')[idx];
+            if (clonedCard) {
+              clonedCard.style.transform = "none";
+            }
           }
-        }
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Ficha_Vehiculo_${idx + 1}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+        }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = `Ficha_Vehiculo_${idx + 1}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
       });
     });
-  });
-}
+  }
 
   function getAmmoBoxesHTML(rules) {
     if (!rules) return '';
@@ -2076,7 +2077,7 @@ REQUISITOS OBLIGATORIOS DE DISEÑO:
    - Título del Vehículo: "${v.name}" (${vData.name} - Peso ${vData.weight})
    - Reglas Especiales: ${vData.rules}
 
-2. CUADRÍCULA DE ESTADÍSTICAS (Respetar estrictamente este orden):
+2. CUADRÍCULA DE ESTADÍSTICAS (Respetar strictly este orden):
    - Marcha: ${vData.gear}
    - Maniobra: ${vData.handling}
    - Trip.: ${totalCrew}
