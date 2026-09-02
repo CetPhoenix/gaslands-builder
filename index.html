@@ -4,10 +4,15 @@
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
      crossorigin="anonymous"></script>
+
+<!-- Fuente uniforme de Google Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V 1.5</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V 1.6</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -85,7 +90,10 @@
       margin-bottom: 20px;
       border: 1px solid var(--border-color);
     }
-
+     .printable-card {
+       font-family: 'Roboto', sans-serif !important;
+     }
+       
     .vehicle-card {
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
@@ -738,7 +746,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V1.6</h1>
 </header>
 
 <div class="main-layout">
@@ -879,7 +887,7 @@
         <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold; color: #fff;">100%</span>
         <button onclick="changeZoom(0.1)" style="padding: 4px 8px;">🔍 +</button>
         <button onclick="resetZoom()" style="padding: 4px 8px; background: #555;">Restablecer</button>
-        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar PNG</button>
+        <button onclick="" style="background: #2e7d32;">💾 Descargar PNG</button>
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
@@ -1950,18 +1958,35 @@
   }
 
   function downloadAllCardsPNG() {
-    const cards = document.querySelectorAll('.printable-card');
-    if (!cards || cards.length === 0) return;
+  const cards = document.querySelectorAll('.printable-card');
+  if (!cards || cards.length === 0) return;
 
-    cards.forEach((card, idx) => {
-      html2canvas(card, { scale: 3 }).then(canvas => {
+  cards.forEach((card, idx) => {
+    // Forzamos el uso de fuentes web cargadas antes de la captura
+    document.fonts.ready.then(() => {
+      html2canvas(card, {
+        scale: 3,                 // Alta resolución
+        useCORS: true,           // Carga de imágenes externas
+        allowTaint: true,
+        logging: false,
+        letterRendering: true,   // Corrige el renderizado de espacio entre letras
+        windowWidth: 1200,       // Previene colapsos de layout móviles
+        onclone: (clonedDoc) => {
+          // Asegura que las fuentes estén aplicadas correctamente en el DOM clonado
+          const clonedCard = clonedDoc.querySelectorAll('.printable-card')[idx];
+          if (clonedCard) {
+            clonedCard.style.transform = "none"; // Evita distorsiones de zoom
+          }
+        }
+      }).then(canvas => {
         const link = document.createElement('a');
         link.download = `Ficha_Vehiculo_${idx + 1}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
       });
     });
-  }
+  });
+}
 
   function getAmmoBoxesHTML(rules) {
     if (!rules) return '';
