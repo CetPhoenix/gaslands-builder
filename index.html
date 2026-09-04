@@ -7,7 +7,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V1.8</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V1.9</title>
   
   <!-- Carga de Fuente Uniforme (Roboto) para evitar errores de renderizado en móviles/PCs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -752,7 +752,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V1.8</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V1.9</h1>
 </header>
 
 <div class="main-layout">
@@ -973,7 +973,7 @@
     { name: "Mortero", category: "Avanzado", range: "Doble", attack: "4d6", rules: "indirecto, munición 3", slots: 1, bidones: 4, sponsor: null },
     { name: "Multiplicador cinético", category: "Avanzado", range: "Doble", attack: "(6d6)", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
     { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
-    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3, sponsor: null },
+    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3, sponsor: "Mishkin" },
 
     // PERSONALES
     { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
@@ -1491,6 +1491,7 @@
       if (w.sponsor && w.sponsor !== currentSponsor) isDisabled = true;
       if (uniqueUpgrades.includes(w.name) && equippedNames.includes(w.name)) isDisabled = true;
       if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
+      if (w.name === "Ariete explosivo" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
       if (w.name === "Orugas" && vehicleData && (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero")) isDisabled = true;
       if (w.name === "Tripulante adicional" && vehicleData && crewUpgradeCount >= vehicleData.crew) isDisabled = true;
       if (w.name === "Vehículo carcelario (especial)" && vehicleData && vehicleData.weight !== "Medio") isDisabled = true;
@@ -1601,6 +1602,7 @@
           const uData = WEAPONS.find(item => item.name === u.name);
           if (uData && uData.sponsor && uData.sponsor !== currentSponsor) u.name = "Ninguna";
           if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ninguna";
+          if (u.name === "Ariete explosivo" && vData.weight === "Ligero") u.name = "Ninguna";
           if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ninguna";
           if (u.name === "Vehículo carcelario (especial)" && vData.weight !== "Medio") u.name = "Ninguna";
         });
