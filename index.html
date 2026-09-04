@@ -7,7 +7,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V1.8</title>
   
   <!-- Carga de Fuente Uniforme (Roboto) para evitar errores de renderizado en móviles/PCs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,7 +116,7 @@
       border-radius: 6px;
       padding: 10px;
       margin-top: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       font-size: 0.85rem;
     }
 
@@ -367,6 +367,7 @@
 
     .vehicle-image-input-container {
       margin-top: 10px;
+      margin-bottom: 15px;
       background: #242424;
       border: 1px solid var(--border-color);
       padding: 10px;
@@ -751,7 +752,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V1.7</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V1.8</h1>
 </header>
 
 <div class="main-layout">
@@ -1327,7 +1328,9 @@
     if (v && v.weapons[index]) {
       v.weapons[index].name = weaponName;
       const wData = WEAPONS.find(w => w.name === weaponName);
-      if (wData && wData.category === "Descarga") {
+      if (weaponName === "AJG") {
+        v.weapons[index].facing = "Frontal";
+      } else if (wData && wData.category === "Descarga") {
         if (v.weapons[index].facing !== "Posterior" && v.weapons[index].facing !== "Lateral") {
           v.weapons[index].facing = "Posterior";
         }
@@ -1689,48 +1692,16 @@
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
                 ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
                 ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | ${vItem.slots} Slots)${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
             </select>
-          </div>
-        </div>
-
-        <div class="vehicle-image-input-container">
-          <div style="display: flex; align-items: center; gap: 15px;">
-            <div style="flex-grow: 1;">
-              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Para ficha de 2 Hojas):</label>
-              <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
-            </div>
-            ${v.image ? `
-              <img src="${v.image}" class="vehicle-image-preview-thumbnail">
-              <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
-            ` : ''}
-          </div>
-
-          <div class="diecast-details-grid">
-            <div>
-              <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Marca (Coche Usado):</label>
-              <select onchange="updateVehicle(${v.id}, 'diecastBrand', this.value)" style="font-size: 0.8rem; padding: 4px;">
-                <option value="" ${!v.diecastBrand ? 'selected' : ''}>-- Opcional --</option>
-                <option value="Hot Wheels" ${v.diecastBrand === 'Hot Wheels' ? 'selected' : ''}>Hot Wheels</option>
-                <option value="Matchbox" ${v.diecastBrand === 'Matchbox' ? 'selected' : ''}>Matchbox</option>
-                <option value="Greenlight" ${v.diecastBrand === 'Greenlight' ? 'selected' : ''}>Greenlight</option>
-                <option value="Maisto" ${v.diecastBrand === 'Maisto' ? 'selected' : ''}>Maisto</option>
-                <option value="Bburago" ${v.diecastBrand === 'Bburago' ? 'selected' : ''}>Bburago</option>
-                <option value="Otro" ${v.diecastBrand === 'Otro' ? 'selected' : ''}>Otro</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Modelo del Coche:</label>
-              <input type="text" placeholder="Ej: '67 Mustang, Baja Bug, etc." value="${v.diecastModel || ''}" onchange="updateVehicle(${v.id}, 'diecastModel', this.value)" style="font-size: 0.8rem; padding: 4px;">
-            </div>
           </div>
         </div>
       `;
@@ -1762,6 +1733,39 @@
             </div>
             <div style="color: #7dcfb6;"><b>Reglas Especiales:</b> ${vData.rules}</div>
           </div>
+
+          <!-- SECCIÓN DE IMAGEN Y DIECAST MOVIDA DEBAJO DE LAS CARACTERÍSTICAS -->
+          <div class="vehicle-image-input-container">
+            <div style="display: flex; align-items: center; gap: 15px;">
+              <div style="flex-grow: 1;">
+                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Para ficha de 2 Hojas):</label>
+                <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
+              </div>
+              ${v.image ? `
+                <img src="${v.image}" class="vehicle-image-preview-thumbnail">
+                <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
+              ` : ''}
+            </div>
+
+            <div class="diecast-details-grid">
+              <div>
+                <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Marca (Coche Usado):</label>
+                <select onchange="updateVehicle(${v.id}, 'diecastBrand', this.value)" style="font-size: 0.8rem; padding: 4px;">
+                  <option value="" ${!v.diecastBrand ? 'selected' : ''}>-- Opcional --</option>
+                  <option value="Hot Wheels" ${v.diecastBrand === 'Hot Wheels' ? 'selected' : ''}>Hot Wheels</option>
+                  <option value="Matchbox" ${v.diecastBrand === 'Matchbox' ? 'selected' : ''}>Matchbox</option>
+                  <option value="Greenlight" ${v.diecastBrand === 'Greenlight' ? 'selected' : ''}>Greenlight</option>
+                  <option value="Maisto" ${v.diecastBrand === 'Maisto' ? 'selected' : ''}>Maisto</option>
+                  <option value="Bburago" ${v.diecastBrand === 'Bburago' ? 'selected' : ''}>Bburago</option>
+                  <option value="Otro" ${v.diecastBrand === 'Otro' ? 'selected' : ''}>Otro</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Modelo del Coche:</label>
+                <input type="text" placeholder="Ej: '67 Mustang, Baja Bug, etc." value="${v.diecastModel || ''}" onchange="updateVehicle(${v.id}, 'diecastModel', this.value)" style="font-size: 0.8rem; padding: 4px;">
+              </div>
+            </div>
+          </div>
         `;
 
         const isSlotsFull = usedSlots >= vData.slots;
@@ -1781,9 +1785,10 @@
         v.weapons.forEach((w, wIdx) => {
           const wData = WEAPONS.find(item => item.name === w.name);
           const isSelected = wData && wData.name !== "Ninguna";
+          const isAJG = w.name === "AJG";
           const native360 = isSelected && is360Native(wData);
           const isPersonal = isSelected && wData.category === "Personal";
-          const disableFacing = !isSelected || isPersonal || native360;
+          const disableFacing = !isSelected || isPersonal || native360 || isAJG;
 
           let currentCost = isSelected ? getItemCost(wData, currentSponsor) : 0;
           if (isSelected && w.facing === "360º" && !native360) currentCost *= 3;
@@ -1801,7 +1806,7 @@
                 <div>
                   <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
                   <select ${disableFacing ? 'disabled' : ''} onchange="updateWeaponFacing(${v.id}, ${wIdx}, this.value)">
-                    ${(wData && wData.category === 'Descarga') ? `
+                    ${isAJG ? `<option value="Frontal" selected>Frontal</option>` : (wData && wData.category === 'Descarga') ? `
                       <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
                       <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
                     ` : `
@@ -2116,7 +2121,7 @@ REQUISITOS DE LA HOJA 1:
    - Título: "${v.name}" (${vData.name} - Peso ${vData.weight})
    - Reglas Especiales del Vehículo: ${vData.rules}
 
-2. CUADRÍCULA DE ESTADÍSTICAS (Respetar estrictamente este orden):
+2. CUADRÍCULA DE ESTADÍSTICAS (Respetar strictly este orden):
    - Marcha: ${vData.gear} | Maniobra: ${vData.handling} | Trip.: ${totalCrew} | Peligro: [ ]
 
 3. CARROCERÍA:
