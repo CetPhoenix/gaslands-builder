@@ -1647,6 +1647,7 @@
       let armorCount = 0;
       let extraCrewCount = 0;
       let hasMicroPlacas = false;
+      let hasOrugas = false;
 
       if (v.upgrades) {
         v.upgrades.forEach(u => {
@@ -1657,6 +1658,7 @@
             if (u.name === "Blindaje") armorCount++;
             if (u.name === "Tripulante adicional") extraCrewCount++;
             if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
+            if (u.name === "Orugas") hasOrugas = true;
           }
         });
       }
@@ -1720,16 +1722,25 @@
         }
 
         const currentCrew = vData.crew + extraCrewCount;
+        let currentGear = vData.gear;
+        let currentHandling = vData.handling;
+
+        if (hasOrugas) {
+          currentGear = Math.max(1, currentGear - 1);
+          currentHandling += 1;
+        }
 
         const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-green" : "";
         const crewClass = extraCrewCount > 0 ? "stat-modified-green" : "";
+        const gearClass = hasOrugas ? "stat-modified-green" : "";
+        const handlingClass = hasOrugas ? "stat-modified-green" : "";
 
         innerHTML += `
           <div class="vehicle-stats-box">
             <div class="vehicle-stats-grid">
               <span><b>Peso:</b> ${vData.weight}</span>
-              <span><b>Marcha Máx:</b> ${vData.gear}</span>
-              <span><b>Maniobra:</b> ${vData.handling}</span>
+              <span class="${gearClass}"><b>Marcha Máx:</b> ${currentGear} ${hasOrugas ? '(-1)' : ''}</span>
+              <span class="${handlingClass}"><b>Maniobra:</b> ${currentHandling} ${hasOrugas ? '(+1)' : ''}</span>
               <span class="${crewClass}"><b>Tripulación:</b> ${currentCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</span>
               <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC</span>
             </div>
@@ -2019,7 +2030,7 @@
   }
 
   // GENERACIÓN DE PROMPTS PARA IA
-  function generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew) {
+  function generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling) {
     const weaponsList = [];
     weaponsList.push('Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 BID.');
     if (v.weapons) {
@@ -2085,8 +2096,8 @@ REQUISITOS OBLIGATORIOS DE DISEÑO:
    - Reglas Especiales: ${vData.rules}
 
 2. CUADRÍCULA DE ESTADÍSTICAS (Respetar strictly este orden):
-   - Marcha: ${vData.gear}
-   - Maniobra: ${vData.handling}
+   - Marcha: ${totalGear}
+   - Maniobra: ${totalHandling}
    - Trip.: ${totalCrew}
    - Peligro: [ ]
 
@@ -2124,7 +2135,7 @@ REQUISITOS DE LA HOJA 1:
    - Reglas Especiales del Vehículo: ${vData.rules}
 
 2. CUADRÍCULA DE ESTADÍSTICAS (Respetar strictly este orden):
-   - Marcha: ${vData.gear} | Maniobra: ${vData.handling} | Trip.: ${totalCrew} | Peligro: [ ]
+   - Marcha: ${totalGear} | Maniobra: ${totalHandling} | Trip.: ${totalCrew} | Peligro: [ ]
 
 3. CARROCERÍA:
    - Carrocería: ${totalHull} PC.
@@ -2205,6 +2216,7 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
       let armorCount = 0;
       let extraCrewCount = 0;
       let hasMicroPlacas = false;
+      let hasOrugas = false;
 
       if (v.upgrades) {
         v.upgrades.forEach(u => {
@@ -2214,6 +2226,7 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
             if (u.name === "Blindaje") armorCount++;
             if (u.name === "Tripulante adicional") extraCrewCount++;
             if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
+            if (u.name === "Orugas") hasOrugas = true;
           }
         });
       }
@@ -2236,6 +2249,13 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
       }
 
       const totalCrew = vData.crew + extraCrewCount;
+      let totalGear = vData.gear;
+      let totalHandling = vData.handling;
+
+      if (hasOrugas) {
+        totalGear = Math.max(1, totalGear - 1);
+        totalHandling += 1;
+      }
 
       let hullBoxesHTML = '';
       for (let i = 0; i < totalHull; i++) {
@@ -2348,11 +2368,11 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
         <div class="card-stats-grid">
           <div class="card-stat-box">
             <div class="lbl">Marcha</div>
-            <div class="val">${vData.gear}</div>
+            <div class="val">${totalGear}</div>
           </div>
           <div class="card-stat-box">
             <div class="lbl">Maniobra</div>
-            <div class="val">${vData.handling}</div>
+            <div class="val">${totalHandling}</div>
           </div>
           <div class="card-stat-box">
             <div class="lbl">Trip.</div>
@@ -2473,7 +2493,7 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
       }
 
       // RENDERIZAR BLOQUE DE PROMPTS
-      const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew);
+      const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
       const promptBox = document.createElement('div');
       promptBox.className = 'prompt-card-box';
 
