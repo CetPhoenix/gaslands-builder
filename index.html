@@ -209,8 +209,18 @@
       cursor: not-allowed;
     }
 
-    optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; }
-    optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; }
+    optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; background: #1f2833; }
+    optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; background: #2a1b30; }
+
+    /* Estilos de fondo tenue para las opciones de vehículos */
+    option.opt-v-basico {
+      background-color: rgba(33, 150, 243, 0.2) !important;
+      color: #ffffff;
+    }
+    option.opt-v-avanzado {
+      background-color: rgba(156, 39, 176, 0.2) !important;
+      color: #ffffff;
+    }
 
     optgroup.grp-a-basico { color: var(--cat-arm-basico); font-weight: bold; }
     optgroup.grp-a-avanzado { color: var(--cat-arm-avanzado); font-weight: bold; }
@@ -1696,13 +1706,13 @@
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
                 ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
                 ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
             </select>
