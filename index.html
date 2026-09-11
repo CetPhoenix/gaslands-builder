@@ -297,6 +297,8 @@
     .btn-action-shortcut:hover { background: #0277bd; }
     .btn-action-random { background: #d81b60; }
     .btn-action-random:hover { background: #c2185b; }
+    .btn-action-rules { background: #6a1b9a; }
+    .btn-action-rules:hover { background: #4a148c; }
     .btn-action-contact { background: #ff8f00; }
     .btn-action-contact:hover { background: #ff6f00; }
 
@@ -870,6 +872,12 @@
       <div class="actions-grid">
         <button class="btn-action-shortcut" onclick="createAppShortcut()">📲 Colocar acceso directo en PC / Móvil</button>
         <button class="btn-action-random" onclick="generateRandomSquadron()">🎲 Generar Escudería Aleatoria</button>
+        
+        <!-- BOTÓN DE CONSULTA RÁPIDA AL REGLAMENTO -->
+        <a href="https://cetphoenix.github.io/gaslands_refuelled-reglamento/" target="_blank" style="text-decoration: none;">
+          <button class="btn-action-rules" style="width: 100%;">📖 Reglamento / Consulta Rápida</button>
+        </a>
+
         <a href="mailto:cespinal826@gmail.com?subject=Consulta%20Gaslands%20Builder" style="text-decoration: none;">
           <button class="btn-action-contact" style="width: 100%;">✉️ Contáctanos</button>
         </a>
@@ -2313,7 +2321,7 @@ REQUISITOS OBLIGATORIOS DE DISEÑO:
 
 LISTA DE EQUIPAMIENTO A INCLUIR:
 - Armas: ${weaponsList.join('; ')}
-- Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin mejoras'}
+- Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ')} : 'Sin mejoras'}
 - Ventajas: ${perksList.length > 0 ? perksList.join('; ') : 'Sin ventajas'}
 
 PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | by Cet Phoenix"`;
