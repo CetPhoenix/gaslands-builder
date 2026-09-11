@@ -1175,6 +1175,21 @@
     "Velocidad": "🔷"
   };
 
+  /* NOMBRES TEMÁTICOS TIPO GASLANDS / MAD MAX / CARRERA DE LA MUERTE */
+  const RANDOM_SQUAD_NAMES = [
+    "Señores del Páramo", "Hijos de la Gasolina", "Devoradores de Asfalto", "Chatarra Infernal",
+    "Cazadores de Metal", "Legión del Cromo", "Banda del Apocalipsis", "Jinetes de la Muerte",
+    "Pirañas del Polvo", "Klan del Óxido", "Depredadores de V8", "Los Asesinos del Asfalto",
+    "Rebeldes del Nitro", "Chacales del Desierto", "Los Cadáveres del Volante"
+  ];
+
+  const RANDOM_VEHICLE_NAMES = [
+    "Interceptor Nocturno", "Bestia de Óxido", "Vagabundo del Desierto", "Cazador de Carretera",
+    "Piraña Voladora", "Furia Calcinada", "Tractor del Infierno", "Destrucción Mutante",
+    "Rayo Neumático", "Demonio de Metanol", "Titán Metálico", "Espectro de la Autopista",
+    "Sombra de Sangre", "Monstruo de Cromo", "Trueno Oxidado", "Víbora de Velo"
+  ];
+
   let team = [];
   let deferredPrompt = null;
 
@@ -1198,12 +1213,15 @@
     }
   }
 
-  // GENERACIÓN DE ESCUDERÍA ALEATORIA HASTA LLEGAR AL MÁXIMO DEL FORMATO
+  // GENERACIÓN DE ESCUDERÍA ALEATORIA HASTA LLEGAR AL MÁXIMO DEL FORMATO CON NOMBRES TEMÁTICOS
   function generateRandomSquadron() {
     const sponsorsList = Object.keys(SPONSORS).filter(s => s !== "Ninguno");
     const randomSponsor = sponsorsList[Math.floor(Math.random() * sponsorsList.length)];
     document.getElementById('sponsorSelect').value = randomSponsor;
-    document.getElementById('teamName').value = "Banda Caos " + Math.floor(Math.random() * 100);
+    
+    // Asignación de Nombre de Escudería Temático
+    const randomTeamName = RANDOM_SQUAD_NAMES[Math.floor(Math.random() * RANDOM_SQUAD_NAMES.length)];
+    document.getElementById('teamName').value = randomTeamName;
 
     const maxBudget = parseInt(document.getElementById('maxCansSelect').value) || 50;
     let currentTotal = 0;
@@ -1211,6 +1229,8 @@
 
     const activePerkTypes = SPONSORS[randomSponsor].split(',').map(s => s.trim());
     const availablePerks = PERKS.filter(p => activePerkTypes.includes(p.category));
+
+    let usedVehicleNames = [...RANDOM_VEHICLE_NAMES];
 
     let attempts = 0;
     while (currentTotal < maxBudget && attempts < 15) {
@@ -1244,9 +1264,18 @@
         vehicleCost += perk.cost;
       }
 
+      // Selección Aleatoria de Nombre Temático de Vehículo
+      let vName = "";
+      if (usedVehicleNames.length > 0) {
+        const randomIndex = Math.floor(Math.random() * usedVehicleNames.length);
+        vName = usedVehicleNames.splice(randomIndex, 1)[0];
+      } else {
+        vName = `${randomVehicle.name} Asesino ${team.length + 1}`;
+      }
+
       team.push({
         id: Date.now() + Math.random(),
-        name: `${randomVehicle.name} ${team.length + 1}`,
+        name: vName,
         type: randomVehicle.name,
         image: null,
         diecastBrand: "Hot Wheels",
