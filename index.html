@@ -212,15 +212,31 @@
     optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; background: #1f2833; }
     optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; background: #2a1b30; }
 
-    /* Estilos de fondo tenue para las opciones de vehículos */
-    option.opt-v-basico {
-      background-color: rgba(33, 150, 243, 0.2) !important;
-      color: #ffffff;
-    }
-    option.opt-v-avanzado {
-      background-color: rgba(156, 39, 176, 0.2) !important;
-      color: #ffffff;
-    }
+    /* ESTILOS DE FONDO TENUE PARA OPCIONES */
+    /* Vehículos */
+    option.opt-v-basico { background-color: rgba(33, 150, 243, 0.2) !important; color: #ffffff; }
+    option.opt-v-avanzado { background-color: rgba(156, 39, 176, 0.2) !important; color: #ffffff; }
+
+    /* Armas */
+    option.opt-arm-basico { background-color: rgba(76, 175, 80, 0.2) !important; color: #ffffff; }
+    option.opt-arm-avanzado { background-color: rgba(255, 152, 0, 0.2) !important; color: #ffffff; }
+    option.opt-arm-personal { background-color: rgba(0, 188, 212, 0.2) !important; color: #ffffff; }
+    option.opt-arm-descarga { background-color: rgba(233, 30, 99, 0.2) !important; color: #ffffff; }
+    option.opt-mejora-veh { background-color: rgba(255, 215, 0, 0.2) !important; color: #ffffff; }
+
+    /* Ventajas */
+    option.opt-pk-agresivo { background-color: rgba(229, 57, 53, 0.2) !important; color: #ffffff; }
+    option.opt-pk-aterrador { background-color: rgba(142, 36, 170, 0.2) !important; color: #ffffff; }
+    option.opt-pk-intrepido { background-color: rgba(251, 140, 0, 0.2) !important; color: #ffffff; }
+    option.opt-pk-macizo { background-color: rgba(109, 76, 65, 0.2) !important; color: #ffffff; }
+    option.opt-pk-militar { background-color: rgba(67, 160, 71, 0.2) !important; color: #ffffff; }
+    option.opt-pk-persecucion { background-color: rgba(216, 27, 96, 0.2) !important; color: #ffffff; }
+    option.opt-pk-preciso { background-color: rgba(124, 179, 66, 0.2) !important; color: #ffffff; }
+    option.opt-pk-rudo { background-color: rgba(30, 136, 229, 0.2) !important; color: #ffffff; }
+    option.opt-pk-tecnologia { background-color: rgba(0, 172, 193, 0.2) !important; color: #ffffff; }
+    option.opt-pk-temerario { background-color: rgba(84, 110, 122, 0.2) !important; color: #ffffff; }
+    option.opt-pk-tuneo { background-color: rgba(253, 216, 53, 0.2) !important; color: #ffffff; }
+    option.opt-pk-velocidad { background-color: rgba(57, 73, 171, 0.2) !important; color: #ffffff; }
 
     optgroup.grp-a-basico { color: var(--cat-arm-basico); font-weight: bold; }
     optgroup.grp-a-avanzado { color: var(--cat-arm-avanzado); font-weight: bold; }
@@ -1440,10 +1456,10 @@
     let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
     
     const categories = [
-      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico" },
-      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado" },
-      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal" },
-      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga" }
+      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico", optClass: "opt-arm-basico" },
+      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado", optClass: "opt-arm-avanzado" },
+      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal", optClass: "opt-arm-personal" },
+      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga", optClass: "opt-arm-descarga" }
     ];
 
     categories.forEach(cat => {
@@ -1465,7 +1481,7 @@
           if (isMishkinRequired) label += ` [Mishkin]`;
           if (isDisabled) label += ` (No disponible)`;
 
-          html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+          html += `<option value="${w.name}" class="${cat.optClass}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
         });
         html += `</optgroup>`;
       }
@@ -1517,7 +1533,7 @@
       if (w.sponsor) label += ` [${w.sponsor}]`;
       if (isDisabled) label += ` (No disponible)`;
 
-      html += `<option value="${w.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+      html += `<option value="${w.name}" class="opt-mejora-veh" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
     });
 
     html += `</optgroup>`;
@@ -1539,7 +1555,10 @@
     activePerkTypes.forEach(perkType => {
       const typeItems = PERKS.filter(p => p.category === perkType);
       if (typeItems.length > 0) {
-        const cssClass = `grp-pk-${perkType.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
+        const normalizedCategory = perkType.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const cssClass = `grp-pk-${normalizedCategory}`;
+        const optClass = `opt-pk-${normalizedCategory}`;
+        
         html += `<optgroup label="Ventajas de ${perkType}" class="${cssClass}">`;
 
         typeItems.forEach(p => {
@@ -1558,7 +1577,7 @@
           if (p.cond !== "-") label += ` [${p.cond}]`;
           if (isDisabled) label += ` (No disponible)`;
 
-          html += `<option value="${p.name}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+          html += `<option value="${p.name}" class="${optClass}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
         });
 
         html += `</optgroup>`;
