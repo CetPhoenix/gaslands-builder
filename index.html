@@ -864,7 +864,7 @@
   </div>
 
   <div class="right-column">
-    <!-- NUEVA SECCIÓN DE UTILIDADES ENCIMA DEL CATÁLOGO DE REFERENCIA -->
+    <!-- SECCIÓN DE UTILIDADES CON CAPTURA DE INSTALACIÓN PWA -->
     <div class="actions-panel">
       <h3>⚡ Acciones Útiles</h3>
       <div class="actions-grid">
@@ -1176,43 +1176,87 @@
   };
 
   let team = [];
+  let deferredPrompt = null;
 
-  // FUNCIONES DE LAS NUEVAS ACCIONES
+  // CAPTURA DEL EVENTO DE INSTALACIÓN PWA
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
   function createAppShortcut() {
-    alert("Para colocar el acceso directo a Gaslands Refuelled Builder:\n\n📱 En Móvil (Chrome/Safari):\n1. Toca el menú de 3 puntos (o botón Compartir en iOS).\n2. Selecciona 'Agregar a la pantalla principal'.\n\n💻 En PC (Chrome/Edge):\n1. Haz clic en los 3 puntos del navegador (arriba a la derecha).\n2. Ve a 'Guardar y compartir' -> 'Instalar página como app' (o 'Crear acceso directo').");
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('El usuario instaló el acceso directo.');
+        }
+        deferredPrompt = null;
+      });
+    } else {
+      alert("Para colocar el acceso directo manualmente:\n\n📱 En Móvil (Chrome/Safari):\n1. Toca el menú de 3 puntos (o botón Compartir en iOS).\n2. Selecciona 'Agregar a la pantalla principal'.\n\n💻 En PC (Chrome/Edge):\n1. Haz clic en los 3 puntos del navegador (arriba a la derecha).\n2. Ve a 'Guardar y compartir' -> 'Instalar página como app' (o 'Crear acceso directo').");
+    }
   }
 
+  // GENERACIÓN DE ESCUDERÍA ALEATORIA HASTA LLEGAR AL MÁXIMO DEL FORMATO
   function generateRandomSquadron() {
     const sponsorsList = Object.keys(SPONSORS).filter(s => s !== "Ninguno");
     const randomSponsor = sponsorsList[Math.floor(Math.random() * sponsorsList.length)];
     document.getElementById('sponsorSelect').value = randomSponsor;
-    document.getElementById('teamName').value = "Mad Max " + Math.floor(Math.random() * 100);
+    document.getElementById('teamName').value = "Banda Caos " + Math.floor(Math.random() * 100);
 
+    const maxBudget = parseInt(document.getElementById('maxCansSelect').value) || 50;
+    let currentTotal = 0;
     team = [];
-    const numVehicles = Math.floor(Math.random() * 2) + 1; // 1 o 2 vehículos
 
-    for (let i = 0; i < numVehicles; i++) {
-      const validVehicles = VEHICLES.filter(v => !isVehicleDisabledForSponsor(v, randomSponsor, null));
+    const activePerkTypes = SPONSORS[randomSponsor].split(',').map(s => s.trim());
+    const availablePerks = PERKS.filter(p => activePerkTypes.includes(p.category));
+
+    let attempts = 0;
+    while (currentTotal < maxBudget && attempts < 15) {
+      attempts++;
+      const remainingBudget = maxBudget - currentTotal;
+
+      const validVehicles = VEHICLES.filter(v => v.bidones <= remainingBudget && !isVehicleDisabledForSponsor(v, randomSponsor, null));
+      if (validVehicles.length === 0) break;
+
       const randomVehicle = validVehicles[Math.floor(Math.random() * validVehicles.length)];
-      
-      const randomWeapons = WEAPONS.filter(w => w.name !== "Ninguna" && w.category === "Básico");
-      const chosenWeapon = randomWeapons[Math.floor(Math.random() * randomWeapons.length)];
+      let vehicleCost = randomVehicle.bidones;
 
-      const activePerkTypes = SPONSORS[randomSponsor].split(',').map(s => s.trim());
-      const availablePerks = PERKS.filter(p => activePerkTypes.includes(p.category));
-      const chosenPerk = availablePerks.length > 0 ? availablePerks[Math.floor(Math.random() * availablePerks.length)] : null;
+      let chosenWeapons = [];
+      let availableSlots = randomVehicle.slots;
+
+      // Intentar agregar armas dentro del presupuesto y casillas
+      const validWeapons = WEAPONS.filter(w => w.name !== "Ninguna" && w.bidones <= (remainingBudget - vehicleCost) && w.slots <= availableSlots);
+      if (validWeapons.length > 0 && Math.random() > 0.2) {
+        const weapon = validWeapons[Math.floor(Math.random() * validWeapons.length)];
+        chosenWeapons.push({ name: weapon.name, facing: "Frontal" });
+        vehicleCost += weapon.bidones;
+        availableSlots -= weapon.slots;
+      }
+
+      // Intentar agregar ventajas si queda presupuesto
+      let chosenPerks = [];
+      const validPerks = availablePerks.filter(p => p.cost <= (remainingBudget - vehicleCost));
+      if (validPerks.length > 0 && Math.random() > 0.3) {
+        const perk = validPerks[Math.floor(Math.random() * validPerks.length)];
+        chosenPerks.push({ name: perk.name });
+        vehicleCost += perk.cost;
+      }
 
       team.push({
-        id: Date.now() + i,
-        name: `${randomVehicle.name} Krazy`,
+        id: Date.now() + Math.random(),
+        name: `${randomVehicle.name} ${team.length + 1}`,
         type: randomVehicle.name,
         image: null,
         diecastBrand: "Hot Wheels",
         diecastModel: "",
-        weapons: chosenWeapon ? [{ name: chosenWeapon.name, facing: "Frontal" }] : [],
+        weapons: chosenWeapons,
         upgrades: [],
-        perks: chosenPerk ? [{ name: chosenPerk.name }] : []
+        perks: chosenPerks
       });
+
+      currentTotal += vehicleCost;
     }
 
     renderBuilder();
