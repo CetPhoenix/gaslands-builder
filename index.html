@@ -1159,20 +1159,20 @@
     { name: "Tomar Impulso", category: "Velocidad", cost: 1, cond: "-" }
   ];
 
-  /* ICONOS TEMÁTICOS DE COMBATE Y VEHÍCULOS */
+  /* ICONOS TEMÁTICOS DE COMBATE Y VEHÍCULOS (CONSERVANDO COLORIMETRÍA) */
   const PERK_EMOJIS = {
-    "Agresivo": "🔴",
-    "Aterrador": "🟣",
-    "Intrépido": "🟠",
-    "Macizo": "🟤",
-    "Militar": "🟢",
-    "Persecución": "🔫",
-    "Preciso": "🍏",
-    "Rudo": "🔵",
-    "Tecnología": "🩵",
-    "Temerario": "🔘",
-    "Tuneo": "🟡",
-    "Velocidad": "🔷"
+    "Agresivo": "🥊",
+    "Aterrador": "💀",
+    "Intrépido": "🔥",
+    "Macizo": "🪨",
+    "Militar": "🪖",
+    "Persecución": "🎯",
+    "Preciso": "🎯",
+    "Rudo": "⚡",
+    "Tecnología": "🔋",
+    "Temerario": "🎲",
+    "Tuneo": "⚙️",
+    "Velocidad": "🏎️"
   };
 
   /* NOMBRES TEMÁTICOS TIPO GASLANDS / MAD MAX / CARRERA DE LA MUERTE */
@@ -1631,10 +1631,10 @@
     let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
     
     const categories = [
-      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico", optClass: "opt-arm-basico", emoji: "🟢" },
-      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado", optClass: "opt-arm-avanzado", emoji: "🟠" },
-      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal", optClass: "opt-arm-personal", emoji: "🩵" },
-      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga", optClass: "opt-arm-descarga", emoji: "🔫" }
+      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico", optClass: "opt-arm-basico", emoji: "🔫" },
+      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado", optClass: "opt-arm-avanzado", emoji: "💥" },
+      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal", optClass: "opt-arm-personal", emoji: "🦺" },
+      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga", optClass: "opt-arm-descarga", emoji: "💣" }
     ];
 
     categories.forEach(cat => {
@@ -1704,7 +1704,7 @@
         isDisabled = true;
       }
 
-      let label = `🟡 ${w.name} (${cost} Bid. | ${slots} Slot)`;
+      let label = `🛠️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
       if (isDisabled) label += ` (No disponible)`;
 
@@ -1901,13 +1901,13 @@
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
                 ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🔵 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
                 ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🟣 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
             </select>
