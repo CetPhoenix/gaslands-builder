@@ -7,9 +7,12 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V1.9</title>
+  <title>Gaslands Refuelled - Builder</title>
   
-  <!-- Carga de Fuente Uniforme (Roboto) para evitar errores de renderizado en móviles/PCs -->
+  <!-- Favicon SVG con temática de vehículo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
+
+  <!-- Carga de Fuente Uniforme (Roboto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
@@ -288,6 +291,38 @@
     button.btn-load:hover { background: #bf360c; }
     button.btn-copy { background: #009688; }
     button.btn-copy:hover { background: #00796b; }
+    
+    /* Botones de la nueva sección de utilidades */
+    .btn-action-shortcut { background: #0288d1; }
+    .btn-action-shortcut:hover { background: #0277bd; }
+    .btn-action-random { background: #d81b60; }
+    .btn-action-random:hover { background: #c2185b; }
+    .btn-action-contact { background: #ff8f00; }
+    .btn-action-contact:hover { background: #ff6f00; }
+
+    /* Panel de Acciones Útiles */
+    .actions-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .actions-panel h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: var(--accent-color);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .actions-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
     .catalog-panel {
       background: var(--panel-bg);
@@ -775,7 +810,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V1.9</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V2</h1>
 </header>
 
 <div class="main-layout">
@@ -828,60 +863,73 @@
     <button onclick="addVehicle()">+ Añadir Vehículo</button>
   </div>
 
-  <div class="catalog-panel">
-    <h2>Catálogo de Referencia</h2>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-veh-basico);"></span> Vehículos Básicos</summary>
-      <div id="catalogVehiclesBasic"></div>
-    </details>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-veh-avanzado);"></span> Vehículos Avanzados</summary>
-      <div id="catalogVehiclesAdvanced"></div>
-    </details>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-arm-basico);"></span> Armamento Básico</summary>
-      <div id="catalogWeaponsBasic"></div>
-    </details>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-arm-avanzado);"></span> Armamento Avanzado</summary>
-      <div id="catalogWeaponsAdvanced"></div>
-    </details>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-arm-personal);"></span> Armamento Avanzado (Personales)</summary>
-      <div id="catalogWeaponsPersonal"></div>
-    </details>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-arm-descarga);"></span> Armamento Avanzado (Descarga)</summary>
-      <div id="catalogWeaponsDropped"></div>
-    </details>
-
-    <details>
-      <summary><span class="color-tag" style="background: var(--cat-mejora-veh);"></span> Mejoras para Vehículo</summary>
-      <div id="catalogVehicleUpgrades"></div>
-    </details>
-
-    <!-- BLOQUE DE ANUNCIO ADSENSE -->
-    <div style="margin-top: 20px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
-      <span style="font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 5px;">PUBLICIDAD</span>
-      
-      <!-- Banner Lateral Gaslands Builder -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-0555222123747987"
-           data-ad-slot="6232265180"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+  <div class="right-column">
+    <!-- NUEVA SECCIÓN DE UTILIDADES ENCIMA DEL CATÁLOGO DE REFERENCIA -->
+    <div class="actions-panel">
+      <h3>⚡ Acciones Útiles</h3>
+      <div class="actions-grid">
+        <button class="btn-action-shortcut" onclick="createAppShortcut()">📲 Colocar acceso directo en PC / Móvil</button>
+        <button class="btn-action-random" onclick="generateRandomSquadron()">🎲 Generar Escudería Aleatoria</button>
+        <a href="mailto:cespinal826@gmail.com?subject=Consulta%20Gaslands%20Builder" style="text-decoration: none;">
+          <button class="btn-action-contact" style="width: 100%;">✉️ Contáctanos</button>
+        </a>
+      </div>
     </div>
-       
+
+    <div class="catalog-panel">
+      <h2>Catálogo de Referencia</h2>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-veh-basico);"></span> Vehículos Básicos</summary>
+        <div id="catalogVehiclesBasic"></div>
+      </details>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-veh-avanzado);"></span> Vehículos Avanzados</summary>
+        <div id="catalogVehiclesAdvanced"></div>
+      </details>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-arm-basico);"></span> Armamento Básico</summary>
+        <div id="catalogWeaponsBasic"></div>
+      </details>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-arm-avanzado);"></span> Armamento Avanzado</summary>
+        <div id="catalogWeaponsAdvanced"></div>
+      </details>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-arm-personal);"></span> Armamento Avanzado (Personales)</summary>
+        <div id="catalogWeaponsPersonal"></div>
+      </details>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-arm-descarga);"></span> Armamento Avanzado (Descarga)</summary>
+        <div id="catalogWeaponsDropped"></div>
+      </details>
+
+      <details>
+        <summary><span class="color-tag" style="background: var(--cat-mejora-veh);"></span> Mejoras para Vehículo</summary>
+        <div id="catalogVehicleUpgrades"></div>
+      </details>
+
+      <!-- BLOQUE DE ANUNCIO ADSENSE -->
+      <div style="margin-top: 20px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
+        <span style="font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 5px;">PUBLICIDAD</span>
+        
+        <!-- Banner Lateral Gaslands Builder -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-0555222123747987"
+             data-ad-slot="6232265180"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1111,7 +1159,7 @@
     { name: "Tomar Impulso", category: "Velocidad", cost: 1, cond: "-" }
   ];
 
-  /* SE REEMPLAZA EL CORAZÓN POR EL ICONO DE PISTOLA 🔫 Y OTROS SÍMBOLOS TEMÁTICOS DE COMBATE */
+  /* ICONOS TEMÁTICOS DE COMBATE Y VEHÍCULOS */
   const PERK_EMOJIS = {
     "Agresivo": "🔴",
     "Aterrador": "🟣",
@@ -1129,6 +1177,47 @@
 
   let team = [];
 
+  // FUNCIONES DE LAS NUEVAS ACCIONES
+  function createAppShortcut() {
+    alert("Para colocar el acceso directo a Gaslands Refuelled Builder:\n\n📱 En Móvil (Chrome/Safari):\n1. Toca el menú de 3 puntos (o botón Compartir en iOS).\n2. Selecciona 'Agregar a la pantalla principal'.\n\n💻 En PC (Chrome/Edge):\n1. Haz clic en los 3 puntos del navegador (arriba a la derecha).\n2. Ve a 'Guardar y compartir' -> 'Instalar página como app' (o 'Crear acceso directo').");
+  }
+
+  function generateRandomSquadron() {
+    const sponsorsList = Object.keys(SPONSORS).filter(s => s !== "Ninguno");
+    const randomSponsor = sponsorsList[Math.floor(Math.random() * sponsorsList.length)];
+    document.getElementById('sponsorSelect').value = randomSponsor;
+    document.getElementById('teamName').value = "Mad Max " + Math.floor(Math.random() * 100);
+
+    team = [];
+    const numVehicles = Math.floor(Math.random() * 2) + 1; // 1 o 2 vehículos
+
+    for (let i = 0; i < numVehicles; i++) {
+      const validVehicles = VEHICLES.filter(v => !isVehicleDisabledForSponsor(v, randomSponsor, null));
+      const randomVehicle = validVehicles[Math.floor(Math.random() * validVehicles.length)];
+      
+      const randomWeapons = WEAPONS.filter(w => w.name !== "Ninguna" && w.category === "Básico");
+      const chosenWeapon = randomWeapons[Math.floor(Math.random() * randomWeapons.length)];
+
+      const activePerkTypes = SPONSORS[randomSponsor].split(',').map(s => s.trim());
+      const availablePerks = PERKS.filter(p => activePerkTypes.includes(p.category));
+      const chosenPerk = availablePerks.length > 0 ? availablePerks[Math.floor(Math.random() * availablePerks.length)] : null;
+
+      team.push({
+        id: Date.now() + i,
+        name: `${randomVehicle.name} Krazy`,
+        type: randomVehicle.name,
+        image: null,
+        diecastBrand: "Hot Wheels",
+        diecastModel: "",
+        weapons: chosenWeapon ? [{ name: chosenWeapon.name, facing: "Frontal" }] : [],
+        upgrades: [],
+        perks: chosenPerk ? [{ name: chosenPerk.name }] : []
+      });
+    }
+
+    renderBuilder();
+  }
+
   function createNewSquadron() {
     if (team.length > 0) {
       const confirmReset = confirm("¿Estás seguro de que deseas reiniciar todo? Se eliminarán los vehículos creados.");
@@ -1143,7 +1232,7 @@
 
   function saveConfiguration() {
     const configData = {
-      version: "1.2",
+      version: "2.0",
       teamName: document.getElementById('teamName').value || "Mi Escudería",
       sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
       maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1790,7 +1879,6 @@
             <div style="color: #7dcfb6;"><b>Reglas Especiales:</b> ${vData.rules}</div>
           </div>
 
-          <!-- SECCIÓN DE IMAGEN Y DIECAST MOVIDA DEBAJO DE LAS CARACTERÍSTICAS -->
           <div class="vehicle-image-input-container">
             <div style="display: flex; align-items: center; gap: 15px;">
               <div style="flex-grow: 1;">
@@ -2020,7 +2108,6 @@
     }
   }
 
-  // DESCARGA PNG OPTIMIZADA PARA MÓVILES Y PCS
   function downloadAllCardsPNG() {
     const cards = document.querySelectorAll('.printable-card');
     if (!cards || cards.length === 0) return;
@@ -2028,12 +2115,12 @@
     document.fonts.ready.then(() => {
       cards.forEach((card, idx) => {
         html2canvas(card, {
-          scale: 3,                 // Calidad alta 8K
+          scale: 3,
           useCORS: true,
           allowTaint: true,
           logging: false,
-          letterRendering: true,   // Elimina distorsión de espaciados de fuente
-          windowWidth: 1200,       // Previene colapso responsivo
+          letterRendering: true,
+          windowWidth: 1200,
           onclone: (clonedDoc) => {
             const clonedCard = clonedDoc.querySelectorAll('.printable-card')[idx];
             if (clonedCard) {
@@ -2072,7 +2159,6 @@
     }
   }
 
-  // GENERACIÓN DE PROMPTS PARA IA
   function generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling) {
     const weaponsList = [];
     weaponsList.push('Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 BID.');
@@ -2111,7 +2197,6 @@
       });
     }
 
-    // DESCRIPCIÓN VISUAL DE VEHÍCULO / DIECAST
     let visualDesc = "";
     if (pagesMode === '2pages' && v.image) {
       visualDesc = "Basarse fielmente en la imagen real del vehículo subida por el usuario para renderizarlo con acabado estilo miniatura post-apocalíptica Gaslands.";
@@ -2162,7 +2247,6 @@ PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | by Cet Phoenix"`;
 
       return { isTwoPages: false, prompt1 };
     } else {
-      // PROMPT HOJA 1
       const promptH1 = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
 ESTILO VISUAL Y TEMÁTICA:
@@ -2189,7 +2273,6 @@ REQUISITOS DE LA HOJA 1:
 
 PIE DE PÁGINA: "HOJA 1 / 2 - ATRIBUTOS | Nexo Alpha - Gaslands Refuelled by Cet Phoenix"`;
 
-      // PROMPT HOJA 2
       const promptH2 = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
 ESTILO VISUAL Y TEMÁTICA:
@@ -2215,7 +2298,6 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
     }
   }
 
-  // LÓGICA DE GENERACIÓN DE FICHAS IMPRIMIBLES
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
@@ -2394,7 +2476,6 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
         </div>
       `;
 
-      /* CABECERA DE FICHA CON EL ORDEN DE CASILLEROS: MARCHA - MANIOBRA - TRIP. - PELIGRO */
       const cardHeaderHTML = `
         <div class="card-top-bar">
           <span>ESC: ${teamName}</span>
@@ -2535,7 +2616,6 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
         container.innerHTML += singleCardHTML;
       }
 
-      // RENDERIZAR BLOQUE DE PROMPTS
       const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
       const promptBox = document.createElement('div');
       promptBox.className = 'prompt-card-box';
