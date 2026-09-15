@@ -1339,8 +1339,9 @@
     reader.onload = function(e) {
       try {
         const loadedData = JSON.parse(e.target.result);
+        const loadedVehicles = loadedData.vehicles || loadedData.team;
 
-        if (!loadedData || !Array.isArray(loadedData.vehicles)) {
+        if (!loadedData || !Array.isArray(loadedVehicles)) {
           alert("El archivo no tiene una estructura válida de escudería .cet");
           return;
         }
@@ -1349,7 +1350,7 @@
         document.getElementById('sponsorSelect').value = loadedData.sponsor || "Ninguno";
         document.getElementById('maxCansSelect').value = loadedData.maxCans || 50;
         
-        team = loadedData.vehicles;
+        team = loadedVehicles;
         renderBuilder();
         alert("¡Escudería cargada con éxito!");
       } catch (err) {
@@ -2321,7 +2322,7 @@ REQUISITOS OBLIGATORIOS DE DISEÑO:
 
 LISTA DE EQUIPAMIENTO A INCLUIR:
 - Armas: ${weaponsList.join('; ')}
-- Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ')} : 'Sin mejoras'}
+- Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin mejoras'}
 - Ventajas: ${perksList.length > 0 ? perksList.join('; ') : 'Sin ventajas'}
 
 PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | by Cet Phoenix"`;
