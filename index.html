@@ -3,14 +3,14 @@
 <head>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
-     crossorigin="anonymous"></script>
+       crossorigin="anonymous"></script>
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Builder V2</title>
+  <title>Gaslands Refuelled - Builder V3</title>
   
   <!-- Favicon SVG con temática de vehículo -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
 
   <!-- Carga de Fuente Uniforme (Roboto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -215,7 +215,6 @@
     optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; background: #1f2833; }
     optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; background: #2a1b30; }
 
-    /* ESTILOS DE FONDO TENUE PARA NAVEGADORES ESCRITORIO */
     option.opt-v-basico { background-color: rgba(33, 150, 243, 0.2) !important; color: #ffffff; }
     option.opt-v-avanzado { background-color: rgba(156, 39, 176, 0.2) !important; color: #ffffff; }
 
@@ -292,7 +291,6 @@
     button.btn-copy { background: #009688; }
     button.btn-copy:hover { background: #00796b; }
     
-    /* Botones de la nueva sección de utilidades */
     .btn-action-shortcut { background: #0288d1; }
     .btn-action-shortcut:hover { background: #0277bd; }
     .btn-action-random { background: #d81b60; }
@@ -302,7 +300,6 @@
     .btn-action-contact { background: #ff8f00; }
     .btn-action-contact:hover { background: #ff6f00; }
 
-    /* Panel de Acciones Útiles */
     .actions-panel {
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
@@ -517,7 +514,17 @@
       transition: transform 0.2s ease;
     }
 
-    /* SECCIÓN DE PROMPTS EN EL MODAL */
+    .dashboard-triptych-container {
+      display: flex;
+      gap: 4px;
+      background: #222;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      margin-bottom: 10px;
+      page-break-inside: avoid;
+    }
+
     .prompts-section-container {
       background: #1e1e1e;
       border: 1px solid #444;
@@ -547,14 +554,12 @@
       margin-top: 6px;
     }
 
-    /* VISTA Y DISEÑO DE LA FICHA TIPO CARTA STANDARD CON FUENTE CONTROLADA */
+    /* VISTA Y DISEÑO DE FICHAS CON ESTILOS BASE */
     .printable-card {
       font-family: 'Roboto', sans-serif !important;
       background: #fff;
       color: #000;
       border: 2px solid #000;
-      width: 63mm;
-      height: 88mm;
       padding: 2.5mm;
       box-sizing: border-box;
       font-size: 6.5pt;
@@ -568,6 +573,10 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       page-break-inside: avoid;
     }
+
+    .card-size-63x88 { width: 63mm; height: 88mm; }
+    .card-size-95x80 { width: 95mm; height: 80mm; }
+    .card-size-42x78 { width: 42mm; height: 78mm; font-size: 5.5pt; padding: 1.5mm; border-radius: 2mm; }
 
     .printable-card * {
       letter-spacing: normal !important;
@@ -748,6 +757,40 @@
       font-weight: bold;
     }
 
+    /* ESTILOS ESPECÍFICOS PARA TARJETA DE ARMA DE DASHBOARD (42x78) */
+    .dashboard-weapon-card-box {
+      border: 1px solid #000;
+      border-radius: 2px;
+      padding: 2px;
+      margin-bottom: 3px;
+      background: #fdfdfd;
+    }
+
+    .dashboard-weapon-title {
+      font-weight: bold;
+      font-size: 5pt;
+      border-bottom: 0.5px solid #000;
+      padding-bottom: 1px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+    }
+
+    .dashboard-weapon-stats-box {
+      border: 0.5px solid #444;
+      background: #eee;
+      padding: 1px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      text-align: center;
+      font-size: 4pt;
+    }
+
+    .dashboard-weapon-stats-box div {
+      background: #fff;
+      padding: 1px 0;
+    }
+
     .card-footer {
       text-align: center;
       font-size: 4.5pt;
@@ -765,7 +808,6 @@
       color: #444;
     }
 
-    /* REGLAS CSS PARA IMPRESIÓN A4 */
     @media print {
       @page {
         size: A4 portrait;
@@ -794,8 +836,8 @@
         background: none !important;
       }
       .cards-preview-grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, 63mm) !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
         gap: 4mm 6mm !important;
         justify-content: start !important;
         transform: scale(1) !important;
@@ -804,6 +846,11 @@
         box-shadow: none !important;
         border: 1.5px solid #000 !important;
         page-break-inside: avoid !important;
+      }
+      .dashboard-triptych-container {
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
       }
     }
   </style>
@@ -866,14 +913,12 @@
   </div>
 
   <div class="right-column">
-    <!-- SECCIÓN DE UTILIDADES CON CAPTURA DE INSTALACIÓN PWA -->
     <div class="actions-panel">
       <h3>⚡ Acciones Útiles</h3>
       <div class="actions-grid">
         <button class="btn-action-shortcut" onclick="createAppShortcut()">📲 Colocar acceso directo en PC / Móvil</button>
         <button class="btn-action-random" onclick="generateRandomSquadron()">🎲 Generar Escudería Aleatoria</button>
         
-        <!-- BOTÓN DE CONSULTA RÁPIDA AL REGLAMENTO -->
         <a href="https://cetphoenix.github.io/gaslands_refuelled-reglamento/" target="_blank" style="text-decoration: none;">
           <button class="btn-action-rules" style="width: 100%;">📖 Reglamento / Consulta Rápida</button>
         </a>
@@ -922,11 +967,9 @@
         <div id="catalogVehicleUpgrades"></div>
       </details>
 
-      <!-- BLOQUE DE ANUNCIO ADSENSE -->
       <div style="margin-top: 20px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
         <span style="font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 5px;">PUBLICIDAD</span>
         
-        <!-- Banner Lateral Gaslands Builder -->
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-0555222123747987"
@@ -949,17 +992,19 @@
   </div>
 </footer>
 
-<!-- MODAL PARA VISTA PREVIA E IMPRESIÓN DE FICHAS Y PROMPTS PARA IA -->
+<!-- MODAL CON LAS NUEVAS OPCIONES DE SELECCIÓN DE FICHA -->
 <div id="cardsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header-actions">
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <h3 style="margin: 0; color: #fff;">Fichas de Vehículos (63mm x 88mm)</h3>
+        <h3 style="margin: 0; color: #fff;">Opciones de Fichas de Vehículos</h3>
         
         <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Formato:</label>
-        <select id="cardPagesSelect" onchange="openCardsModal()" style="width: 150px; padding: 4px 8px; font-size: 0.85rem;">
-          <option value="1page">1 Hoja por Ficha</option>
-          <option value="2pages">Dividir en 2 Hojas</option>
+        <select id="cardPagesSelect" onchange="openCardsModal()" style="width: 280px; padding: 4px 8px; font-size: 0.85rem;">
+          <option value="1page_63x88">(63mm x 88mm) - 1 Hoja por Ficha</option>
+          <option value="2pages_63x88">(63mm x 88mm) - 2 Hojas por Ficha</option>
+          <option value="1page_95x80">(95mm x 80mm) - 1 Hoja por Ficha</option>
+          <option value="dashboard_nexo">Dashboard Nexo Alpha (3 Fichas 42mm x 78mm)</option>
         </select>
       </div>
 
@@ -1167,23 +1212,12 @@
     { name: "Tomar Impulso", category: "Velocidad", cost: 1, cond: "-" }
   ];
 
-  /* ICONOS TEMÁTICOS DE COMBATE Y VEHÍCULOS (CONSERVANDO COLORIMETRÍA) */
   const PERK_EMOJIS = {
-    "Agresivo": "🥊",
-    "Aterrador": "💀",
-    "Intrépido": "🔥",
-    "Macizo": "🪨",
-    "Militar": "🪖",
-    "Persecución": "🎯",
-    "Preciso": "🎯",
-    "Rudo": "⚡",
-    "Tecnología": "🔋",
-    "Temerario": "🎲",
-    "Tuneo": "⚙️",
-    "Velocidad": "🏎️"
+    "Agresivo": "🥊", "Aterrador": "💀", "Intrépido": "🔥", "Macizo": "🪨",
+    "Militar": "🪖", "Persecución": "🎯", "Preciso": "🎯", "Rudo": "⚡",
+    "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙️", "Velocidad": "🏎️"
   };
 
-  /* NOMBRES TEMÁTICOS TIPO GASLANDS / MAD MAX / CARRERA DE LA MUERTE */
   const RANDOM_SQUAD_NAMES = [
     "Señores del Páramo", "Hijos de la Gasolina", "Devoradores de Asfalto", "Chatarra Infernal",
     "Cazadores de Metal", "Legión del Cromo", "Banda del Apocalipsis", "Jinetes de la Muerte",
@@ -1201,7 +1235,6 @@
   let team = [];
   let deferredPrompt = null;
 
-  // CAPTURA DEL EVENTO DE INSTALACIÓN PWA
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -1221,13 +1254,11 @@
     }
   }
 
-  // GENERACIÓN DE ESCUDERÍA ALEATORIA HASTA LLEGAR AL MÁXIMO DEL FORMATO CON NOMBRES TEMÁTICOS
   function generateRandomSquadron() {
     const sponsorsList = Object.keys(SPONSORS).filter(s => s !== "Ninguno");
     const randomSponsor = sponsorsList[Math.floor(Math.random() * sponsorsList.length)];
     document.getElementById('sponsorSelect').value = randomSponsor;
     
-    // Asignación de Nombre de Escudería Temático
     const randomTeamName = RANDOM_SQUAD_NAMES[Math.floor(Math.random() * RANDOM_SQUAD_NAMES.length)];
     document.getElementById('teamName').value = randomTeamName;
 
@@ -1254,7 +1285,6 @@
       let chosenWeapons = [];
       let availableSlots = randomVehicle.slots;
 
-      // Intentar agregar armas dentro del presupuesto y casillas
       const validWeapons = WEAPONS.filter(w => w.name !== "Ninguna" && w.bidones <= (remainingBudget - vehicleCost) && w.slots <= availableSlots);
       if (validWeapons.length > 0 && Math.random() > 0.2) {
         const weapon = validWeapons[Math.floor(Math.random() * validWeapons.length)];
@@ -1263,7 +1293,6 @@
         availableSlots -= weapon.slots;
       }
 
-      // Intentar agregar ventajas si queda presupuesto
       let chosenPerks = [];
       const validPerks = availablePerks.filter(p => p.cost <= (remainingBudget - vehicleCost));
       if (validPerks.length > 0 && Math.random() > 0.3) {
@@ -1272,7 +1301,6 @@
         vehicleCost += perk.cost;
       }
 
-      // Selección Aleatoria de Nombre Temático de Vehículo
       let vName = "";
       if (usedVehicleNames.length > 0) {
         const randomIndex = Math.floor(Math.random() * usedVehicleNames.length);
@@ -1683,15 +1711,9 @@
     const crewUpgradeCount = currentUpgrades.filter((u, idx) => idx !== currentIndex && u.name === "Tripulante adicional").length;
 
     const uniqueUpgrades = [
-      "Impulsor de nitrometano",
-      "Jaula de seguridad",
-      "Motor nuclear experimental",
-      "Orugas",
-      "Teleportador experimental",
-      "Tubo lanzamierdas",
-      "Vehículo carcelario (especial)",
-      "Sirena Mejorada",
-      "Blindaje de micro placas"
+      "Impulsor de nitrometano", "Jaula de seguridad", "Motor nuclear experimental",
+      "Orugas", "Teleportador experimental", "Tubo lanzamierdas",
+      "Vehículo carcelario (especial)", "Sirena Mejorada", "Blindaje de micro placas"
     ];
 
     items.forEach(w => {
@@ -1910,13 +1932,13 @@
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
                 ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
                 ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip: ${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
             </select>
@@ -1964,7 +1986,7 @@
           <div class="vehicle-image-input-container">
             <div style="display: flex; align-items: center; gap: 15px;">
               <div style="flex-grow: 1;">
-                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo (Para ficha de 2 Hojas):</label>
+                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo:</label>
                 <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
               </div>
               ${v.image ? `
@@ -1996,7 +2018,6 @@
 
         const isSlotsFull = usedSlots >= vData.slots;
 
-        // SECCIÓN DE ARMAS
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -2059,7 +2080,6 @@
         });
         innerHTML += `</div>`;
 
-        // SECCIÓN DE MEJORAS
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -2107,7 +2127,6 @@
         });
         innerHTML += `</div>`;
 
-        // SECCIÓN DE VENTAJAS DE PATROCINADOR
         innerHTML += `
           <div class="section-block">
             <div class="section-title">
@@ -2241,7 +2260,8 @@
     }
   }
 
-  function generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling) {
+  /* NUEVA GENERACIÓN ADAPTATIVA DE PROMPTS SEGÚN FORMATO DE FICHA SELECCIONADO */
+  function generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling) {
     const weaponsList = [];
     weaponsList.push('Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 BID.');
     if (v.weapons) {
@@ -2252,7 +2272,7 @@
           if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
           const rules = getWeaponRules(wData, sponsorName);
           const ammo = getAmmoCountFromRules(rules);
-          weaponsList.push(`${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} BID.${ammo > 0 ? ` (Casillas de Munición: ${ammo})` : ''}`);
+          weaponsList.push(`${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} BID.${ammo > 0 ? ` (Munición: ${ammo})` : ''}`);
         }
       });
     }
@@ -2264,7 +2284,7 @@
         if (uData && uData.name !== "Ninguna") {
           const cost = getItemCost(uData, sponsorName);
           const ammo = getAmmoCountFromRules(uData.rules);
-          upgradesList.push(`${uData.name} | Costo: ${cost} BID.${ammo > 0 ? ` (Casillas de Munición: ${ammo})` : ''}`);
+          upgradesList.push(`${uData.name} | Costo: ${cost} BID.${ammo > 0 ? ` (Munición: ${ammo})` : ''}`);
         }
       });
     }
@@ -2280,7 +2300,7 @@
     }
 
     let visualDesc = "";
-    if (pagesMode === '2pages' && v.image) {
+    if (v.image) {
       visualDesc = "Basarse fielmente en la imagen real del vehículo subida por el usuario para renderizarlo con acabado estilo miniatura post-apocalíptica Gaslands.";
     } else if (v.diecastBrand || v.diecastModel) {
       visualDesc = `Ilustrar un coche diecast escala 1:64 coche base: ${v.diecastBrand || ''} ${v.diecastModel || ''}, modificado al estilo post-apocalíptico de Gaslands Refuelled con blindaje oxidado, remaches, polvo y desgaste extremo.`;
@@ -2288,105 +2308,105 @@
       visualDesc = `Ilustrar un vehículo tipo ${vData.name} (${vData.weight}) modificado para el juego de mesa post-apocalíptico Gaslands Refuelled, con carrocería desgastada, placas de metal soldadas, remaches, ruedas todoterreno y suciedad.`;
     }
 
-    const equipVisualRules = "Si el vehículo cuenta con armas, mejoras o equipo asignado, debes incluir iconos o imágenes referenciales claras para cada uno dentro de las tablas o secciones visuales.";
-
-    if (pagesMode === '1page') {
-      const prompt1 = `Diseña una imagen de ficha en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
+    if (cardOption === '1page_63x88') {
+      const prompt1 = `Diseña una imagen de ficha en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical carta standard (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
 ESTILO VISUAL Y TEMÁTICA:
 - Temática post-apocalíptica de carreras armadas Gaslands Refuelled.
-- Estilo gráfico: Ficha de juego limpia con borde negro y esquinas redondeadas (3mm). Fondo con textura de metal oxidado o placa industrial desgastada.
+- Estilo gráfico: Ficha de juego limpia con borde negro y esquinas redondeadas (3mm). Fondo con textura de metal oxidado.
 
-REQUISITOS OBLIGATORIOS DE DISEÑO:
+DATOS OBLIGATORIOS:
 1. CABECERA:
-   - Escudería: "${teamName}"
-   - Patrocinador: "${sponsorName}"
-   - Costo Total: ${vehicleBidones} BID.
-   - Título del Vehículo: "${v.name}" (${vData.name} - Peso ${vData.weight})
-   - Reglas Especiales: ${vData.rules}
+   - Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
+   - Vehículo: "${v.name}" (${vData.name} - Peso ${vData.weight}) | Reglas: ${vData.rules}
 
-2. CUADRÍCULA DE ESTADÍSTICAS (Respetar strictly este orden):
-   - Marcha: ${totalGear}
-   - Maniobra: ${totalHandling}
-   - Trip.: ${totalCrew}
-   - Peligro: [ ]
+2. ESTADÍSTICAS Y CARROCERÍA:
+   - Marcha: ${totalGear} | Maniobra: ${totalHandling} | Trip.: ${totalCrew} | Peligro: [ ]
+   - Carrocería: ${totalHull} PC (${totalHull} casillas cuadradas blancas vacías).
 
-3. CARROCERÍA:
-   - Carrocería Total: ${totalHull} PC.
-   - Debe incluir exactamente ${totalHull} casillas o cuadrados blancos vacíos interactivos para marcar el daño.
-
-4. SECCIÓN DE EQUIPAMIENTO Y REGLAS:
-   - Tablas estructuradas de ARMAS EQUIPADAS, MEJORAS Y VENTAJAS.
-   - ${equipVisualRules}
-   - Respetar casillas de MUNICIÓN requeridas en armas/mejoras (ej: casillas pequeñas blancas [ ] [ ] al lado del ícono del arma).
-
-LISTA DE EQUIPAMIENTO A INCLUIR:
-- Armas: ${weaponsList.join('; ')}
-- Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin mejoras'}
-- Ventajas: ${perksList.length > 0 ? perksList.join('; ') : 'Sin ventajas'}
+3. TABLAS DE EQUIPAMIENTO:
+   - Armas: ${weaponsList.join('; ')}
+   - Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin mejoras'}
+   - Ventajas: ${perksList.length > 0 ? perksList.join('; ') : 'Sin ventajas'}
 
 PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | by Cet Phoenix"`;
+      return { type: 'single', prompt: prompt1 };
 
-      return { isTwoPages: false, prompt1 };
-    } else {
-      const promptH1 = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) del vehículo para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
-
-ESTILO VISUAL Y TEMÁTICA:
-- Temática post-apocalíptica de carreras armadas Gaslands Refuelled.
+    } else if (cardOption === '2pages_63x88') {
+      const promptH1 = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
 DATO VISUAL DEL VEHÍCULO:
 - ${visualDesc}
 
-REQUISITOS DE LA HOJA 1:
-1. CABECERA:
-   - Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
-   - Título: "${v.name}" (${vData.name} - Peso ${vData.weight})
-   - Reglas Especiales del Vehículo: ${vData.rules}
-
-2. CUADRÍCULA DE ESTADÍSTICAS (Respetar strictly este orden):
-   - Marcha: ${totalGear} | Maniobra: ${totalHandling} | Trip.: ${totalCrew} | Peligro: [ ]
-
-3. CARROCERÍA:
-   - Carrocería: ${totalHull} PC.
-   - Mostrar exactamente ${totalHull} casillas/cuadrados interactivos para control de daño.
-
-4. ILUSTRACIÓN CENTRAL:
-   - Recuadro principal "VISTA DEL VEHÍCULO" integrando la ilustración del coche según las características indicadas.
+REQUISITOS:
+- Cabecera: ESC: "${teamName}" | PAT: "${sponsorName}" | Costo: ${vehicleBidones} BID.
+- Título: "${v.name}" (${vData.name} - Peso ${vData.weight}) | Reglas: ${vData.rules}
+- Cuadrícula: Marcha: ${totalGear} | Maniobra: ${totalHandling} | Trip.: ${totalCrew} | Peligro: [ ]
+- Carrocería: ${totalHull} PC (${totalHull} casillas blancas).
+- Recuadro principal "VISTA DEL VEHÍCULO" integrando la ilustración del coche.
 
 PIE DE PÁGINA: "HOJA 1 / 2 - ATRIBUTOS | Nexo Alpha - Gaslands Refuelled by Cet Phoenix"`;
 
-      const promptH2 = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) del vehículo "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
+      const promptH2 = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) de "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
 
-ESTILO VISUAL Y TEMÁTICA:
-- Temática post-apocalíptica industrial de Gaslands.
-
-REQUISITOS DE LA HOJA 2:
+REQUISITOS:
 - Cabecera: ESC: "${teamName}" | VEHÍCULO: "${v.name}" | Costo: ${vehicleBidones} BID.
-
-SECCIÓN 1 - TABLA DE ARMAS EQUIPADAS (Columnas: Arma + Imagen Referencial, Alcance, Ataque, Encaramiento, Costo):
-${weaponsList.map((w, idx) => `${idx + 1}. ${w}`).join('\n')}
-- ${equipVisualRules}
-- Incluir casillas cuadradas pequeñas de MUNICIÓN para armas que lo requieran.
-
-SECCIÓN 2 - TABLA DE MEJORAS DE VEHÍCULO:
-${upgradesList.length > 0 ? upgradesList.map((u, idx) => `${idx + 1}. ${u}`).join('\n') : '- Sin mejoras equipadas'}
-
-SECCIÓN 3 - TABLA DE VENTAJAS SELECCIONADAS:
-${perksList.length > 0 ? perksList.map((p, idx) => `${idx + 1}. ${p}`).join('\n') : '- Sin ventajas equipadas'}
+- Tabla Armas Equipadas:
+${weaponsList.map((w, idx) => `${idx + 1}.${w}`).join('\n')}
+- Tabla Mejoras de Vehículo:
+${upgradesList.length > 0 ? upgradesList.map((u, idx) => `${idx + 1}.${u}`).join('\n') : '- Sin mejoras'}
+- Tabla Ventajas Seleccionadas:
+${perksList.length > 0 ? perksList.map((p, idx) => `${idx + 1}.${p}`).join('\n') : '- Sin ventajas'}
 
 PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by Cet Phoenix"`;
 
-      return { isTwoPages: true, promptH1, promptH2 };
+      return { type: 'double', promptH1, promptH2 };
+
+    } else if (cardOption === '1page_95x80') {
+      const prompt1 = `Diseña una ficha en calidad 8K en formato Apaiyado Ancho (95mm x 80mm) ÍNTEGRAMENTE EN ESPAÑOL para Gaslands Refuelled.
+
+ESTILO VISUAL:
+- Estilo militar/industrial post-apocalíptico. Borde negro continuo, esquinas redondeadas.
+
+ESTRUCTURA DE CONTENIDO:
+- Cabecera Superior: Escudería "${teamName}" | Patrocinador "${sponsorName}" | "${v.name}" (${vData.name} - ${vData.weight}) | Total: ${vehicleBidones} BID.
+- Columna Izquierda: Estadísticas (Marcha: ${totalGear}, Maniobra: ${totalHandling}, Tripulación: ${totalCrew}, Peligro: [ ]) y Carrocería (${totalHull} PC con ${totalHull} casillas).
+- Columna Derecha: Tablas integradas de Armas, Mejoras y Ventajas (${weaponsList.join(', ')}).
+
+PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | 95mm x 80mm"`;
+      return { type: 'single', prompt: prompt1 };
+
+    } else if (cardOption === 'dashboard_nexo') {
+      const promptDash = `Diseña un set de DASHBOARD TRÍPTICO en calidad 8K para Gaslands Refuelled formado por 3 Fichas individuales conectadas de (42mm x 78mm cada una) ÍNTEGRAMENTE EN ESPAÑOL.
+
+FICHA 1 (ATRIBUTOS Y CARROCERÍA - 42mm x 78mm):
+- Título: "${v.name}" (${vData.name} - ${vData.weight}) | ${vehicleBidones} BID.
+- Bloque Atributos: Marcha (${totalGear}), Maniobra (${totalHandling}), Tripulación (${totalCrew}), Peligro [ ].
+- Seccion Carrocería: ${totalHull} PC con sus ${totalHull} casillas de daño interactivas.
+
+FICHA 2 (ARMAS Y ATAQUE - 42mm x 78mm):
+- Título: SECCIÓN DE ARMAS
+- Listado de armas (${weaponsList.join('; ')}).
+- Para cada arma, mostrar su Nombre, y debajo en un recuadro individualizado de 3 datos: Ataque | Encaramiento | Alcance.
+
+FICHA 3 (MEJORAS Y VENTAJAS - 42mm x 78mm):
+- Título: EQUIPAMIENTO ESPECIAL
+- Mejoras (${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin Mejoras'}).
+- Ventajas (${perksList.length > 0 ? perksList.join('; ') : 'Sin Ventajas'}).
+
+PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
+      return { type: 'single', prompt: promptDash };
     }
   }
 
+  /* APERTURA Y CONSTRUCCIÓN DINÁMICA DEL MODAL DE IMPRESIÓN Y PROMPTS */
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
     const promptsContainer = document.getElementById('promptsOutputList');
     const teamName = document.getElementById('teamName').value || 'Mi Escudería';
     const sponsorName = document.getElementById('sponsorSelect').value;
-    const pagesMode = document.getElementById('cardPagesSelect') ? document.getElementById('cardPagesSelect').value : '1page';
+    const cardOption = document.getElementById('cardPagesSelect') ? document.getElementById('cardPagesSelect').value : '1page_63x88';
 
     container.innerHTML = '';
     promptsContainer.innerHTML = '';
@@ -2479,6 +2499,17 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
         </tr>
       `;
 
+      let dashboardWeaponsListHTML = `
+        <div class="dashboard-weapon-card-box">
+          <div class="dashboard-weapon-title">Arma corta (Pistola)</div>
+          <div class="dashboard-weapon-stats-box">
+            <div><b>Atq:</b> 1d6</div>
+            <div><b>Enc:</b> 360º</div>
+            <div><b>Alc:</b> Med.</div>
+          </div>
+        </div>
+      `;
+
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -2506,6 +2537,18 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
                 <td>${w.facing || 'Front.'}</td>
                 <td>${cost}B</td>
               </tr>
+            `;
+
+            dashboardWeaponsListHTML += `
+              <div class="dashboard-weapon-card-box">
+                <div class="dashboard-weapon-title">${wData.name}</div>
+                <div class="dashboard-weapon-stats-box">
+                  <div><b>Atq:</b> ${wData.attack}</div>
+                  <div><b>Enc:</b> ${w.facing || 'Front.'}</div>
+                  <div><b>Alc:</b> ${rShort}</div>
+                </div>
+                ${ammoHTML}
+              </div>
             `;
           }
         });
@@ -2551,12 +2594,6 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
       } else {
         perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
       }
-
-      const imageHTML = `
-        <div class="card-vehicle-image-box">
-          ${v.image ? `<img src="${v.image}">` : `<span class="card-vehicle-image-placeholder">Sin imagen asignada</span>`}
-        </div>
-      `;
 
       const cardHeaderHTML = `
         <div class="card-top-bar">
@@ -2652,9 +2689,26 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
         </div>
       `;
 
-      if (pagesMode === '2pages') {
+      /* RENDERIZADO VISUAL SEGÚN EL FORMATO SELECCIONADO */
+      if (cardOption === '1page_63x88') {
+        const singleCardHTML = `
+          <div class="printable-card card-size-63x88">
+            <div>
+              ${cardHeaderHTML}
+              ${cardEquipmentHTML}
+            </div>
+            ${cardFooterHTML}
+          </div>
+        `;
+        container.innerHTML += singleCardHTML;
+      } else if (cardOption === '2pages_63x88') {
+        const imageHTML = `
+          <div class="card-vehicle-image-box">
+            ${v.image ? `<img src="${v.image}">` : `<span class="card-vehicle-image-placeholder">Sin imagen asignada</span>`}
+          </div>
+        `;
         const page1HTML = `
-          <div class="printable-card">
+          <div class="printable-card card-size-63x88">
             <div>
               ${cardHeaderHTML}
               <div class="card-section-title" style="margin-top: 2mm;">Vista del Vehículo</div>
@@ -2668,7 +2722,7 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
         `;
 
         const page2HTML = `
-          <div class="printable-card">
+          <div class="printable-card card-size-63x88">
             <div>
               <div class="card-top-bar">
                 <span>ESC: ${teamName}</span>
@@ -2683,11 +2737,10 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
             </div>
           </div>
         `;
-
         container.innerHTML += page1HTML + page2HTML;
-      } else {
-        const singleCardHTML = `
-          <div class="printable-card">
+      } else if (cardOption === '1page_95x80') {
+        const singleCard95x80HTML = `
+          <div class="printable-card card-size-95x80">
             <div>
               ${cardHeaderHTML}
               ${cardEquipmentHTML}
@@ -2695,27 +2748,87 @@ PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by 
             ${cardFooterHTML}
           </div>
         `;
-        container.innerHTML += singleCardHTML;
+        container.innerHTML += singleCard95x80HTML;
+      } else if (cardOption === 'dashboard_nexo') {
+        const triptychHTML = `
+          <div class="dashboard-triptych-container">
+            <!-- FICHA 1: MARCHA, MANIOBRA, TRIPULACIÓN Y CARROCERÍA -->
+            <div class="printable-card card-size-42x78">
+              <div>
+                <div class="card-top-bar">
+                  <span>${v.name}</span>
+                  <span style="color:#d32f2f;">${vehicleBidones}B</span>
+                </div>
+                <div class="card-title-box">
+                  <div class="sub">${vData.name} (${vData.weight})</div>
+                </div>
+                <div class="card-stats-grid">
+                  <div class="card-stat-box"><div class="lbl">Mar</div><div class="val">${totalGear}</div></div>
+                  <div class="card-stat-box"><div class="lbl">Man</div><div class="val">${totalHandling}</div></div>
+                  <div class="card-stat-box"><div class="lbl">Trip</div><div class="val">${totalCrew}</div></div>
+                  <div class="card-stat-box"><div class="lbl">Pel</div><div class="val">[ ]</div></div>
+                </div>
+                <div class="card-hull-section">
+                  <div class="card-hull-header">
+                    <span>CARROCERÍA</span>
+                    <span>${totalHull} PC</span>
+                  </div>
+                  <div class="card-hull-boxes">
+                    ${hullBoxesHTML}
+                  </div>
+                </div>
+              </div>
+              ${cardFooterHTML}
+            </div>
+
+            <!-- FICHA 2: ARMAS CON NOMBRE, Y EN RECUADRO ATAQUE, ENCARAMIENTO Y ALCANCE -->
+            <div class="printable-card card-size-42x78">
+              <div>
+                <div class="card-section-title">SECCIÓN DE ARMAS</div>
+                <div style="margin-top: 2px;">
+                  ${dashboardWeaponsListHTML}
+                </div>
+              </div>
+              ${cardFooterHTML}
+            </div>
+
+            <!-- FICHA 3: MEJORAS Y VENTAJAS -->
+            <div class="printable-card card-size-42x78">
+              <div>
+                <div class="card-section-title">MEJORAS</div>
+                <table class="mini-table">
+                  <tbody>${upgradesRowsHTML}</tbody>
+                </table>
+                <div class="card-section-title">VENTAJAS</div>
+                <table class="mini-table">
+                  <tbody>${perksRowsHTML}</tbody>
+                </table>
+              </div>
+              ${cardFooterHTML}
+            </div>
+          </div>
+        `;
+        container.innerHTML += triptychHTML;
       }
 
-      const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, pagesMode, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
+      /* RENDERIZADO DE PROMPTS CORRESPONDIENTES PARA CADA OPCIÓN */
+      const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
       const promptBox = document.createElement('div');
       promptBox.className = 'prompt-card-box';
 
-      if (!promptsData.isTwoPages) {
+      if (promptsData.type === 'single') {
         promptBox.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (Opción: 1 Hoja por Ficha)</strong>
-            <button class="btn-copy" onclick="copyPromptToClipboard('prompt_1p_${vIndex}')">📋 Copiar Prompt</button>
+            <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (${cardOption})</strong>
+            <button class="btn-copy" onclick="copyPromptToClipboard('prompt_sp_${vIndex}')">📋 Copiar Prompt</button>
           </div>
-          <textarea id="prompt_1p_${vIndex}" class="prompt-textarea" readonly>${promptsData.prompt1}</textarea>
+          <textarea id="prompt_sp_${vIndex}" class="prompt-textarea" readonly>${promptsData.prompt}</textarea>
         `;
       } else {
         promptBox.innerHTML = `
           <div style="margin-bottom: 8px;">
             <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (Opción: Dividir en 2 Hojas)</strong>
           </div>
-          
           <div style="margin-bottom: 10px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <span style="font-size: 0.85rem; font-weight: bold; color: #00bcd4;">📄 Prompt HOJA 1 (Atributos y Vista):</span>
