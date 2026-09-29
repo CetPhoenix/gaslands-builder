@@ -1020,7 +1020,7 @@
 <header>
   <h1>Nexo Alpha - Gaslands Refuelled - V4.0</h1>
   <div>
-    <button class="btn-share" onclick="shareSquadronURL()">🔗 Compartir Escudería</button>
+    <button class="btn-share" onclick="shareSquadronText()">📋 Copiar Lista (Texto)</button>
   </div>
 </header>
 
@@ -1449,37 +1449,114 @@
     }
   }
 
-  function shareSquadronURL() {
-    const configData = {
-      teamName: document.getElementById('teamName').value,
-      sponsor: document.getElementById('sponsorSelect').value,
-      maxCans: document.getElementById('maxCansSelect').value,
-      vehicles: team
-    };
-    const jsonStr = JSON.stringify(configData);
-    const encoded = btoa(encodeURIComponent(jsonStr));
-    const url = `${window.location.origin}${window.location.pathname}?squad=${encoded}`;
-    
-    navigator.clipboard.writeText(url);
-    showToast("🔗 ¡Enlace de escudería copiado al portapapeles!");
-  }
+  function shareSquadronText() {
+    const teamName = document.getElementById('teamName').value || "Mi Escudería";
+    const sponsor = document.getElementById('sponsorSelect').value || "Ninguno";
+    const maxCans = document.getElementById('maxCansSelect').value || "50";
+    const currentTotal = document.getElementById('totalBidones').innerText || "0";
 
-  function loadFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    const squadParam = params.get('squad');
-    if (squadParam) {
-      try {
-        const jsonStr = decodeURIComponent(atob(squadParam));
-        const data = JSON.parse(jsonStr);
-        document.getElementById('teamName').value = data.teamName || "Mi Escudería";
-        document.getElementById('sponsorSelect').value = data.sponsor || "Ninguno";
-        document.getElementById('maxCansSelect').value = data.maxCans || 50;
-        team = data.vehicles || [];
-        showToast("¡Escudería cargada desde enlace!");
-        return true;
-      } catch (e) { console.error("Error al decodificar URL", e); }
+    if (team.length === 0) {
+      showToast("⚠️ La escudería está vacía.");
+      return;
     }
-    return false;
+
+    let textList = `========================================\n`;
+    textList += `🏎️ ESCUDERÍA: ${teamName.toUpperCase()}\n`;
+    textList += `🏆 PATROCINADOR: ${sponsor}\n`;
+    textList += `💰 PRESUPUESTO: ${currentTotal} / ${maxCans} Bidones\n`;
+    textList += `========================================\n\n`;
+
+    team.forEach((v, index) => {
+      const vData = VEHICLES.find(item => item.name === v.type);
+      if (!vData) return;
+
+      let vehicleCost = vData.bidones;
+
+      // Calcular modificadores
+      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
+      if (sponsor === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
+        vehicleCost = Math.max(5, vehicleCost - 4);
+      }
+
+      let armorCount = 0;
+      let extraCrewCount = 0;
+      let hasMicroPlacas = false;
+      let hasOrugas = false;
+
+      // Armas
+      let weaponsText = [];
+      if (v.weapons && v.weapons.length > 0) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData && wData.name !== "Ninguna") {
+            let cost = getItemCost(wData, sponsor);
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            vehicleCost += cost;
+            weaponsText.push(`${wData.name} (${w.facing || 'Frontal'})`);
+          }
+        });
+      }
+
+      // Mejoras
+      let upgradesText = [];
+      if (v.upgrades && v.upgrades.length > 0) {
+        v.upgrades.forEach(u => {
+          const uData = WEAPONS.find(item => item.name === u.name);
+          if (uData && uData.name !== "Ninguna") {
+            vehicleCost += getItemCost(uData, sponsor);
+            upgradesText.push(uData.name);
+            if (u.name === "Blindaje") armorCount++;
+            if (u.name === "Tripulante adicional") extraCrewCount++;
+            if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
+            if (u.name === "Orugas") hasOrugas = true;
+          }
+        });
+      }
+
+      // Ventajas
+      let perksText = [];
+      if (v.perks && v.perks.length > 0) {
+        v.perks.forEach(p => {
+          const pData = PERKS.find(item => item.name === p.name);
+          if (pData && pData.name !== "Ninguna") {
+            vehicleCost += pData.cost;
+            perksText.push(pData.name);
+          }
+        });
+      }
+
+      // Stats finales
+      let totalHull = vData.hull + (armorCount * 2);
+      if (sponsor === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") totalHull = Math.max(1, totalHull - 2);
+      if (sponsor === "Verney" && hasMicroPlacas) totalHull += 2;
+
+      const totalCrew = vData.crew + extraCrewCount;
+      let totalGear = vData.gear;
+      let totalHandling = vData.handling;
+      if (hasOrugas) {
+        totalGear = Math.max(1, totalGear - 1);
+        totalHandling += 1;
+      }
+
+      const icon = vData.weight === 'Ligero' ? '🏍️' : vData.weight === 'Pesado' ? '🚛' : '🚗';
+
+      textList += `${icon} VEHÍCULO ${index + 1}: ${v.name}\n`;
+      textList += `   - Tipo: ${vData.name} (${vData.weight}) | PC: ${totalHull} | Marcha: ${totalGear} | Maniobra: ${totalHandling} | Tripulación: ${totalCrew}\n`;
+      textList += `   - Armas: ${weaponsText.length > 0 ? weaponsText.join(', ') : 'Ninguna'}\n`;
+      textList += `   - Mejoras: ${upgradesText.length > 0 ? upgradesText.join(', ') : 'Ninguna'}\n`;
+      textList += `   - Ventajas: ${perksText.length > 0 ? perksText.join(', ') : 'Ninguna'}\n`;
+      textList += `   - Coste total: ${vehicleCost} Bidones\n\n`;
+    });
+
+    textList += `========================================\n`;
+    textList += `Generado con Nexo Alpha - Gaslands Refuelled Builder V4.0`;
+
+    navigator.clipboard.writeText(textList).then(() => {
+      showToast("📋 ¡Lista de escudería copiada al portapapeles!");
+    }).catch(err => {
+      console.error("Error al copiar texto: ", err);
+      showToast("❌ No se pudo copiar automáticamente.");
+    });
   }
 
   function saveToLocalStorage() {
@@ -3271,7 +3348,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
   }
 
   renderCatalog();
-  if (!loadFromURL() && !loadFromLocalStorage()) {
+  if (!loadFromLocalStorage()) {
     addVehicle();
   } else {
     renderBuilder();
