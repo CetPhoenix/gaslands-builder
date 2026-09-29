@@ -2226,13 +2226,13 @@
                 <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
                 
                 <!-- GALERÍA DE PLACEHOLDERS VECTORIALES -->
-                <div class="placeholder-gallery-container">
-                  <span style="font-size:0.75rem; color:var(--text-muted);">Siluetas:</span>
-                  <div class="placeholder-thumb" title="Coche" onclick="selectPlaceholderImage(${v.id}, 'car')">${PLACEHOLDER_SVGS.car}</div>
-                  <div class="placeholder-thumb" title="Camión" onclick="selectPlaceholderImage(${v.id}, 'truck')">${PLACEHOLDER_SVGS.truck}</div>
-                  <div class="placeholder-thumb" title="Moto" onclick="selectPlaceholderImage(${v.id}, 'bike')">${PLACEHOLDER_SVGS.bike}</div>
-                  <div class="placeholder-thumb" title="Tanque" onclick="selectPlaceholderImage(${v.id}, 'tank')">${PLACEHOLDER_SVGS.tank}</div>
-                </div>
+                    <div class="placeholder-gallery-container">
+                      <span style="font-size:0.75rem; color:var(--text-muted);">Siluetas:</span>
+                      <div class="placeholder-thumb" title="Coche" onclick="selectPlaceholderImage(${v.id}, 'car')"><img src="${PLACEHOLDER_SVGS.car}" style="width:24px;height:24px;"></div>
+                      <div class="placeholder-thumb" title="Camión" onclick="selectPlaceholderImage(${v.id}, 'truck')"><img src="${PLACEHOLDER_SVGS.truck}" style="width:24px;height:24px;"></div>
+                      <div class="placeholder-thumb" title="Moto" onclick="selectPlaceholderImage(${v.id}, 'bike')"><img src="${PLACEHOLDER_SVGS.bike}" style="width:24px;height:24px;"></div>
+                      <div class="placeholder-thumb" title="Tanque" onclick="selectPlaceholderImage(${v.id}, 'tank')"><img src="${PLACEHOLDER_SVGS.tank}" style="width:24px;height:24px;"></div>
+                    </div>
               </div>
               ${v.image ? `
                 <div style="display:flex; align-items:center; gap:8px;">
