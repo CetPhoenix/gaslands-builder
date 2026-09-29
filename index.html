@@ -7,7 +7,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Builder V3.2 </title>
+  <title>Gaslands Refuelled - Builder V3.3 </title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -332,6 +332,8 @@
     button.btn-move:hover { background: #616161; }
     button.btn-print { background: #008CBA; }
     button.btn-print:hover { background: #007399; }
+    button.btn-pdf { background: #d32f2f; }
+    button.btn-pdf:hover { background: #b71c1c; }
     button.btn-new-squad { background: #7b1fa2; }
     button.btn-new-squad:hover { background: #6a1b9a; }
     button.btn-save { background: #2e7d32; }
@@ -495,6 +497,38 @@
       gap: 10px;
     }
 
+    .placeholder-gallery-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .placeholder-thumb {
+      width: 36px;
+      height: 36px;
+      background: #111;
+      border: 1px solid #555;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.1s, border-color 0.1s;
+    }
+
+    .placeholder-thumb:hover {
+      transform: scale(1.1);
+      border-color: var(--accent-color);
+    }
+
+    .placeholder-thumb svg {
+      width: 24px;
+      height: 24px;
+      fill: #aaa;
+    }
+
     .diecast-details-grid {
       display: grid;
       grid-template-columns: 140px 1fr;
@@ -615,7 +649,7 @@
       margin-top: 6px;
     }
 
-    /* VISTA Y DISEÑO DE FICHAS CON ESTILOS BASE */
+    /* VISTA Y DISEÑO DE FICHAS CON ESTILOS BASE Y CASILLAS CLICABLES */
     .printable-card {
       font-family: 'Roboto', sans-serif !important;
       background: #fff;
@@ -644,20 +678,30 @@
       word-spacing: normal !important;
     }
 
+    .card-interactive-box {
+      width: 3mm;
+      height: 3mm;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      vertical-align: middle;
+      accent-color: #000;
+      display: inline-block;
+    }
+
     .card-ammo-box {
-      width: 2.8mm;
-      height: 2.8mm;
-      border: 1px solid #000;
       display: inline-block;
       margin-left: 1px;
       vertical-align: middle;
-      background: #fff;
-      box-sizing: border-box;
     }
+
     .ammo-container {
       margin-top: 1px;
       font-size: 4.5pt;
       line-height: 1;
+      display: flex;
+      align-items: center;
+      gap: 2px;
     }
 
     .card-top-bar {
@@ -744,16 +788,8 @@
     .card-hull-boxes {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5px;
-    }
-
-    .card-hull-box {
-      width: 3.5mm;
-      height: 3.5mm;
-      border: 1px solid #000;
-      display: inline-block;
-      box-sizing: border-box;
-      background: #fff;
+      gap: 2px;
+      align-items: center;
     }
 
     .card-section-title {
@@ -785,7 +821,7 @@
     .card-vehicle-image-box img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     .card-vehicle-image-placeholder {
@@ -916,11 +952,12 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V3.2 UX</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V3.3 </h1>
 </header>
 
 <div class="main-layout">
@@ -1081,6 +1118,7 @@
         <button onclick="changeZoom(0.1)" style="padding: 4px 8px;">🔍 +</button>
         <button onclick="resetZoom()" style="padding: 4px 8px; background: #555;">Restablecer</button>
         <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar PNG</button>
+        <button class="btn-pdf" onclick="downloadAllCardsPDF()">📄 Exportar PDF (A4)</button>
         <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
@@ -1100,6 +1138,14 @@
 </div>
 
 <script>
+  // GALERÍA DE SILUETAS VECTORIALES (PLACEHOLDERS EN SVG DATA-URI)
+  const PLACEHOLDER_SVGS = {
+    car: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555555"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`,
+    truck: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555555"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm11.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.96 2.5H17z"/></svg>`,
+    bike: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555555"><path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm14-8.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm-8.2-12l-1.9 3.2c-.3.4-.2 1 .2 1.3s1 .2 1.3-.2l1.9-3.2 2.7 4.5h-3.5v2h5l-3.3-5.6 2.8-2.8H18v-2h-3.8l-3.4 3.4z"/></svg>`,
+    tank: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555555"><path d="M20 10h-6.17l2.58-2.58L15 6l-4 4H3c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zm-1 6H5v-2h14v2z"/></svg>`
+  };
+
   const SPONSORS = {
     "Ninguno": "Ninguna",
     "La Alcaidesa": "Agresivo, Rudo",
@@ -1281,7 +1327,7 @@
   const PERK_EMOJIS = {
     "Agresivo": "🥊", "Aterrador": "💀", "Intrépido": "🔥", "Macizo": "🪨",
     "Militar": "🪖", "Persecución": "🎯", "Preciso": "🎯", "Rudo": "⚡",
-    "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙️️", "Velocidad": "🏎️"
+    "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙", "Velocidad": "🏎️"
   };
 
   const RANDOM_SQUAD_NAMES = [
@@ -1313,7 +1359,7 @@
   function saveToLocalStorage() {
     try {
       const configData = {
-        version: "3.2",
+        version: "3.3",
         teamName: document.getElementById('teamName').value || "Mi Escudería",
         sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
         maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1446,7 +1492,7 @@
 
   function saveConfiguration() {
     const configData = {
-      version: "3.2",
+      version: "3.3",
       teamName: document.getElementById('teamName').value || "Mi Escudería",
       sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
       maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1697,6 +1743,14 @@
         renderBuilder();
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  function selectPlaceholderImage(id, svgKey) {
+    const v = team.find(item => item.id === id);
+    if (v && PLACEHOLDER_SVGS[svgKey]) {
+      v.image = PLACEHOLDER_SVGS[svgKey];
+      renderBuilder();
     }
   }
 
@@ -2098,13 +2152,13 @@
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
                 ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
                 ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
             </select>
@@ -2166,14 +2220,25 @@
           </div>
 
           <div class="vehicle-image-input-container">
-            <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
               <div style="flex-grow: 1;">
-                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen del Vehículo:</label>
+                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen / Silueta del Vehículo:</label>
                 <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
+                
+                <!-- GALERÍA DE PLACEHOLDERS VECTORIALES -->
+                <div class="placeholder-gallery-container">
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Siluetas:</span>
+                  <div class="placeholder-thumb" title="Coche" onclick="selectPlaceholderImage(${v.id}, 'car')">${PLACEHOLDER_SVGS.car}</div>
+                  <div class="placeholder-thumb" title="Camión" onclick="selectPlaceholderImage(${v.id}, 'truck')">${PLACEHOLDER_SVGS.truck}</div>
+                  <div class="placeholder-thumb" title="Moto" onclick="selectPlaceholderImage(${v.id}, 'bike')">${PLACEHOLDER_SVGS.bike}</div>
+                  <div class="placeholder-thumb" title="Tanque" onclick="selectPlaceholderImage(${v.id}, 'tank')">${PLACEHOLDER_SVGS.tank}</div>
+                </div>
               </div>
               ${v.image ? `
-                <img src="${v.image}" class="vehicle-image-preview-thumbnail">
-                <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <img src="${v.image}" class="vehicle-image-preview-thumbnail">
+                  <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
+                </div>
               ` : ''}
             </div>
 
@@ -2422,15 +2487,64 @@
     });
   }
 
+  // EXPORTACIÓN A PDF FORMATO A4 USANDO JSPDF Y HTML2CANVAS
+  async function downloadAllCardsPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const cards = document.querySelectorAll('.printable-card');
+    if (!cards || cards.length === 0) return;
+
+    await document.fonts.ready;
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      const canvas = await html2canvas(card, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        letterRendering: true
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const imgProps = doc.getImageProperties(imgData);
+      const pdfWidth = 90; // mm
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      // Distribución simple en cuadrícula A4 (2 columnas)
+      const col = i % 2;
+      const row = Math.floor((i % 4) / 2);
+
+      if (i > 0 && i % 4 === 0) {
+        doc.addPage();
+      }
+
+      const x = 15 + col * 95;
+      const y = 15 + row * 125;
+
+      doc.addImage(imgData, 'PNG', x, y, pdfWidth, pdfHeight);
+    }
+
+    const teamName = document.getElementById('teamName').value || 'Escuderia';
+    const safeFileName = teamName.replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
+    doc.save(`Fichas_Gaslands_${safeFileName}.pdf`);
+  }
+
+  // MUNICIÓN Y CARROCERÍA CON CHECKBOXES INTERACTIVOS
   function getAmmoBoxesHTML(rules) {
     if (!rules) return '';
     const count = getAmmoCountFromRules(rules);
     if (count > 0) {
       let boxes = '';
       for (let i = 0; i < count; i++) {
-        boxes += `<span class="card-ammo-box"></span>`;
+        boxes += `<input type="checkbox" class="card-interactive-box card-ammo-box">`;
       }
-      return `<div class="ammo-container">Mun (${count}): ${boxes}</div>`;
+      return `<div class="ammo-container"><b>Mun (${count}):</b> ${boxes}</div>`;
     }
     return '';
   }
@@ -2668,7 +2782,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
 
       let hullBoxesHTML = '';
       for (let i = 0; i < totalHull; i++) {
-        hullBoxesHTML += `<span class="card-hull-box"></span>`;
+        hullBoxesHTML += `<input type="checkbox" class="card-interactive-box">`;
       }
 
       let weaponsRowsHTML = `
