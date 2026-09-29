@@ -3,11 +3,11 @@
 <head>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
-       crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Builder V3.2 UX</title>
+  <title>Gaslands Refuelled - Builder V3.2 </title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -920,7 +920,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V3.2 UX Enhanced</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V3.2 UX</h1>
 </header>
 
 <div class="main-layout">
@@ -929,12 +929,12 @@
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <button class="btn-new-squad" onclick="createNewSquadron()">✨ Nuevo Escuadrón</button>
         <button class="btn-save" onclick="saveConfiguration()">💾 Guardar (.cet)</button>
-        <button class="btn-load" onclick="document.getElementById('fileLoader').click()">📂 Cargar (.cet)</button>
-        <input type="file" id="fileLoader" accept=".cet" style="display: none;" onchange="loadConfiguration(event)">
+        <button class="btn-load" onclick="document.getElementById('fileLoader').click()">📂 Cargar (.cet / .json)</button>
+        <input type="file" id="fileLoader" accept=".cet,.json" style="display: none;" onchange="loadConfiguration(event)">
       </div>
       <div>
         <label>Escudería: </label>
-        <input type="text" id="teamName" placeholder="Nombre de tu banda" value="Mi Escudería" onchange="renderBuilder()" style="width: 130px;">
+        <input type="text" id="teamName" placeholder="Nombre de tu banda" value="Mi Escudería" oninput="renderBuilder()" style="width: 130px;">
       </div>
       <div>
         <label>Patrocinador: </label>
@@ -1281,7 +1281,7 @@
   const PERK_EMOJIS = {
     "Agresivo": "🥊", "Aterrador": "💀", "Intrépido": "🔥", "Macizo": "🪨",
     "Militar": "🪖", "Persecución": "🎯", "Preciso": "🎯", "Rudo": "⚡",
-    "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙️", "Velocidad": "🏎️"
+    "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙️️", "Velocidad": "🏎️"
   };
 
   const RANDOM_SQUAD_NAMES = [
@@ -1298,6 +1298,8 @@
     "Sombra de Sangre", "Monstruo de Cromo", "Trueno Oxidado", "Víbora de Velo"
   ];
 
+  const STORAGE_KEY = 'gaslands_builder_squadron_v3';
+
   let team = [];
   let deferredPrompt = null;
 
@@ -1305,6 +1307,43 @@
     e.preventDefault();
     deferredPrompt = e;
   });
+
+  /* MÉTODOS DE PERSISTENCIA Y ALMACENAMIENTO LOCAL */
+
+  function saveToLocalStorage() {
+    try {
+      const configData = {
+        version: "3.2",
+        teamName: document.getElementById('teamName').value || "Mi Escudería",
+        sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
+        maxCans: document.getElementById('maxCansSelect').value || 50,
+        vehicles: team
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(configData));
+    } catch (err) {
+      console.warn("No se pudo guardar la escudería en el almacenamiento local:", err);
+    }
+  }
+
+  function loadFromLocalStorage() {
+    try {
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        const loadedData = JSON.parse(savedData);
+        const loadedVehicles = loadedData.vehicles || loadedData.team;
+        if (loadedData && Array.isArray(loadedVehicles)) {
+          document.getElementById('teamName').value = loadedData.teamName || "Mi Escudería";
+          document.getElementById('sponsorSelect').value = loadedData.sponsor || "Ninguno";
+          document.getElementById('maxCansSelect').value = loadedData.maxCans || 50;
+          team = loadedVehicles;
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error("Error al cargar la escudería desde localStorage:", err);
+    }
+    return false;
+  }
 
   function createAppShortcut() {
     if (deferredPrompt) {
@@ -1429,6 +1468,14 @@
     const file = event.target.files[0];
     if (!file) return;
 
+    if (team.length > 0) {
+      const confirmLoad = confirm("Cargar un archivo reemplazará la escudería actual. ¿Deseas continuar?");
+      if (!confirmLoad) {
+        event.target.value = '';
+        return;
+      }
+    }
+
     const reader = new FileReader();
     reader.onload = function(e) {
       try {
@@ -1436,7 +1483,7 @@
         const loadedVehicles = loadedData.vehicles || loadedData.team;
 
         if (!loadedData || !Array.isArray(loadedVehicles)) {
-          alert("El archivo no tiene una estructura válida de escudería .cet");
+          alert("El archivo no tiene una estructura válida de escudería (.cet o .json)");
           return;
         }
 
@@ -1448,7 +1495,7 @@
         renderBuilder();
         alert("¡Escudería cargada con éxito!");
       } catch (err) {
-        alert("Error al leer el archivo .cet. Asegúrate de que sea un archivo válido.");
+        alert("Error al leer el archivo. Asegúrate de que sea un archivo .cet o .json válido.");
         console.error("Error al cargar la configuración: ", err);
       }
     };
@@ -1497,7 +1544,7 @@
     return (match && match[1]) ? parseInt(match[1]) : 0;
   }
 
-  /* NUEVA FUNCIONALIDAD: FILTRADO EN TIEMPO REAL DEL CATÁLOGO */
+  /* FILTRADO EN TIEMPO REAL DEL CATÁLOGO */
   function filterCatalog() {
     const query = document.getElementById('catalogSearchInput').value.toLowerCase().trim();
     const allCatalogItems = document.querySelectorAll('.catalog-panel .catalog-item');
@@ -1598,7 +1645,6 @@
     renderBuilder();
   }
 
-  /* NUEVA FUNCIONALIDAD: DUPLICAR VEHÍCULO */
   function duplicateVehicle(id) {
     const original = team.find(v => v.id === id);
     if (!original) return;
@@ -1612,7 +1658,6 @@
     renderBuilder();
   }
 
-  /* NUEVA FUNCIONALIDAD: MOVER VEHÍCULO EN LA LISTA */
   function moveVehicle(id, direction) {
     const index = team.findIndex(v => v.id === id);
     if (index === -1) return;
@@ -2034,10 +2079,9 @@
         card.style.borderLeft = `5px solid ${vData.category === 'Básico' ? 'var(--cat-veh-basico)' : 'var(--cat-veh-avanzado)'}`;
       }
 
-      /* REORDENAMIENTO Y BOTÓN DUPLICAR EN HEADER */
       let innerHTML = `
         <div class="vehicle-header">
-          <input type="text" value="${v.name}" onchange="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 45%;">
+          <input type="text" value="${v.name}" oninput="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 45%;">
           <div class="vehicle-controls-btn-group">
             <strong>${vehicleBidones} Bid.</strong>
             <button class="btn-move" title="Mover arriba" onclick="moveVehicle(${v.id}, -1)" ${vIndex === 0 ? 'disabled' : ''}>▲</button>
@@ -2071,7 +2115,6 @@
       if (!vData) {
         innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo válido para comenzar la configuración.</div>`;
       } else {
-        /* INDICADOR Y BARRA VISUAL DE PROGRESO DE SLOTS */
         const maxSlots = vData.slots;
         const slotPercentage = maxSlots > 0 ? Math.min(100, Math.round((usedSlots / maxSlots) * 100)) : (usedSlots > 0 ? 100 : 0);
         const isSlotsOver = usedSlots > maxSlots;
@@ -2149,7 +2192,7 @@
               </div>
               <div>
                 <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Modelo del Coche:</label>
-                <input type="text" placeholder="Ej: '67 Mustang, Baja Bug, etc." value="${v.diecastModel || ''}" onchange="updateVehicle(${v.id}, 'diecastModel', this.value)" style="font-size: 0.8rem; padding: 4px;">
+                <input type="text" placeholder="Ej: '67 Mustang, Baja Bug, etc." value="${v.diecastModel || ''}" oninput="updateVehicle(${v.id}, 'diecastModel', this.value)" style="font-size: 0.8rem; padding: 4px;">
               </div>
             </div>
           </div>
@@ -2314,6 +2357,8 @@
     } else {
       totalElement.style.color = '#fff';
     }
+
+    saveToLocalStorage();
   }
 
   function updateVehicle(id, field, value) {
@@ -2399,7 +2444,6 @@
     }
   }
 
-  /* GENERACIÓN ADAPTATIVA DE PROMPTS SEGÚN FORMATO DE FICHA SELECCIONADO */
   function generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling) {
     const weaponsList = [];
     weaponsList.push('Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 BID.');
@@ -2538,7 +2582,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
     }
   }
 
-  /* APERTURA Y CONSTRUCCIÓN DINÁMICA DEL MODAL DE IMPRESIÓN Y PROMPTS */
   function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
@@ -2828,7 +2871,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
         </div>
       `;
 
-      /* RENDERIZADO VISUAL SEGÚN EL FORMATO SELECCIONADO */
       if (cardOption === '1page_63x88') {
         const singleCardHTML = `
           <div class="printable-card card-size-63x88">
@@ -2891,7 +2933,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
       } else if (cardOption === 'dashboard_nexo') {
         const triptychHTML = `
           <div class="dashboard-triptych-container">
-            <!-- FICHA 1: MARCHA, MANIOBRA, TRIPULACIÓN Y CARROCERÍA -->
             <div class="printable-card card-size-42x78">
               <div>
                 <div class="card-top-bar">
@@ -2920,7 +2961,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
               ${cardFooterHTML}
             </div>
 
-            <!-- FICHA 2: ARMAS CON NOMBRE, Y EN RECUADRO ATAQUE, ENCARAMIENTO Y ALCANCE -->
             <div class="printable-card card-size-42x78">
               <div>
                 <div class="card-section-title">SECCIÓN DE ARMAS</div>
@@ -2931,7 +2971,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
               ${cardFooterHTML}
             </div>
 
-            <!-- FICHA 3: MEJORAS Y VENTAJAS -->
             <div class="printable-card card-size-42x78">
               <div>
                 <div class="card-section-title">MEJORAS</div>
@@ -2950,7 +2989,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
         container.innerHTML += triptychHTML;
       }
 
-      /* RENDERIZADO DE PROMPTS CORRESPONDIENTES PARA CADA OPCIÓN */
       const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
       const promptBox = document.createElement('div');
       promptBox.className = 'prompt-card-box';
@@ -2997,7 +3035,11 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
   }
 
   renderCatalog();
-  addVehicle();
+  if (!loadFromLocalStorage()) {
+    addVehicle();
+  } else {
+    renderBuilder();
+  }
 </script>
 </body>
 </html>
