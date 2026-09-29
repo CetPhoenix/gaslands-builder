@@ -6,7 +6,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V4.0</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V4.1</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -98,6 +98,13 @@
       align-items: center;
       margin-bottom: 20px;
       border: 1px solid var(--border-color);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .summary-bar.overbudget-warning {
+      border: 2px solid var(--danger-color);
+      box-shadow: 0 0 12px rgba(204, 41, 41, 0.4);
+      background: #251818;
     }
 
     .vehicle-card {
@@ -107,6 +114,26 @@
       padding: 15px;
       margin-bottom: 15px;
       position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .vehicle-card.overlimit-card {
+      border: 2px solid var(--danger-color) !important;
+      box-shadow: 0 0 10px rgba(204, 41, 41, 0.3);
+    }
+
+    .vehicle-card-warning-banner {
+      background: rgba(204, 41, 41, 0.2);
+      border: 1px solid var(--danger-color);
+      color: #ff8888;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .vehicle-header {
@@ -246,6 +273,113 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+    }
+
+    /* CUSTOM SELECT WITH SEARCH */
+    .custom-select-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-select-trigger {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      min-height: 40px;
+      box-sizing: border-box;
+    }
+
+    .custom-select-trigger:after {
+      content: '▼';
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    .custom-select-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #1e1e1e;
+      border: 1px solid var(--accent-color);
+      border-radius: 0 0 6px 6px;
+      z-index: 1000;
+      max-height: 280px;
+      overflow-y: auto;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.8);
+    }
+
+    .custom-select-container.open .custom-select-dropdown {
+      display: block;
+    }
+
+    .custom-select-search {
+      position: sticky;
+      top: 0;
+      background: #181818;
+      padding: 6px;
+      border-bottom: 1px solid #333;
+      z-index: 2;
+    }
+
+    .custom-select-search input {
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      background: #282828;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    .custom-select-group-header {
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #141414;
+      color: var(--accent-color);
+      position: sticky;
+      top: 37px;
+      z-index: 1;
+    }
+
+    .custom-select-option {
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: #eee;
+      border-bottom: 1px solid #282828;
+      transition: background 0.15s;
+    }
+
+    .custom-select-option:hover {
+      background: #333;
+    }
+
+    .custom-select-option.selected {
+      background: #2a3a2a;
+      border-left: 3px solid #00e676;
+      font-weight: bold;
+    }
+
+    .custom-select-option.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      font-style: italic;
+      background: #181818 !important;
     }
 
     /* MEJORA ÁREA TÁCTIL (TOUCH TARGETS) */
@@ -942,6 +1076,14 @@
       animation: fadeIn 0.3s ease, fadeOut 0.3s 2.7s ease forwards;
     }
 
+    .toast.toast-danger {
+      border-left-color: var(--danger-color);
+    }
+
+    .toast.toast-warning {
+      border-left-color: #ff9800;
+    }
+
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
@@ -1026,7 +1168,7 @@
 
 <div class="main-layout">
   <div class="builder-column">
-    <div class="summary-bar">
+    <div class="summary-bar" id="summaryBar">
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <button class="btn-new-squad" onclick="createNewSquadron()">✨ Nuevo Escuadrón</button>
         <button class="btn-save" onclick="saveConfiguration()">💾 Guardar (.cet)</button>
@@ -1432,10 +1574,19 @@
     deferredPrompt = e;
   });
 
-  function showToast(msg) {
+  // Cerrar dropdowns personalizados si se hace click fuera
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.custom-select-container')) {
+      document.querySelectorAll('.custom-select-container.open').forEach(el => {
+        el.classList.remove('open');
+      });
+    }
+  });
+
+  function showToast(msg, type = 'info') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    toast.className = 'toast';
+    toast.className = `toast ${type === 'danger' ? 'toast-danger' : type === 'warning' ? 'toast-warning' : ''}`;
     toast.innerText = msg;
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
@@ -1456,12 +1607,12 @@
     const currentTotal = document.getElementById('totalBidones').innerText || "0";
 
     if (team.length === 0) {
-      showToast("⚠️ La escudería está vacía.");
+      showToast("⚠️ La escudería está vacía.", "warning");
       return;
     }
 
     let textList = `========================================\n`;
-    textList += `🏎️ ESCUDERÍA: ${teamName.toUpperCase()}\n`;
+    textList += `🏎️️ ESCUDERÍA: ${teamName.toUpperCase()}\n`;
     textList += `🏆 PATROCINADOR: ${sponsor}\n`;
     textList += `💰 PRESUPUESTO: ${currentTotal} / ${maxCans} Bidones\n`;
     textList += `========================================\n\n`;
@@ -1555,7 +1706,7 @@
       showToast("📋 ¡Lista de escudería copiada al portapapeles!");
     }).catch(err => {
       console.error("Error al copiar texto: ", err);
-      showToast("❌ No se pudo copiar automáticamente.");
+      showToast("❌ No se pudo copiar automáticamente.", "danger");
     });
   }
 
@@ -1604,7 +1755,7 @@
         deferredPrompt = null;
       });
     } else {
-      alert("Para colocar el acceso directo manualmente:\n\n📱 En Móvil (Chrome/Safari):\n1. Toca el menú de 3 puntos (o Compartir en iOS).\n2. Selecciona 'Agregar a la pantalla principal'.\n\n💻 En PC:\n1. Opciones del navegador -> 'Instalar app' / 'Crear acceso directo'.");
+      showToast("📱 En móvil: Toca Menú -> Agregar a pantalla principal. 💻 En PC: Opciones -> Instalar app.", "info");
     }
   }
 
@@ -1684,13 +1835,14 @@
   }
 
   function createNewSquadron() {
-    if (team.length > 0 && !confirm("¿Reiniciar todo el escuadrón?")) return;
-    team = [];
-    document.getElementById('teamName').value = "Mi Escudería";
-    document.getElementById('sponsorSelect').value = "Ninguno";
-    document.getElementById('maxCansSelect').value = "50";
-    renderBuilder();
-    showToast("✨ Nuevo escuadrón creado.");
+    if (team.length > 0) {
+      team = [];
+      document.getElementById('teamName').value = "Mi Escudería";
+      document.getElementById('sponsorSelect').value = "Ninguno";
+      document.getElementById('maxCansSelect').value = "50";
+      renderBuilder();
+      showToast("✨ Nuevo escuadrón creado.");
+    }
   }
 
   function saveConfiguration() {
@@ -1718,11 +1870,6 @@
     const file = event.target.files[0];
     if (!file) return;
 
-    if (team.length > 0 && !confirm("Cargar archivo reemplazará la escudería actual. ¿Continuar?")) {
-      event.target.value = '';
-      return;
-    }
-
     const reader = new FileReader();
     reader.onload = function(e) {
       try {
@@ -1730,7 +1877,7 @@
         const loadedVehicles = loadedData.vehicles || loadedData.team;
 
         if (!loadedData || !Array.isArray(loadedVehicles)) {
-          alert("Estructura de archivo no válida.");
+          showToast("❌ Estructura de archivo no válida.", "danger");
           return;
         }
 
@@ -1742,7 +1889,7 @@
         renderBuilder();
         showToast("📂 ¡Escudería cargada con éxito!");
       } catch (err) {
-        alert("Error al leer el archivo JSON/CET.");
+        showToast("❌ Error al leer el archivo JSON/CET.", "danger");
       }
     };
     reader.readAsText(file);
@@ -1842,14 +1989,15 @@
       
       if (w.category === "Mejora") {
         item.innerHTML = `
-          <div class="catalog-item-header"><span>${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
+          <div class="catalog-item-header"><span>🛡️ ${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
           <div class="catalog-stats"><span><b>Casillas:</b> ${w.slots}</span></div>
           <div class="catalog-rules"><b>Efectos:</b> ${w.rules}</div>
         `;
         vUpgrades.appendChild(item);
       } else {
+        const icon = w.category === 'Básico' ? '🔫' : w.category === 'Avanzado' ? '💥' : w.category === 'Personal' ? '🦺' : '💣';
         item.innerHTML = `
-          <div class="catalog-item-header"><span>${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
+          <div class="catalog-item-header"><span>${icon} ${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
           <div class="catalog-stats"><span><b>Alcance:</b> ${w.range}</span><span><b>Ataque:</b> ${w.attack}</span><span><b>Casillas:</b> ${w.slots}</span></div>
           <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
         `;
@@ -1863,7 +2011,7 @@
     const turretItem = document.createElement('div');
     turretItem.className = 'catalog-item';
     turretItem.innerHTML = `
-      <div class="catalog-item-header"><span>Torreta</span><span style="color: var(--accent-color);">-</span></div>
+      <div class="catalog-item-header"><span>🛡️ Torreta</span><span style="color: var(--accent-color);">-</span></div>
       <div class="catalog-stats"><span><b>Casillas:</b> 0</span></div>
       <div class="catalog-rules"><b>Efectos:</b> Otorga arco de fuego de 360º al arma equipada (Multiplica su costo x3).</div>
     `;
@@ -2077,21 +2225,115 @@
     return false;
   }
 
-  function getWeaponsSelectOptionsHTML(selectedName, currentSponsor, isSlotsFull) {
-    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
-    
+  function toggleCustomSelect(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const isOpen = container.classList.contains('open');
+    document.querySelectorAll('.custom-select-container.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) {
+      container.classList.add('open');
+      const searchInput = container.querySelector('.custom-select-search input');
+      if (searchInput) {
+        searchInput.value = '';
+        filterCustomSelectOptions(containerId, '');
+        setTimeout(() => searchInput.focus(), 50);
+      }
+    }
+  }
+
+  function filterCustomSelectOptions(containerId, query) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const q = query.toLowerCase().trim();
+    const options = container.querySelectorAll('.custom-select-option');
+    const headers = container.querySelectorAll('.custom-select-group-header');
+
+    options.forEach(opt => {
+      const text = opt.innerText.toLowerCase();
+      opt.style.display = text.includes(q) ? 'block' : 'none';
+    });
+
+    headers.forEach(header => {
+      let nextElem = header.nextElementSibling;
+      let hasVisible = false;
+      while (nextElem && !nextElem.classList.contains('custom-select-group-header')) {
+        if (nextElem.classList.contains('custom-select-option') && nextElem.style.display !== 'none') {
+          hasVisible = true;
+          break;
+        }
+        nextElem = nextElem.nextElementSibling;
+      }
+      header.style.display = hasVisible ? 'block' : 'none';
+    });
+  }
+
+  function selectCustomOption(containerId, value, callbackFnStr) {
+    const container = document.getElementById(containerId);
+    if (container) container.classList.remove('open');
+    if (callbackFnStr) {
+      const fn = new Function(callbackFnStr.replace('VALUE_PLACEHOLDER', JSON.stringify(value)));
+      fn();
+    }
+  }
+
+  function renderCustomSelectHTML(containerId, selectedName, optionsData, callbackFnStr) {
+    let currentLabel = "-- Seleccionar --";
+    optionsData.forEach(group => {
+      group.items.forEach(item => {
+        if (item.value === selectedName) currentLabel = item.label;
+      });
+    });
+
+    let optionsHTML = `
+      <div id="${containerId}" class="custom-select-container">
+        <div class="custom-select-trigger" onclick="toggleCustomSelect('${containerId}')">
+          <span>${currentLabel}</span>
+        </div>
+        <div class="custom-select-dropdown">
+          <div class="custom-select-search" onclick="event.stopPropagation();">
+            <input type="text" placeholder="🔍 Buscar..." oninput="filterCustomSelectOptions('${containerId}', this.value)">
+          </div>
+    `;
+
+    optionsData.forEach(group => {
+      if (group.label) {
+        optionsHTML += `<div class="custom-select-group-header">${group.label}</div>`;
+      }
+      group.items.forEach(item => {
+        const isSelected = item.value === selectedName;
+        const isDisabled = item.disabled;
+        const fnCall = isDisabled ? '' : `selectCustomOption('${containerId}', ${JSON.stringify(item.value)}, '${callbackFnStr}')`;
+
+        optionsHTML += `
+          <div class="custom-select-option ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}" 
+               onclick="${fnCall}">
+            ${item.label}
+          </div>
+        `;
+      });
+    });
+
+    optionsHTML += `</div></div>`;
+    return optionsHTML;
+  }
+
+  function getWeaponsSelectData(selectedName, currentSponsor, isSlotsFull) {
     const categories = [
-      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico", optClass: "opt-arm-basico", emoji: "🔫" },
-      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado", optClass: "opt-arm-avanzado", emoji: "💥" },
-      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal", optClass: "opt-arm-personal", emoji: "🦺" },
-      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga", optClass: "opt-arm-descarga", emoji: "💣" }
+      { name: "Básico", label: "Armamento Básico", emoji: "🔫" },
+      { name: "Avanzado", label: "Armamento Avanzado", emoji: "💥" },
+      { name: "Personal", label: "Armamento Avanzado (Personales)", emoji: "🦺" },
+      { name: "Descarga", label: "Armamento Avanzado (Descarga)", emoji: "💣" }
     ];
+
+    const result = [{
+      label: "",
+      items: [{ value: "Ninguna", label: "-- Seleccionar Arma --", disabled: false }]
+    }];
 
     categories.forEach(cat => {
       const items = WEAPONS.filter(w => w.category === cat.name && w.name !== "Ninguna");
-      if(items.length > 0) {
-        html += `<optgroup label="${cat.label}" class="${cat.class}">`;
-        items.forEach(w => {
+      if (items.length > 0) {
+        const groupItems = items.map(w => {
           const isMishkinRequired = w.sponsor === "Mishkin";
           let isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
           const isSelected = w.name === selectedName;
@@ -2106,20 +2348,18 @@
           if (isMishkinRequired) label += ` [Mishkin]`;
           if (isDisabled) label += ` (No disponible)`;
 
-          html += `<option value="${w.name}" class="${cat.optClass}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+          return { value: w.name, label, disabled: isDisabled };
         });
-        html += `</optgroup>`;
+
+        result.push({ label: cat.label, items: groupItems });
       }
     });
-    return html;
+
+    return result;
   }
 
-  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex, isSlotsFull) {
-    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Mejora --</option>`;
-    
+  function getUpgradesSelectData(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex, isSlotsFull) {
     const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
-    html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
-
     const equippedNames = currentUpgrades.map((u, idx) => idx !== currentIndex ? u.name : null).filter(Boolean);
     const crewUpgradeCount = currentUpgrades.filter((u, idx) => idx !== currentIndex && u.name === "Tripulante adicional").length;
 
@@ -2128,6 +2368,8 @@
       "Orugas", "Teleportador experimental", "Tubo lanzamierdas",
       "Vehículo carcelario (especial)", "Sirena Mejorada", "Blindaje de micro placas"
     ];
+
+    const groupItems = [{ value: "Ninguna", label: "-- Seleccionar Mejora --", disabled: false }];
 
     items.forEach(w => {
       let isDisabled = false;
@@ -2148,25 +2390,28 @@
         isDisabled = true;
       }
 
-      let label = `🛠️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
+      let label = `🛡️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
       if (isDisabled) label += ` (No disponible)`;
 
-      html += `<option value="${w.name}" class="opt-mejora-veh" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+      groupItems.push({ value: w.name, label, disabled: isDisabled });
     });
 
-    html += `</optgroup>`;
-    return html;
+    return [{ label: "Mejoras para Vehículo", items: groupItems }];
   }
 
-  function getPerksSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentPerks, currentIndex) {
-    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Ventaja --</option>`;
-
+  function getPerksSelectData(selectedName, currentSponsor, vehicleData, currentPerks, currentIndex) {
     const activePerksString = SPONSORS[currentSponsor] || "";
     const activePerkTypes = activePerksString !== "Ninguna" ? activePerksString.split(',').map(s => s.trim()) : [];
 
+    const result = [{
+      label: "",
+      items: [{ value: "Ninguna", label: "-- Seleccionar Ventaja --", disabled: false }]
+    }];
+
     if (activePerkTypes.length === 0) {
-      return html + `<option value="" disabled>(Selecciona un patrocinador para habilitar ventajas)</option>`;
+      result[0].items.push({ value: "", label: "(Selecciona un patrocinador para habilitar ventajas)", disabled: true });
+      return result;
     }
 
     const equippedPerkNames = (currentPerks || []).map((p, idx) => idx !== currentIndex ? p.name : null).filter(Boolean);
@@ -2174,14 +2419,8 @@
     activePerkTypes.forEach(perkType => {
       const typeItems = PERKS.filter(p => p.category === perkType);
       if (typeItems.length > 0) {
-        const normalizedCategory = perkType.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const cssClass = `grp-pk-${normalizedCategory}`;
-        const optClass = `opt-pk-${normalizedCategory}`;
         const emoji = PERK_EMOJIS[perkType] || "⭐";
-        
-        html += `<optgroup label="Ventajas de ${perkType}" class="${cssClass}">`;
-
-        typeItems.forEach(p => {
+        const groupItems = typeItems.map(p => {
           let isDisabled = false;
           const isSelected = p.name === selectedName;
 
@@ -2197,14 +2436,14 @@
           if (p.cond !== "-") label += ` [${p.cond}]`;
           if (isDisabled) label += ` (No disponible)`;
 
-          html += `<option value="${p.name}" class="${optClass}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
+          return { value: p.name, label, disabled: isDisabled };
         });
 
-        html += `</optgroup>`;
+        result.push({ label: `Ventajas de ${perkType}`, items: groupItems });
       }
     });
 
-    return html;
+    return result;
   }
 
   function renderBuilder() {
@@ -2323,20 +2562,33 @@
 
       grandTotalBidones += vehicleBidones;
 
+      const maxSlots = vData ? vData.slots : 0;
+      const isVehicleOverlimit = vData && usedSlots > maxSlots;
+
       const card = document.createElement('div');
-      card.className = 'vehicle-card';
+      card.className = `vehicle-card ${isVehicleOverlimit ? 'overlimit-card' : ''}`;
       if (vData) {
         card.style.borderLeft = `5px solid ${vData.category === 'Básico' ? 'var(--cat-veh-basico)' : 'var(--cat-veh-avanzado)'}`;
       }
 
-      let innerHTML = `
+      let innerHTML = '';
+
+      if (isVehicleOverlimit) {
+        innerHTML += `
+          <div class="vehicle-card-warning-banner">
+            ⚠️ ¡Atención! Este vehículo ha excedido su número máximo de casillas de equipamiento (${usedSlots} / ${maxSlots} Slots).
+          </div>
+        `;
+      }
+
+      innerHTML += `
         <div class="vehicle-header">
           <button onclick="toggleCollapse(${v.id})" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer; min-height:auto; padding:2px 6px;">
             ${v.collapsed ? '►' : '▼'}
           </button>
           <input type="text" value="${v.name}" oninput="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 40%;">
           <div class="vehicle-controls-btn-group">
-            <strong>${vehicleBidones} Bid.</strong>
+            <strong style="${isVehicleOverlimit ? 'color:#ff4444;' : ''}">${vehicleBidones} Bid.</strong>
             <button class="btn-move" title="Mover arriba" onclick="moveVehicle(${v.id}, -1)" ${vIndex === 0 ? 'disabled' : ''}>▲</button>
             <button class="btn-move" title="Mover abajo" onclick="moveVehicle(${v.id}, 1)" ${vIndex === team.length - 1 ? 'disabled' : ''}>▼</button>
             <button class="btn-duplicate" title="Duplicar" onclick="duplicateVehicle(${v.id})">📋</button>
@@ -2372,7 +2624,6 @@
         if (!vData) {
           innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo válido para comenzar la configuración.</div>`;
         } else {
-          const maxSlots = vData.slots;
           const slotPercentage = maxSlots > 0 ? Math.min(100, Math.round((usedSlots / maxSlots) * 100)) : (usedSlots > 0 ? 100 : 0);
           const isSlotsOver = usedSlots > maxSlots;
 
@@ -2490,14 +2741,21 @@
             if (isSelected && w.facing === "360º" && !native360) currentCost *= 3;
             const displayRules = isSelected ? getWeaponRules(wData, currentSponsor) : "-";
 
+            const customWeaponSelectId = `csel_w_${v.id}_${wIdx}`;
+            const weaponsOptionsData = getWeaponsSelectData(w.name, currentSponsor, isSlotsFull);
+            const weaponSelectHTML = renderCustomSelectHTML(
+              customWeaponSelectId,
+              w.name,
+              weaponsOptionsData,
+              `updateWeaponName(${v.id}, ${wIdx}, VALUE_PLACEHOLDER)`
+            );
+
             innerHTML += `
               <div class="upgrade-row">
                 <div class="upgrade-controls">
                   <div>
                     <label style="font-size: 0.8em; color: var(--text-muted);">Arma ${wIdx + 1}:</label>
-                    <select onchange="updateWeaponName(${v.id}, ${wIdx}, this.value)">
-                      ${getWeaponsSelectOptionsHTML(w.name, currentSponsor, isSlotsFull)}
-                    </select>
+                    ${weaponSelectHTML}
                   </div>
                   <div>
                     <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
@@ -2543,14 +2801,21 @@
             const isRam = isSelected && (u.name === "Ariete" || u.name === "Ariete explosivo");
             const currentCost = isSelected ? getItemCost(uData, currentSponsor) : 0;
 
+            const customUpgradeSelectId = `csel_u_${v.id}_${uIdx}`;
+            const upgradesOptionsData = getUpgradesSelectData(u.name, currentSponsor, vData, v.upgrades, uIdx, isSlotsFull);
+            const upgradeSelectHTML = renderCustomSelectHTML(
+              customUpgradeSelectId,
+              u.name,
+              upgradesOptionsData,
+              `updateUpgradeName(${v.id}, ${uIdx}, VALUE_PLACEHOLDER)`
+            );
+
             innerHTML += `
               <div class="upgrade-row">
                 <div class="upgrade-controls">
                   <div>
                     <label style="font-size: 0.8em; color: var(--text-muted);">Mejora ${uIdx + 1}:</label>
-                    <select onchange="updateUpgradeName(${v.id}, ${uIdx}, this.value)">
-                      ${getUpgradesSelectOptionsHTML(u.name, currentSponsor, vData, v.upgrades, uIdx, isSlotsFull)}
-                    </select>
+                    ${upgradeSelectHTML}
                   </div>
                   <div>
                     <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
@@ -2588,14 +2853,21 @@
             const pData = PERKS.find(item => item.name === p.name);
             const isSelected = pData && pData.name !== "Ninguna";
 
+            const customPerkSelectId = `csel_p_${v.id}_${pIdx}`;
+            const perksOptionsData = getPerksSelectData(p.name, currentSponsor, vData, v.perks, pIdx);
+            const perkSelectHTML = renderCustomSelectHTML(
+              customPerkSelectId,
+              p.name,
+              perksOptionsData,
+              `updatePerkName(${v.id}, ${pIdx}, VALUE_PLACEHOLDER)`
+            );
+
             innerHTML += `
               <div class="upgrade-row">
                 <div class="perk-controls">
                   <div>
                     <label style="font-size: 0.8em; color: var(--text-muted);">Ventaja ${pIdx + 1}:</label>
-                    <select onchange="updatePerkName(${v.id}, ${pIdx}, this.value)">
-                      ${getPerksSelectOptionsHTML(p.name, currentSponsor, vData, v.perks, pIdx)}
-                    </select>
+                    ${perkSelectHTML}
                   </div>
                   <div>
                     <button class="btn-danger" onclick="removePerkFromVehicle(${v.id}, ${pIdx})">X</button>
@@ -2620,6 +2892,7 @@
 
     const totalElement = document.getElementById('totalBidones');
     const mobileTotalElem = document.getElementById('mobileTotalDisplay');
+    const summaryBar = document.getElementById('summaryBar');
     
     totalElement.innerText = grandTotalBidones;
     if (mobileTotalElem) mobileTotalElem.innerText = grandTotalBidones;
@@ -2627,9 +2900,11 @@
     if (grandTotalBidones > maxCans) {
       totalElement.style.color = '#ff4444';
       if (mobileTotalElem) mobileTotalElem.style.color = '#ff4444';
+      if (summaryBar) summaryBar.classList.add('overbudget-warning');
     } else {
       totalElement.style.color = '#fff';
       if (mobileTotalElem) mobileTotalElem.style.color = '#00e676';
+      if (summaryBar) summaryBar.classList.remove('overbudget-warning');
     }
 
     saveToLocalStorage();
@@ -2986,7 +3261,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
 
       let weaponsRowsHTML = `
         <tr>
-          <td class="left">Arma corta (Pistola)</td>
+          <td class="left">🔫 Arma corta (Pistola)</td>
           <td>Med.</td>
           <td>1d6</td>
           <td>360º</td>
@@ -2996,7 +3271,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
 
       let dashboardWeaponsListHTML = `
         <div class="dashboard-weapon-card-box">
-          <div class="dashboard-weapon-title">Arma corta (Pistola)</div>
+          <div class="dashboard-weapon-title">🔫 Arma corta (Pistola)</div>
           <div class="dashboard-weapon-stats-box">
             <div><b>Atq:</b> 1d6</div>
             <div><b>Enc:</b> 360º</div>
@@ -3020,11 +3295,12 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
 
             const activeRules = getWeaponRules(wData, sponsorName);
             const ammoHTML = getAmmoBoxesHTML(activeRules);
+            const icon = wData.category === 'Básico' ? '🔫' : wData.category === 'Avanzado' ? '💥' : wData.category === 'Personal' ? '🦺' : '💣';
 
             weaponsRowsHTML += `
               <tr>
                 <td class="left">
-                  ${wData.name}
+                  ${icon} ${wData.name}
                   ${ammoHTML}
                 </td>
                 <td>${rShort}</td>
@@ -3036,7 +3312,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
 
             dashboardWeaponsListHTML += `
               <div class="dashboard-weapon-card-box">
-                <div class="dashboard-weapon-title">${wData.name}</div>
+                <div class="dashboard-weapon-title">${icon} ${wData.name}</div>
                 <div class="dashboard-weapon-stats-box">
                   <div><b>Atq:</b> ${wData.attack}</div>
                   <div><b>Enc:</b> ${w.facing || 'Front.'}</div>
@@ -3060,7 +3336,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
             upgradesRowsHTML += `
               <tr>
                 <td class="left">
-                  ${uData.name}
+                  🛡️ ${uData.name}
                   ${ammoHTML}
                 </td>
                 <td>${cost} Bid.</td>
@@ -3078,9 +3354,10 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
         activePerksList.forEach(p => {
           const pData = PERKS.find(item => item.name === p.name);
           if (pData) {
+            const emoji = PERK_EMOJIS[pData.category] || "⭐";
             perksRowsHTML += `
               <tr>
-                <td class="left">${pData.name} (${pData.category})</td>
+                <td class="left">${emoji} ${pData.name} (${pData.category})</td>
                 <td>${pData.cost} Bid.</td>
               </tr>
             `;
