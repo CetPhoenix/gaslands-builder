@@ -6,7 +6,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V4.2.1</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V4.2.2</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -915,6 +915,32 @@
       line-height: 1.1;
     }
 
+    /* CONTROL INTERACTIVO DE PELIGRO (0 A 6) */
+    .danger-counter-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      background: var(--danger-bg-val, #e2e2e2);
+      border-radius: 2px;
+      padding: 0 1px;
+      font-size: 6pt;
+      font-weight: bold;
+    }
+    .danger-counter-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 6pt;
+      font-weight: bold;
+      padding: 0 2px;
+      color: inherit;
+      min-height: auto !important;
+    }
+    .danger-counter-btn:hover {
+      opacity: 0.7;
+    }
+
     .card-hull-section {
       border: 1px solid var(--card-border-val, #000);
       padding: 2px 3px;
@@ -1157,7 +1183,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V4.1.1</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V4.1.2</h1>
   <div>
     <button class="btn-share" onclick="shareSquadronText()">📋 Copiar Lista (Texto)</button>
   </div>
@@ -1316,7 +1342,7 @@
   <div class="modal-content">
     <div class="modal-header-actions">
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <h3 style="margin: 0; color: #fff;">Opciones de Fichas de Vehículos</h3>
+        <h3 id="modalTitleHeading" style="margin: 0; color: #fff;">Opciones de Fichas de Vehículos</h3>
         
         <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Formato:</label>
         <select id="cardPagesSelect" onchange="openCardsModal()" style="width: 200px; padding: 4px 8px; font-size: 0.85rem;">
@@ -1341,14 +1367,14 @@
         <button onclick="resetZoom()" style="padding: 4px 8px; background: #555; min-height: 32px;">Restablecer</button>
         <button onclick="downloadAllCardsPNG()" style="background: #2e7d32; min-height: 32px;">💾 PNG (Todas)</button>
         <button class="btn-pdf" onclick="downloadAllCardsPDF()" style="min-height: 32px;">📄 PDF (A4)</button>
-        <button class="btn-print" onclick="window.print()" style="min-height: 32px;">🖨️️ Imprimir</button>
+        <button class="btn-print" onclick="window.print()" style="min-height: 32px;">🖨 Imprimir</button>
         <button class="btn-danger" onclick="closeCardsModal()" style="min-height: 32px;">Cerrar</button>
       </div>
     </div>
 
     <div id="cardsPrintContainer" class="cards-preview-grid"></div>
 
-    <div class="prompts-section-container">
+    <div id="promptsSectionContainer" class="prompts-section-container">
       <h3 style="margin-top: 0; color: var(--accent-color); border-bottom: 1px solid #444; padding-bottom: 8px;">
         🤖 Prompts de Diseño Generados para Generación de Imágenes
       </h3>
@@ -1561,6 +1587,7 @@
 
   let team = [];
   let deferredPrompt = null;
+  let vehicleDangerPoints = {}; // Registro de puntos de peligro por ID de vehículo en Modo Juego
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -1686,7 +1713,7 @@
     });
 
     textList += `========================================\n`;
-    textList += `Generado con Nexo Alpha - Gaslands Refuelled Builder V4.1.1`;
+    textList += `Generado con Nexo Alpha - Gaslands Refuelled Builder V4.1.2`;
 
     navigator.clipboard.writeText(textList).then(() => {
       showToast("📋 ¡Lista de escudería copiada al portapapeles!");
@@ -1699,7 +1726,7 @@
   function saveToLocalStorage() {
     try {
       const configData = {
-        version: "4.1.1",
+        version: "4.1.2",
         teamName: document.getElementById('teamName').value || "Mi Escudería",
         sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
         maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1833,7 +1860,7 @@
 
   function saveConfiguration() {
     const configData = {
-      version: "4.1.1",
+      version: "4.1.2",
       teamName: document.getElementById('teamName').value || "Mi Escudería",
       sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
       maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1975,7 +2002,7 @@
       
       if (w.category === "Mejora") {
         item.innerHTML = `
-          <div class="catalog-item-header"><span>🛡️️ ${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
+          <div class="catalog-item-header"><span>🛡 ${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
           <div class="catalog-stats"><span><b>Casillas:</b> ${w.slots}</span></div>
           <div class="catalog-rules"><b>Efectos:</b> ${w.rules}</div>
         `;
@@ -3210,17 +3237,67 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
     }
   }
 
-  function openCardsModal() {
+  function changeDangerPoints(vehicleId, delta) {
+    if (vehicleDangerPoints[vehicleId] === undefined) {
+      vehicleDangerPoints[vehicleId] = 0;
+    }
+    vehicleDangerPoints[vehicleId] += delta;
+    if (vehicleDangerPoints[vehicleId] < 0) vehicleDangerPoints[vehicleId] = 0;
+    if (vehicleDangerPoints[vehicleId] > 6) vehicleDangerPoints[vehicleId] = 6;
+
+    // Actualizar dinámicamente el contenedor visual sin recargar todo el modal si es posible
+    const valElem = document.getElementById(`danger_val_${vehicleId}`);
+    const wrapperElem = document.getElementById(`danger_wrap_${vehicleId}`);
+    if (valElem && wrapperElem) {
+      const currentVal = vehicleDangerPoints[vehicleId];
+      valElem.innerText = currentVal;
+      
+      // Asignar colores solicitados: 0-2 verde, 3-4 amarillo, 5-6 rojo
+      if (currentVal <= 2) {
+        wrapperElem.style.background = '#1b382b';
+        wrapperElem.style.color = '#81c784';
+        wrapperElem.style.border = '0.5px solid #4CAF50';
+      } else if (currentVal <= 4) {
+        wrapperElem.style.background = '#38321b';
+        wrapperElem.style.color = '#ffd54f';
+        wrapperElem.style.border = '0.5px solid #FFC107';
+      } else {
+        wrapperElem.style.background = '#381b1b';
+        wrapperElem.style.color = '#e57373';
+        wrapperElem.style.border = '0.5px solid #f44336';
+      }
+    }
+  }
+
+  let isPlayModeActive = false;
+
+  function openCardsModal(isPlayMode = false) {
+    isPlayModeActive = isPlayMode;
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
-    const promptsContainer = document.getElementById('promptsOutputList');
+    const promptsContainerSection = document.getElementById('promptsSectionContainer');
+    const promptsContainerList = document.getElementById('promptsOutputList');
+    const modalTitleHeading = document.getElementById('modalTitleHeading');
     const teamName = document.getElementById('teamName').value || 'Mi Escudería';
     const sponsorName = document.getElementById('sponsorSelect').value;
-    const cardOption = document.getElementById('cardPagesSelect') ? document.getElementById('cardPagesSelect').value : '1page_63x88';
-    const cardTheme = document.getElementById('cardThemeSelect') ? document.getElementById('cardThemeSelect').value : 'theme-light';
+    const select = document.getElementById('cardPagesSelect');
+    const themeSelect = document.getElementById('cardThemeSelect');
+
+    if (isPlayMode) {
+      if (select) select.value = '1page_63x88'; // Visualizar por defecto 1 hoja en Modo Juego
+      if (themeSelect) themeSelect.value = 'theme-dark';
+      if (promptsContainerSection) promptsContainerSection.style.display = 'none'; // Quitar visualización de prompts en modo juego
+      if (modalTitleHeading) modalTitleHeading.innerText = '🎲 Tablero de Modo Juego (En Vivo)';
+    } else {
+      if (promptsContainerSection) promptsContainerSection.style.display = 'block';
+      if (modalTitleHeading) modalTitleHeading.innerText = 'Opciones de Fichas de Vehículos';
+    }
+
+    const cardOption = select ? select.value : '1page_63x88';
+    const cardTheme = themeSelect ? themeSelect.value : 'theme-light';
 
     container.innerHTML = '';
-    promptsContainer.innerHTML = '';
+    if (promptsContainerList) promptsContainerList.innerHTML = '';
 
     if (team.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
@@ -3231,6 +3308,11 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
     team.forEach((v, vIndex) => {
       const vData = VEHICLES.find(item => item.name === v.type);
       if (!vData) return;
+
+      if (vehicleDangerPoints[v.id] === undefined) {
+        vehicleDangerPoints[v.id] = 0;
+      }
+      const currentDanger = vehicleDangerPoints[v.id];
 
       const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
       let baseCost = vData.bidones;
@@ -3408,6 +3490,20 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
         perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
       }
 
+      // Definir color inicial del selector de peligro (0-2 verde, 3-4 amarillo, 5-6 rojo)
+      let dangerBg = '#1b382b';
+      let dangerColor = '#81c784';
+      let dangerBorder = '0.5px solid #4CAF50';
+      if (currentDanger > 2 && currentDanger <= 4) {
+        dangerBg = '#38321b';
+        dangerColor = '#ffd54f';
+        dangerBorder = '0.5px solid #FFC107';
+      } else if (currentDanger > 4) {
+        dangerBg = '#381b1b';
+        dangerColor = '#e57373';
+        dangerBorder = '0.5px solid #f44336';
+      }
+
       const cardHeaderHTML = `
         <div class="card-top-bar">
           <span>ESC: ${teamName}</span>
@@ -3434,9 +3530,15 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
             <div class="lbl">Trip.</div>
             <div class="val">${totalCrew}</div>
           </div>
-          <div class="card-stat-box">
+          <div class="card-stat-box" id="danger_wrap_${v.id}" style="background: ${dangerBg}; color: ${dangerColor}; border: ${dangerBorder};">
             <div class="lbl">Peligro</div>
-            <div class="val">[ &nbsp; ]</div>
+            <div class="val">
+              <div class="danger-counter-wrapper">
+                <button class="danger-counter-btn" onclick="changeDangerPoints(${v.id}, -1)">-</button>
+                <span id="danger_val_${v.id}">${currentDanger}</span>
+                <button class="danger-counter-btn" onclick="changeDangerPoints(${v.id}, 1)">+</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -3578,7 +3680,16 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
                   <div class="card-stat-box"><div class="lbl">Mar</div><div class="val">${totalGear}</div></div>
                   <div class="card-stat-box"><div class="lbl">Man</div><div class="val">${totalHandling}</div></div>
                   <div class="card-stat-box"><div class="lbl">Trip</div><div class="val">${totalCrew}</div></div>
-                  <div class="card-stat-box"><div class="lbl">Pel</div><div class="val">[ ]</div></div>
+                  <div class="card-stat-box" id="danger_wrap_${v.id}" style="background: ${dangerBg}; color: ${dangerColor}; border: ${dangerBorder};">
+                    <div class="lbl">Pel</div>
+                    <div class="val">
+                      <div class="danger-counter-wrapper">
+                        <button class="danger-counter-btn" onclick="changeDangerPoints(${v.id}, -1)">-</button>
+                        <span id="danger_val_${v.id}">${currentDanger}</span>
+                        <button class="danger-counter-btn" onclick="changeDangerPoints(${v.id}, 1)">+</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-hull-section">
                   <div class="card-hull-header">
@@ -3632,42 +3743,43 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
       `;
       container.appendChild(itemWrapper);
 
-      const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
-      const promptBox = document.createElement('div');
-      promptBox.className = 'prompt-card-box';
+      if (!isPlayMode) {
+        const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
+        const promptBox = document.createElement('div');
+        promptBox.className = 'prompt-card-box';
 
-      if (promptsData.type === 'single') {
-        promptBox.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (${cardOption})</strong>
-            <button class="btn-copy" onclick="copyPromptToClipboard('prompt_sp_${vIndex}')">📋 Copiar Prompt</button>
-          </div>
-          <textarea id="prompt_sp_${vIndex}" class="prompt-textarea" readonly>${promptsData.prompt}</textarea>
-        `;
-      } else {
-        promptBox.innerHTML = `
-          <div style="margin-bottom: 8px;">
-            <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (Opción: Dividir en 2 Hojas)</strong>
-          </div>
-          <div style="margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span style="font-size: 0.85rem; font-weight: bold; color: #00bcd4;">📄 Prompt HOJA 1 (Atributos y Vista):</span>
-              <button class="btn-copy" onclick="copyPromptToClipboard('prompt_h1_${vIndex}')">📋 Copiar Hoja 1</button>
+        if (promptsData.type === 'single') {
+          promptBox.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (${cardOption})</strong>
+              <button class="btn-copy" onclick="copyPromptToClipboard('prompt_sp_${vIndex}')">📋 Copiar Prompt</button>
             </div>
-            <textarea id="prompt_h1_${vIndex}" class="prompt-textarea" readonly>${promptsData.promptH1}</textarea>
-          </div>
+            <textarea id="prompt_sp_${vIndex}" class="prompt-textarea" readonly>${promptsData.prompt}</textarea>
+          `;
+        } else {
+          promptBox.innerHTML = `
+            <div style="margin-bottom: 8px;">
+              <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (Opción: Dividir en 2 Hojas)</strong>
+            </div>
+            <div style="margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 0.85rem; font-weight: bold; color: #00bcd4;">📄 Prompt HOJA 1 (Atributos y Vista):</span>
+                <button class="btn-copy" onclick="copyPromptToClipboard('prompt_h1_${vIndex}')">📋 Copiar Hoja 1</button>
+              </div>
+              <textarea id="prompt_h1_${vIndex}" class="prompt-textarea" readonly>${promptsData.promptH1}</textarea>
+            </div>
 
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span style="font-size: 0.85rem; font-weight: bold; color: #e91e63;">📄 Prompt HOJA 2 (Equipamiento):</span>
-              <button class="btn-copy" onclick="copyPromptToClipboard('prompt_h2_${vIndex}')">📋 Copiar Hoja 2</button>
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 0.85rem; font-weight: bold; color: #e91e63;">📄 Prompt HOJA 2 (Equipamiento):</span>
+                <button class="btn-copy" onclick="copyPromptToClipboard('prompt_h2_${vIndex}')">📋 Copiar Hoja 2</button>
+              </div>
+              <textarea id="prompt_h2_${vIndex}" class="prompt-textarea" readonly>${promptsData.promptH2}</textarea>
             </div>
-            <textarea id="prompt_h2_${vIndex}" class="prompt-textarea" readonly>${promptsData.promptH2}</textarea>
-          </div>
-        `;
+          `;
+        }
+        if (promptsContainerList) promptsContainerList.appendChild(promptBox);
       }
-
-      promptsContainer.appendChild(promptBox);
     });
 
     modal.style.display = 'flex';
@@ -3678,13 +3790,8 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
   }
 
   function openPlayModeModal() {
-    const modal = document.getElementById('cardsModal');
-    const select = document.getElementById('cardPagesSelect');
-    const themeSelect = document.getElementById('cardThemeSelect');
-    if (select) select.value = 'dashboard_nexo';
-    if (themeSelect) themeSelect.value = 'theme-dark';
-    openCardsModal();
-    showToast("🎲 Modo Juego activado: Dashboard interactivo oscuro listo.");
+    openCardsModal(true); // Activa el Modo Juego por defecto en 1 hoja, ocultando los prompts
+    showToast("🎲 Modo Juego activado: Fichas interactivas en vivo listas.");
   }
 
   renderCatalog();
