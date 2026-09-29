@@ -1932,13 +1932,13 @@
               <optgroup label="Vehículos Básicos" class="grp-v-basico">
                 ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
               <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
                 ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
                   const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
+                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} | Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
                 }).join('')}
               </optgroup>
             </select>
