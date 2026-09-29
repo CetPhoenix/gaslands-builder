@@ -6,7 +6,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V4.2</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V4.3</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -61,7 +61,7 @@
       color: var(--text-color);
       margin: 0;
       padding: 20px;
-      padding-bottom: 80px; /* Espacio para barra inferior móvil */
+      padding-bottom: 80px;
     }
 
     header {
@@ -382,7 +382,6 @@
       background: #181818 !important;
     }
 
-    /* MEJORA ÁREA TÁCTIL (TOUCH TARGETS) */
     select, input, textarea {
       width: 100%;
       padding: 10px;
@@ -411,47 +410,6 @@
     option.opt-arm-descarga { background-color: rgba(233, 30, 99, 0.2) !important; color: #ffffff; }
     option.opt-mejora-veh { background-color: rgba(255, 215, 0, 0.2) !important; color: #ffffff; }
 
-    option.opt-pk-agresivo { background-color: rgba(229, 57, 53, 0.2) !important; color: #ffffff; }
-    option.opt-pk-aterrador { background-color: rgba(142, 36, 170, 0.2) !important; color: #ffffff; }
-    option.opt-pk-intrepido { background-color: rgba(251, 140, 0, 0.2) !important; color: #ffffff; }
-    option.opt-pk-macizo { background-color: rgba(109, 76, 65, 0.2) !important; color: #ffffff; }
-    option.opt-pk-militar { background-color: rgba(67, 160, 71, 0.2) !important; color: #ffffff; }
-    option.opt-pk-persecucion { background-color: rgba(216, 27, 96, 0.2) !important; color: #ffffff; }
-    option.opt-pk-preciso { background-color: rgba(124, 179, 66, 0.2) !important; color: #ffffff; }
-    option.opt-pk-rudo { background-color: rgba(30, 136, 229, 0.2) !important; color: #ffffff; }
-    option.opt-pk-tecnologia { background-color: rgba(0, 172, 193, 0.2) !important; color: #ffffff; }
-    option.opt-pk-temerario { background-color: rgba(84, 110, 122, 0.2) !important; color: #ffffff; }
-    option.opt-pk-tuneo { background-color: rgba(253, 216, 53, 0.2) !important; color: #ffffff; }
-    option.opt-pk-velocidad { background-color: rgba(57, 73, 171, 0.2) !important; color: #ffffff; }
-
-    optgroup.grp-a-basico { color: var(--cat-arm-basico); font-weight: bold; }
-    optgroup.grp-a-avanzado { color: var(--cat-arm-avanzado); font-weight: bold; }
-    optgroup.grp-a-personal { color: var(--cat-arm-personal); font-weight: bold; }
-    optgroup.grp-a-descarga { color: var(--cat-arm-descarga); font-weight: bold; }
-    optgroup.grp-m-vehiculo { color: var(--cat-mejora-veh); font-weight: bold; }
-
-    optgroup.grp-pk-agresivo { color: var(--perk-agresivo); font-weight: bold; }
-    optgroup.grp-pk-aterrador { color: var(--perk-aterrador); font-weight: bold; }
-    optgroup.grp-pk-intrepido { color: var(--perk-intrepido); font-weight: bold; }
-    optgroup.grp-pk-macizo { color: var(--perk-macizo); font-weight: bold; }
-    optgroup.grp-pk-militar { color: var(--perk-militar); font-weight: bold; }
-    optgroup.grp-pk-persecucion { color: var(--perk-persecucion); font-weight: bold; }
-    optgroup.grp-pk-preciso { color: var(--perk-preciso); font-weight: bold; }
-    optgroup.grp-pk-rudo { color: var(--perk-rudo); font-weight: bold; }
-    optgroup.grp-pk-tecnologia { color: var(--perk-tecnologia); font-weight: bold; }
-    optgroup.grp-pk-temerario { color: var(--perk-temerario); font-weight: bold; }
-    optgroup.grp-pk-tuneo { color: var(--perk-tuneo); font-weight: bold; }
-    optgroup.grp-pk-velocidad { color: var(--perk-velocidad); font-weight: bold; }
-    
-    option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
-    
-    option:disabled {
-      color: #666666 !important;
-      background-color: #1a1a1a !important;
-      font-style: italic;
-    }
-
-    /* TAMAÑOS BOTONES TÁCTILES */
     button {
       background: var(--accent-color);
       color: white;
@@ -717,7 +675,7 @@
       color: var(--accent-hover);
     }
 
-    /* ESTILOS DEL MODAL DE FICHAS DE VEHÍCULOS */
+    /* MODAL DE FICHAS */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -798,7 +756,6 @@
       margin-top: 6px;
     }
 
-    /* VISTA Y DISEÑO DE FICHAS CON ESTILOS BASE Y CASILLAS CLICABLES TÁCTILES */
     .printable-card {
       font-family: 'Roboto', sans-serif !important;
       background: #fff;
@@ -1053,7 +1010,6 @@
       color: #444;
     }
 
-    /* NOTIFICACIONES TOAST Y BARRA INFERIOR MÓVIL */
     #toast-container {
       position: fixed;
       bottom: 75px;
@@ -1236,7 +1192,6 @@
     <div class="catalog-panel">
       <h2>Catálogo de Referencia</h2>
 
-      <!-- BUSCADOR DINÁMICO EN EL CATÁLOGO -->
       <div class="catalog-search-box">
         <input type="text" id="catalogSearchInput" placeholder="🔍 Buscar arma, vehículo o regla..." oninput="filterCatalog()">
       </div>
@@ -1293,7 +1248,6 @@
   </div>
 </div>
 
-<!-- BARRA MÓVIL INFERIOR -->
 <div class="bottom-action-bar">
   <div style="font-size: 0.85rem; font-weight: bold;">
     Total: <span id="mobileTotalDisplay" style="color:var(--accent-color);">0</span> Bid.
@@ -1315,7 +1269,6 @@
   </div>
 </footer>
 
-<!-- MODAL FICHAS DE VEHÍCULOS -->
 <div id="cardsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header-actions">
@@ -1344,13 +1297,11 @@
       </div>
     </div>
 
-    <!-- FICHAS VISUALES -->
     <div id="cardsPrintContainer" class="cards-preview-grid"></div>
 
-    <!-- PROMPTS GENERADOS PARA IA -->
     <div class="prompts-section-container">
       <h3 style="margin-top: 0; color: var(--accent-color); border-bottom: 1px solid #444; padding-bottom: 8px;">
-        🤖 Prompts de Diseño Generados para Generación de Imágenes (ChatGPT / Gemini / Midjourney)
+        🤖 Prompts de Diseño Generados para Generación de Imágenes
       </h3>
       <div id="promptsOutputList"></div>
     </div>
@@ -1358,11 +1309,10 @@
 </div>
 
 <script>
-  // SILUETAS VECTORIALES PLACEHOLDERS EN SVG
   const PLACEHOLDER_SVGS = {
     car: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`)}`,
     truck: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm11.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.96 2.5H17z"/></svg>`)}`,
-    bike: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm14-8.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm-8.2-12l-1.9 3.2c-.3.4-.2 1 .2 1.3s1 .2 1.3-.2l1.9-3.2 2.7 4.5h-3.5v2h5l-3.3-5.6 2.8-2.8H18v-2h-3.8l-3.4 3.4z"/></svg>`)}`,
+    bike: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm14-8.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-2.2-5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm-8.2-12l-1.9 3.2c-.3.4-.2 1 .2 1.3s1 .2 1.3-.2l1.9-3.2 2.7 4.5h-3.5v2h5l-3.3-5.6 2.8-2.8H18v-2h-3.8l-3.4 3.4z"/></svg>`)}`,
     tank: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M20 10h-6.17l2.58-2.58L15 6l-4 4H3c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zm-1 6H5v-2h14v2z"/></svg>`)}`
   };
 
@@ -1406,12 +1356,10 @@
   const WEAPONS = [
     { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0, sponsor: null },
     
-    // BÁSICO
     { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2, sponsor: null },
     { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3, sponsor: null },
     { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5, sponsor: null },
 
-    // AVANZADO
     { name: "AJG", category: "Avanzado", range: "Doble", attack: "10d6", rules: "Munición 1", slots: 3, bidones: 1, sponsor: null },
     { name: "Arpón", category: "Avanzado", range: "Doble", attack: "(5d6)", rules: "-", slots: 1, bidones: 2, sponsor: null },
     { name: "Batería de amplificadores", category: "Avanzado", range: "Medio", attack: "-", rules: "Arco de fuego de 360º", slots: 3, bidones: 4, sponsor: null },
@@ -1431,7 +1379,6 @@
     { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
     { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3, sponsor: "Mishkin" },
 
-    // PERSONALES
     { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
     { name: "Escopeta", category: "Personal", range: "Largo", attack: "L1d6 - M2d6 - C3d6", rules: "Personal", slots: 0, bidones: 4, sponsor: null },
     { name: "Granadas", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
@@ -1441,7 +1388,6 @@
     { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5, sponsor: null },
     { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2, sponsor: null },
 
-    // DESCARGA
     { name: "Dispensador de abrojos", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Explosión pequeña, Munición 3", slots: 1, bidones: 1, sponsor: null },
     { name: "Dispensador de aceite", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 2, sponsor: null },
     { name: "Dispensador de humo", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 1, sponsor: null },
@@ -1451,7 +1397,6 @@
     { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
     { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
 
-    // MEJORAS PARA VEHÍCULO
     { name: "Ariete", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
     { name: "Ariete explosivo", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 3, sponsor: null },
     { name: "Blindaje", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 1, bidones: 4, sponsor: null },
@@ -1463,7 +1408,6 @@
     { name: "Tripulante adicional", category: "Mejora", range: "-", attack: "-", rules: "+1 a Tripulación, hasta un máximo del doble inicial", slots: 0, bidones: 4, sponsor: null },
     { name: "Tubo lanzamierdas", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 2, sponsor: null },
     
-    // MEJORAS ESPECIALES
     { name: "Vehículo carcelario (especial)", category: "Mejora", range: "-", attack: "-", rules: "-4 BD al coste base, -2 PC. Solo Peso Medio.", slots: 0, bidones: 0, sponsor: "La Alcaidesa" },
     { name: "Sirena Mejorada", category: "Mejora", range: "-", attack: "-", rules: "Sustituye 'bandido' por 'cualquier vehículo enemigo'", slots: 0, bidones: 2, sponsor: "La Patrulla de la Autopista" },
     { name: "Blindaje de micro placas", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 0, bidones: 6, sponsor: "Verney" }
@@ -1574,7 +1518,7 @@
     deferredPrompt = e;
   });
 
-  // Cerrar dropdowns personalizados si se hace click fuera
+  // Cierre adecuado de desplegables dinámicos sin interferir con la selección
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.custom-select-container')) {
       document.querySelectorAll('.custom-select-container.open').forEach(el => {
@@ -1623,7 +1567,6 @@
 
       let vehicleCost = vData.bidones;
 
-      // Calcular modificadores
       const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
       if (sponsor === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
         vehicleCost = Math.max(5, vehicleCost - 4);
@@ -1634,7 +1577,6 @@
       let hasMicroPlacas = false;
       let hasOrugas = false;
 
-      // Armas
       let weaponsText = [];
       if (v.weapons && v.weapons.length > 0) {
         v.weapons.forEach(w => {
@@ -1648,7 +1590,6 @@
         });
       }
 
-      // Mejoras
       let upgradesText = [];
       if (v.upgrades && v.upgrades.length > 0) {
         v.upgrades.forEach(u => {
@@ -1664,7 +1605,6 @@
         });
       }
 
-      // Ventajas
       let perksText = [];
       if (v.perks && v.perks.length > 0) {
         v.perks.forEach(p => {
@@ -1676,7 +1616,6 @@
         });
       }
 
-      // Stats finales
       let totalHull = vData.hull + (armorCount * 2);
       if (sponsor === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") totalHull = Math.max(1, totalHull - 2);
       if (sponsor === "Verney" && hasMicroPlacas) totalHull += 2;
@@ -2384,7 +2323,7 @@
       const slots = getItemSlots(w, currentSponsor);
       const cost = getItemCost(w, currentSponsor);
 
-      let label = `🛡️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
+      let label = `🛡️️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
       if (isDisabled) label += ` (No disponible)`;
 
