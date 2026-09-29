@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987"
-        crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0555222123747987" crossorigin="anonymous"></script>
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaslands Refuelled - Builder V3.3 </title>
+  <title>Gaslands Refuelled - Builder V4.0</title>
   
-  <!-- Favicon SVG con temática de vehículo -->
+  <!-- Favicon SVG -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
 
   <!-- Carga de Fuente Uniforme (Roboto) -->
@@ -68,6 +66,9 @@
       border-bottom: 2px solid var(--accent-color);
       padding-bottom: 10px;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     h1 { margin: 0; color: var(--accent-color); font-size: 1.8rem; }
@@ -121,7 +122,6 @@
       gap: 6px;
     }
 
-    /* BARRA DE SLOTS EN VEHICULO */
     .slots-progress-container {
       margin-top: 8px;
       margin-bottom: 12px;
@@ -270,46 +270,6 @@
     option.opt-arm-descarga { background-color: rgba(233, 30, 99, 0.2) !important; color: #ffffff; }
     option.opt-mejora-veh { background-color: rgba(255, 215, 0, 0.2) !important; color: #ffffff; }
 
-    option.opt-pk-agresivo { background-color: rgba(229, 57, 53, 0.2) !important; color: #ffffff; }
-    option.opt-pk-aterrador { background-color: rgba(142, 36, 170, 0.2) !important; color: #ffffff; }
-    option.opt-pk-intrepido { background-color: rgba(251, 140, 0, 0.2) !important; color: #ffffff; }
-    option.opt-pk-macizo { background-color: rgba(109, 76, 65, 0.2) !important; color: #ffffff; }
-    option.opt-pk-militar { background-color: rgba(67, 160, 71, 0.2) !important; color: #ffffff; }
-    option.opt-pk-persecucion { background-color: rgba(216, 27, 96, 0.2) !important; color: #ffffff; }
-    option.opt-pk-preciso { background-color: rgba(124, 179, 66, 0.2) !important; color: #ffffff; }
-    option.opt-pk-rudo { background-color: rgba(30, 136, 229, 0.2) !important; color: #ffffff; }
-    option.opt-pk-tecnologia { background-color: rgba(0, 172, 193, 0.2) !important; color: #ffffff; }
-    option.opt-pk-temerario { background-color: rgba(84, 110, 122, 0.2) !important; color: #ffffff; }
-    option.opt-pk-tuneo { background-color: rgba(253, 216, 53, 0.2) !important; color: #ffffff; }
-    option.opt-pk-velocidad { background-color: rgba(57, 73, 171, 0.2) !important; color: #ffffff; }
-
-    optgroup.grp-a-basico { color: var(--cat-arm-basico); font-weight: bold; }
-    optgroup.grp-a-avanzado { color: var(--cat-arm-avanzado); font-weight: bold; }
-    optgroup.grp-a-personal { color: var(--cat-arm-personal); font-weight: bold; }
-    optgroup.grp-a-descarga { color: var(--cat-arm-descarga); font-weight: bold; }
-    optgroup.grp-m-vehiculo { color: var(--cat-mejora-veh); font-weight: bold; }
-
-    optgroup.grp-pk-agresivo { color: var(--perk-agresivo); font-weight: bold; }
-    optgroup.grp-pk-aterrador { color: var(--perk-aterrador); font-weight: bold; }
-    optgroup.grp-pk-intrepido { color: var(--perk-intrepido); font-weight: bold; }
-    optgroup.grp-pk-macizo { color: var(--perk-macizo); font-weight: bold; }
-    optgroup.grp-pk-militar { color: var(--perk-militar); font-weight: bold; }
-    optgroup.grp-pk-persecucion { color: var(--perk-persecucion); font-weight: bold; }
-    optgroup.grp-pk-preciso { color: var(--perk-preciso); font-weight: bold; }
-    optgroup.grp-pk-rudo { color: var(--perk-rudo); font-weight: bold; }
-    optgroup.grp-pk-tecnologia { color: var(--perk-tecnologia); font-weight: bold; }
-    optgroup.grp-pk-temerario { color: var(--perk-temerario); font-weight: bold; }
-    optgroup.grp-pk-tuneo { color: var(--perk-tuneo); font-weight: bold; }
-    optgroup.grp-pk-velocidad { color: var(--perk-velocidad); font-weight: bold; }
-    
-    option { color: #ffffff; font-weight: normal; background: #2b2b2b; }
-    
-    option:disabled {
-      color: #666666 !important;
-      background-color: #1a1a1a !important;
-      font-style: italic;
-    }
-
     button {
       background: var(--accent-color);
       color: white;
@@ -340,17 +300,8 @@
     button.btn-save:hover { background: #1b5e20; }
     button.btn-load { background: #e65100; }
     button.btn-load:hover { background: #bf360c; }
-    button.btn-copy { background: #009688; }
-    button.btn-copy:hover { background: #00796b; }
-    
-    .btn-action-shortcut { background: #0288d1; }
-    .btn-action-shortcut:hover { background: #0277bd; }
-    .btn-action-random { background: #d81b60; }
-    .btn-action-random:hover { background: #c2185b; }
-    .btn-action-rules { background: #6a1b9a; }
-    .btn-action-rules:hover { background: #4a148c; }
-    .btn-action-contact { background: #ff8f00; }
-    .btn-action-contact:hover { background: #ff6f00; }
+    button.btn-share { background: #0288d1; }
+    button.btn-share:hover { background: #0277bd; }
 
     .actions-panel {
       background: var(--panel-bg);
@@ -393,17 +344,6 @@
       padding-bottom: 8px;
     }
 
-    .catalog-search-box {
-      margin-bottom: 12px;
-    }
-
-    .catalog-search-box input {
-      padding: 8px;
-      font-size: 0.85rem;
-      background: #121212;
-      border: 1px solid var(--accent-color);
-    }
-
     details {
       background: #242424;
       border: 1px solid var(--border-color);
@@ -417,19 +357,13 @@
       cursor: pointer;
       font-size: 0.95rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
       outline: none;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .color-tag {
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-      display: inline-block;
-    }
+    .color-tag { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 
     .catalog-item {
       background: var(--card-bg);
@@ -440,524 +374,108 @@
       font-size: 0.85rem;
     }
 
-    .catalog-item-header {
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .catalog-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .catalog-stats span {
-      background: #1a1a1a;
-      padding: 2px 4px;
-      border-radius: 3px;
-    }
-
-    .catalog-rules {
-      color: #7dcfb6;
-      font-style: italic;
-      font-size: 0.8rem;
-    }
-
-    .total-display {
-      font-weight: bold;
-      font-size: 1.05rem;
-    }
-
-    .fixed-weapon-badge {
-      background: #1b382b;
-      border: 1px solid #4CAF50;
-      color: #81c784;
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      font-size: 0.85rem;
-    }
-
-    .sponsor-badge { color: #FF9800; font-weight: bold; font-size: 0.8rem; }
-
-    .vehicle-image-input-container {
-      margin-top: 10px;
-      margin-bottom: 15px;
-      background: #242424;
-      border: 1px solid var(--border-color);
-      padding: 10px;
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
     .placeholder-gallery-container {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 4px;
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 4px;
     }
 
     .placeholder-thumb {
-      width: 36px;
-      height: 36px;
-      background: #111;
-      border: 1px solid #555;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.1s, border-color 0.1s;
+      width: 36px; height: 36px; background: #111; border: 1px solid #555;
+      border-radius: 4px; cursor: pointer; display: flex; justify-content: center; align-items: center;
     }
 
-    .placeholder-thumb:hover {
-      transform: scale(1.1);
-      border-color: var(--accent-color);
-    }
+    .placeholder-thumb:hover { border-color: var(--accent-color); }
 
-    .placeholder-thumb svg {
-      width: 24px;
-      height: 24px;
-      fill: #aaa;
-    }
-
-    .diecast-details-grid {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 10px;
-      margin-top: 4px;
-      padding-top: 8px;
-      border-top: 1px dashed #444;
-    }
-
-    .vehicle-image-preview-thumbnail {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid #555;
-      background: #111;
-    }
-
-    .app-footer {
-      margin-top: 40px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border-color);
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .app-footer a {
-      color: var(--accent-color);
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.2s;
-    }
-
-    .app-footer a:hover {
-      text-decoration: underline;
-      color: var(--accent-hover);
-    }
-
-    /* ESTILOS DEL MODAL DE FICHAS DE VEHÍCULOS */
-    .modal-overlay {
+    /* NOTIFICACIONES TOAST */
+    #toast-container {
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      border-left: 5px solid var(--accent-color);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s ease, fadeOut 0.3s 2.7s ease forwards;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+    /* ESTILOS DEL MODAL Y FICHAS */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 9999;
     }
 
     .modal-content {
-      background: #333;
-      color: #000;
-      width: 95%;
-      max-width: 1200px;
-      max-height: 90vh;
-      overflow-y: auto;
-      border-radius: 8px;
-      padding: 20px;
-      box-sizing: border-box;
+      background: #333; color: #000; width: 95%; max-width: 1200px; max-height: 90vh;
+      overflow-y: auto; border-radius: 8px; padding: 20px; box-sizing: border-box;
     }
 
     .modal-header-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #555;
-      padding-bottom: 10px;
-      color: #fff;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
+      border-bottom: 2px solid #555; padding-bottom: 10px; color: #fff;
     }
 
-    .cards-preview-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      transition: transform 0.2s ease;
-    }
+    .cards-preview-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
 
-    .dashboard-triptych-container {
-      display: flex;
-      gap: 4px;
-      background: #222;
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      margin-bottom: 10px;
-      page-break-inside: avoid;
-    }
-
-    .prompts-section-container {
-      background: #1e1e1e;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 25px;
-      color: #fff;
-    }
-
-    .prompt-card-box {
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 12px;
-    }
-
-    .prompt-textarea {
-      background: #181818;
-      color: #00e676;
-      font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 0.8rem;
-      border: 1px solid #444;
-      border-radius: 4px;
-      resize: vertical;
-      min-height: 110px;
-      margin-top: 6px;
-    }
-
-    /* VISTA Y DISEÑO DE FICHAS CON ESTILOS BASE Y CASILLAS CLICABLES */
     .printable-card {
-      font-family: 'Roboto', sans-serif !important;
-      background: #fff;
-      color: #000;
-      border: 2px solid #000;
-      padding: 2.5mm;
-      box-sizing: border-box;
-      font-size: 6.5pt;
-      line-height: 1.1;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      border-radius: 3mm;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      page-break-inside: avoid;
+      font-family: 'Roboto', sans-serif !important; background: #fff; color: #000;
+      border: 2px solid #000; padding: 2.5mm; box-sizing: border-box; font-size: 6.5pt;
+      line-height: 1.1; position: relative; display: flex; flex-direction: column;
+      justify-content: space-between; overflow: hidden; border-radius: 3mm;
     }
 
     .card-size-63x88 { width: 63mm; height: 88mm; }
-    .card-size-95x80 { width: 95mm; height: 80mm; }
-    .card-size-42x78 { width: 42mm; height: 78mm; font-size: 5.5pt; padding: 1.5mm; border-radius: 2mm; }
-
-    .printable-card * {
-      letter-spacing: normal !important;
-      word-spacing: normal !important;
-    }
-
-    .card-interactive-box {
-      width: 3mm;
-      height: 3mm;
-      margin: 0;
-      padding: 0;
-      cursor: pointer;
-      vertical-align: middle;
-      accent-color: #000;
-      display: inline-block;
-    }
-
-    .card-ammo-box {
-      display: inline-block;
-      margin-left: 1px;
-      vertical-align: middle;
-    }
-
-    .ammo-container {
-      margin-top: 1px;
-      font-size: 4.5pt;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
 
     .card-top-bar {
-      border-bottom: 1px solid #000;
-      padding-bottom: 1px;
-      margin-bottom: 2px;
-      font-size: 5.5pt;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      text-transform: uppercase;
+      border-bottom: 1px solid #000; padding-bottom: 1px; margin-bottom: 2px;
+      font-size: 5.5pt; font-weight: bold; display: flex; justify-content: space-between;
     }
 
-    .card-title-box {
-      text-align: center;
-      border-bottom: 1.5px solid #000;
-      padding-bottom: 2px;
-      margin-bottom: 3px;
-      background: #f0f0f0;
-      border-radius: 2px;
+    .card-title-box { text-align: center; border-bottom: 1.5px solid #000; background: #f0f0f0; margin-bottom: 3px; }
+    .card-title-box h2 { margin: 0; font-size: 8.5pt; font-weight: 900; }
+
+    .card-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 3px; }
+    .card-stat-box { border: 1px solid #000; text-align: center; background: #fafafa; }
+    .card-stat-box .lbl { font-size: 4.5pt; font-weight: bold; border-bottom: 0.5px solid #888; }
+    .card-stat-box .val { font-size: 7.5pt; font-weight: bold; }
+
+    .card-hull-section { border: 1px solid #000; padding: 2px; margin-bottom: 3px; }
+    .card-hull-header { font-size: 5.5pt; font-weight: bold; display: flex; justify-content: space-between; }
+    .card-hull-boxes { display: flex; flex-wrap: wrap; gap: 2px; }
+
+    .interactive-counter {
+      display: inline-flex; align-items: center; gap: 4px; background: #eee; padding: 2px 4px; border-radius: 3px; border: 1px solid #ccc;
     }
 
-    .card-title-box h2 {
-      margin: 0;
-      font-size: 8.5pt;
-      text-transform: uppercase;
-      letter-spacing: 0.2px;
-      line-height: 1;
-      font-weight: 900;
+    .counter-btn {
+      width: 16px; height: 16px; font-size: 10px; font-weight: bold; cursor: pointer; padding: 0; line-height: 1;
     }
 
-    .card-title-box .sub {
-      font-size: 5.5pt;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .card-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      margin-bottom: 3px;
-    }
-
-    .card-stat-box {
-      border: 1px solid #000;
-      text-align: center;
-      padding: 1px 0;
-      border-radius: 2px;
-      background: #fafafa;
-    }
-
-    .card-stat-box .lbl {
-      font-size: 4.5pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      border-bottom: 0.5px solid #888;
-      padding-bottom: 1px;
-      line-height: 1;
-    }
-
-    .card-stat-box .val {
-      font-size: 7.5pt;
-      font-weight: bold;
-      line-height: 1.1;
-    }
-
-    .card-hull-section {
-      border: 1px solid #000;
-      padding: 2px 3px;
-      margin-bottom: 3px;
-      border-radius: 2px;
-      background: #fff;
-    }
-
-    .card-hull-header {
-      font-size: 5.5pt;
-      font-weight: bold;
-      margin-bottom: 1px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .card-hull-boxes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-      align-items: center;
-    }
-
-    .card-section-title {
-      font-size: 5.5pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      background: #000;
-      color: #fff;
-      padding: 1px 3px;
-      margin-top: 1px;
-      margin-bottom: 1px;
-      border-radius: 1px;
-    }
-
-    .card-vehicle-image-box {
-      width: 100%;
-      height: 32mm;
-      border: 1px solid #000;
-      border-radius: 2px;
-      margin-top: 2mm;
-      margin-bottom: 2mm;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      background: #f9f9f9;
-    }
-
-    .card-vehicle-image-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .card-vehicle-image-placeholder {
-      font-size: 5.5pt;
-      color: #888;
-      font-style: italic;
-    }
-
-    .mini-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 2px;
-    }
-
-    .mini-table th, .mini-table td {
-      border: 0.5px solid #000;
-      padding: 1px 1.5px;
-      text-align: center;
-      font-size: 5pt;
-    }
-
-    .mini-table th {
-      background: #ddd;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .mini-table td.left {
-      text-align: left;
-      font-weight: bold;
-    }
-
-    /* ESTILOS ESPECÍFICOS PARA TARJETA DE ARMA DE DASHBOARD (42x78) */
-    .dashboard-weapon-card-box {
-      border: 1px solid #000;
-      border-radius: 2px;
-      padding: 2px;
-      margin-bottom: 3px;
-      background: #fdfdfd;
-    }
-
-    .dashboard-weapon-title {
-      font-weight: bold;
-      font-size: 5pt;
-      border-bottom: 0.5px solid #000;
-      padding-bottom: 1px;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-    }
-
-    .dashboard-weapon-stats-box {
-      border: 0.5px solid #444;
-      background: #eee;
-      padding: 1px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      text-align: center;
-      font-size: 4pt;
-    }
-
-    .dashboard-weapon-stats-box div {
-      background: #fff;
-      padding: 1px 0;
-    }
-
-    .card-footer {
-      text-align: center;
-      font-size: 4.5pt;
-      font-style: italic;
-      border-top: 0.5px solid #888;
-      padding-top: 1px;
-      margin-top: auto;
-      line-height: 1.1;
-    }
-
-    .card-footer-author {
-      font-size: 4pt;
-      font-weight: bold;
-      font-style: normal;
-      color: #444;
-    }
-
-    @media print {
-      @page {
-        size: A4 portrait;
-        margin: 10mm;
-      }
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-      }
-      header, .main-layout, .modal-header-actions, .app-footer, .prompts-section-container {
-        display: none !important;
-      }
-      .modal-overlay {
-        position: static !important;
-        display: block !important;
-        width: 100% !important;
-        height: auto !important;
-        background: none !important;
-      }
-      .modal-content {
-        max-width: 100% !important;
-        width: 100% !important;
-        padding: 0 !important;
-        border: none !important;
-        background: none !important;
-      }
-      .cards-preview-grid {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 4mm 6mm !important;
-        justify-content: start !important;
-        transform: scale(1) !important;
-      }
-      .printable-card {
-        box-shadow: none !important;
-        border: 1.5px solid #000 !important;
-        page-break-inside: avoid !important;
-      }
-      .dashboard-triptych-container {
-        background: none !important;
-        border: none !important;
-        padding: 0 !important;
-      }
-    }
+    .mini-table { width: 100%; border-collapse: collapse; margin-bottom: 2px; }
+    .mini-table th, .mini-table td { border: 0.5px solid #000; padding: 1px 1.5px; text-align: center; font-size: 5pt; }
+    .mini-table th { background: #ddd; }
   </style>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V3.3 </h1>
+  <h1>Gaslands Refuelled - Builder V4.0</h1>
+  <div>
+    <button class="btn-share" onclick="shareSquadronURL()">🔗 Compartir Escudería</button>
+  </div>
 </header>
 
 <div class="main-layout">
@@ -971,31 +489,30 @@
       </div>
       <div>
         <label>Escudería: </label>
-        <input type="text" id="teamName" placeholder="Nombre de tu banda" value="Mi Escudería" oninput="renderBuilder()" style="width: 130px;">
+        <input type="text" id="teamName" value="Mi Escudería" oninput="renderBuilder()" style="width: 130px;">
       </div>
       <div>
         <label>Patrocinador: </label>
-        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 200px;">
+        <select id="sponsorSelect" onchange="renderBuilder()" style="width: 180px;">
           <option value="Ninguno">Sin Patrocinador</option>
           <option value="La Alcaidesa">La Alcaidesa</option>
-          <option value="Beverly, La Diablesa de la Autopista">Beverly, La Diablesa de la Autopista</option>
-          <option value="Los Contrabandistas de Rusty">Los Contrabandistas de Rusty</option>
+          <option value="Beverly, La Diablesa de la Autopista">Beverly</option>
+          <option value="Los Contrabandistas de Rusty">Rusty</option>
           <option value="Idris">Idris</option>
           <option value="Maxxine">Maxxine</option>
           <option value="Mishkin">Mishkin</option>
           <option value="Miyazaki">Miyazaki</option>
           <option value="La Orden Infernal">La Orden Infernal</option>
-          <option value="La Patrulla de la Autopista">La Patrulla de la Autopista</option>
+          <option value="La Patrulla de la Autopista">La Patrulla</option>
           <option value="Rutherford">Rutherford</option>
           <option value="Scarlett">Scarlett</option>
           <option value="Slime">Slime</option>
           <option value="Verney">Verney</option>
         </select>
-        <div id="sponsorPerksDisplay" style="font-size: 0.8rem; color: #7dcfb6; margin-top: 4px;"><b>Ventajas:</b> Ninguna</div>
       </div>
       <div>
         <label>Formato: </label>
-        <input type="number" id="maxCansSelect" value="50" min="1" oninput="renderBuilder()" style="width: 65px;">
+        <input type="number" id="maxCansSelect" value="50" min="1" oninput="renderBuilder()" style="width: 60px;">
       </div>
       <div class="total-display">
         Total: <span id="totalBidones">0</span> / <span id="maxBidonesDisplay">50</span> Bid.
@@ -1011,2148 +528,257 @@
   </div>
 
   <div class="right-column">
-    <div class="actions-panel">
-      <h3>⚡ Acciones Útiles</h3>
-      <div class="actions-grid">
-        <button class="btn-action-shortcut" onclick="createAppShortcut()">📲 Colocar acceso directo en PC / Móvil</button>
-        <button class="btn-action-random" onclick="generateRandomSquadron()">🎲 Generar Escudería Aleatoria</button>
-        
-        <a href="https://cetphoenix.github.io/gaslands_refuelled-reglamento/" target="_blank" style="text-decoration: none;">
-          <button class="btn-action-rules" style="width: 100%;">📖 Reglamento / Consulta Rápida</button>
-        </a>
-
-        <a href="mailto:cespinal826@gmail.com?subject=Consulta%20Gaslands%20Builder" style="text-decoration: none;">
-          <button class="btn-action-contact" style="width: 100%;">✉️ Contáctanos</button>
-        </a>
-      </div>
-    </div>
-
     <div class="catalog-panel">
       <h2>Catálogo de Referencia</h2>
-
-      <!-- BUSCADOR DINÁMICO EN EL CATÁLOGO DE REFERENCIA -->
-      <div class="catalog-search-box">
-        <input type="text" id="catalogSearchInput" placeholder="🔍 Buscar arma, vehículo o regla..." oninput="filterCatalog()">
-      </div>
-
+      <input type="text" id="catalogSearchInput" placeholder="🔍 Buscar arma, vehículo..." oninput="filterCatalog()" style="margin-bottom:10px;">
       <details id="detBasicVeh">
         <summary><span class="color-tag" style="background: var(--cat-veh-basico);"></span> Vehículos Básicos</summary>
         <div id="catalogVehiclesBasic"></div>
       </details>
-
       <details id="detAdvVeh">
         <summary><span class="color-tag" style="background: var(--cat-veh-avanzado);"></span> Vehículos Avanzados</summary>
         <div id="catalogVehiclesAdvanced"></div>
       </details>
-
       <details id="detBasicWeap">
         <summary><span class="color-tag" style="background: var(--cat-arm-basico);"></span> Armamento Básico</summary>
         <div id="catalogWeaponsBasic"></div>
       </details>
-
-      <details id="detAdvWeap">
-        <summary><span class="color-tag" style="background: var(--cat-arm-avanzado);"></span> Armamento Avanzado</summary>
-        <div id="catalogWeaponsAdvanced"></div>
-      </details>
-
-      <details id="detPersWeap">
-        <summary><span class="color-tag" style="background: var(--cat-arm-personal);"></span> Armamento Avanzado (Personales)</summary>
-        <div id="catalogWeaponsPersonal"></div>
-      </details>
-
-      <details id="detDropWeap">
-        <summary><span class="color-tag" style="background: var(--cat-arm-descarga);"></span> Armamento Avanzado (Descarga)</summary>
-        <div id="catalogWeaponsDropped"></div>
-      </details>
-
-      <details id="detUpgVeh">
-        <summary><span class="color-tag" style="background: var(--cat-mejora-veh);"></span> Mejoras para Vehículo</summary>
-        <div id="catalogVehicleUpgrades"></div>
-      </details>
-
-      <div style="margin-top: 20px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
-        <span style="font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 5px;">PUBLICIDAD</span>
-        
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-0555222123747987"
-             data-ad-slot="6232265180"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </div>
     </div>
   </div>
 </div>
 
-<footer class="app-footer">
-  <div>Desarrollado por <a href="mailto:cespinal826@gmail.com">Christ E. - Cet Phoenix</a></div>
-  <div style="margin-top: 8px; font-size: 0.8rem;">
-    <a href="https://cetphoenix.github.io/privacy-policy.html" target="_blank" style="margin: 0 8px; color: var(--text-muted);">Política de Privacidad</a> | 
-    <a href="https://cetphoenix.github.io/terms.html" target="_blank" style="margin: 0 8px; color: var(--text-muted);">Términos de Uso</a>
-  </div>
-</footer>
+<div id="toast-container"></div>
 
-<!-- MODAL CON LAS OPCIONES DE SELECCIÓN DE FICHA -->
+<!-- MODAL DE FICHAS -->
 <div id="cardsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header-actions">
-      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <h3 style="margin: 0; color: #fff;">Opciones de Fichas de Vehículos</h3>
-        
-        <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Formato:</label>
-        <select id="cardPagesSelect" onchange="openCardsModal()" style="width: 280px; padding: 4px 8px; font-size: 0.85rem;">
-          <option value="1page_63x88">(63mm x 88mm) - 1 Hoja por Ficha</option>
-          <option value="2pages_63x88">(63mm x 88mm) - 2 Hojas por Ficha</option>
-          <option value="1page_95x80">(95mm x 80mm) - 1 Hoja por Ficha</option>
-          <option value="dashboard_nexo">Dashboard Nexo Alpha (3 Fichas 42mm x 78mm)</option>
-        </select>
-      </div>
-
-      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <span style="font-size: 0.85rem; color: #fff;">Zoom:</span>
-        <button onclick="changeZoom(-0.1)" style="padding: 4px 8px;">🔍 -</button>
-        <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold; color: #fff;">100%</span>
-        <button onclick="changeZoom(0.1)" style="padding: 4px 8px;">🔍 +</button>
-        <button onclick="resetZoom()" style="padding: 4px 8px; background: #555;">Restablecer</button>
-        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32;">💾 Descargar PNG</button>
-        <button class="btn-pdf" onclick="downloadAllCardsPDF()">📄 Exportar PDF (A4)</button>
-        <button class="btn-print" onclick="window.print()">🖨️ Imprimir Fichas</button>
+      <h3 style="margin: 0; color: #fff;">Opciones de Fichas</h3>
+      <div>
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir</button>
         <button class="btn-danger" onclick="closeCardsModal()">Cerrar</button>
       </div>
     </div>
-
-    <!-- FICHAS VISUALES -->
     <div id="cardsPrintContainer" class="cards-preview-grid"></div>
-
-    <!-- PROMPTS GENERADOS PARA IA -->
-    <div class="prompts-section-container">
-      <h3 style="margin-top: 0; color: var(--accent-color); border-bottom: 1px solid #444; padding-bottom: 8px;">
-        🤖 Prompts de Diseño Generados para Generación de Imágenes (ChatGPT / Gemini / Midjourney)
-      </h3>
-      <div id="promptsOutputList"></div>
-    </div>
   </div>
 </div>
 
 <script>
-  // GALERÍA DE SILUETAS VECTORIALES (PLACEHOLDERS EN SVG DATA-URI)
- const PLACEHOLDER_SVGS = {
+  // SVG Vectoriales Codificados
+  const PLACEHOLDER_SVGS = {
     car: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`)}`,
     truck: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm11.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.96 2.5H17z"/></svg>`)}`,
     bike: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm14-8.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm-8.2-12l-1.9 3.2c-.3.4-.2 1 .2 1.3s1 .2 1.3-.2l1.9-3.2 2.7 4.5h-3.5v2h5l-3.3-5.6 2.8-2.8H18v-2h-3.8l-3.4 3.4z"/></svg>`)}`,
     tank: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M20 10h-6.17l2.58-2.58L15 6l-4 4H3c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zm-1 6H5v-2h14v2z"/></svg>`)}`
   };
 
-  const SPONSORS = {
-    "Ninguno": "Ninguna",
-    "La Alcaidesa": "Agresivo, Rudo",
-    "Beverly, La Diablesa de la Autopista": "Aterrador, Macizo",
-    "Los Contrabandistas de Rusty": "Macizo, Temerario",
-    "Idris": "Preciso, Velocidad",
-    "Maxxine": "Persecución, Tuneo",
-    "Mishkin": "Militar, Tecnología",
-    "Miyazaki": "Intrépido, Preciso",
-    "La Orden Infernal": "Aterrador, Velocidad",
-    "La Patrulla de la Autopista": "Persecución, Velocidad",
-    "Rutherford": "Militar, Rudo",
-    "Scarlett": "Agresivo, Tuneo",
-    "Slime": "Temerario, Tuneo",
-    "Verney": "Macizo, Tecnología"
-  };
-
   const VEHICLES = [
     { name: "Buggy", category: "Básico", weight: "Ligero", bidones: 6, slots: 2, hull: 6, gear: 6, handling: 4, crew: 2, rules: "Jaula de seguridad" },
     { name: "Camioneta", category: "Básico", weight: "Medio", bidones: 15, slots: 3, hull: 12, gear: 4, handling: 2, crew: 3, rules: "-" },
     { name: "Coche", category: "Básico", weight: "Medio", bidones: 12, slots: 2, hull: 10, gear: 5, handling: 3, crew: 2, rules: "-" },
-    { name: "Coche de alto rendimiento", category: "Básico", weight: "Medio", bidones: 15, slots: 2, hull: 8, gear: 6, handling: 4, crew: 1, rules: "Esfumarse" },
-    { name: "Autobús", category: "Básico", weight: "Pesado", bidones: 30, slots: 3, hull: 16, gear: 3, handling: 2, crew: 8, rules: "-" },
     { name: "Camión", category: "Básico", weight: "Pesado", bidones: 25, slots: 5, hull: 14, gear: 3, handling: 2, crew: 4, rules: "-" },
-
-    { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pisar a fondo, pivotar" },
-    { name: "Moto con sidecar", category: "Avanzado", weight: "Ligero", bidones: 8, slots: 2, hull: 4, gear: 6, handling: 5, crew: 2, rules: "Pisar a fondo, pivotar" },
-    { name: "Vaina de aceleración", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 2, hull: 4, gear: 6, handling: 4, crew: 1, rules: "Motor a reacción" },
-    { name: "Ambulancia", category: "Avanzado", weight: "Medio", bidones: 20, slots: 3, hull: 12, gear: 5, handling: 2, crew: 3, rules: "Depresivos, estimulantes" },
-    { name: "Camión de los helados", category: "Avanzado", weight: "Medio", bidones: 8, slots: 2, hull: 10, gear: 4, handling: 2, crew: 2, rules: "Musiquilla irritante" },
-    { name: "Girocóptero", category: "Avanzado", weight: "Medio", bidones: 10, slots: 0, hull: 4, gear: 6, handling: 4, crew: 1, rules: "As del aire, bombas fuera, volar, restringido" },
-    { name: "Camión de guerra", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 5, hull: 26, gear: 4, handling: 2, crew: 5, rules: "Consulta reglas de camión de guerra" },
-    { name: "Helicóptero", category: "Avanzado", weight: "Pesado", bidones: 30, slots: 4, hull: 8, gear: 4, handling: 3, crew: 3, rules: "As del aire, bombas fuera, volar, restringido" },
-    { name: "Monster truck", category: "Avanzado", weight: "Pesado", bidones: 25, slots: 2, hull: 10, gear: 4, handling: 3, crew: 2, rules: "Pasar por encima, todoterreno" },
-    { name: "Tanque", category: "Avanzado", weight: "Pesado", bidones: 40, slots: 4, hull: 20, gear: 3, handling: 4, crew: 3, rules: "Pasar por encima, pivotar, todoterreno, torreta, restringido" }
+    { name: "Moto", category: "Avanzado", weight: "Ligero", bidones: 5, slots: 1, hull: 4, gear: 6, handling: 5, crew: 1, rules: "Pivotar" }
   ];
 
   const WEAPONS = [
-    { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0, sponsor: null },
-    
-    // BÁSICO
-    { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2, sponsor: null },
-    { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3, sponsor: null },
-    { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5, sponsor: null },
-
-    // AVANZADO
-    { name: "AJG", category: "Avanzado", range: "Doble", attack: "10d6", rules: "Munición 1", slots: 3, bidones: 1, sponsor: null },
-    { name: "Arpón", category: "Avanzado", range: "Doble", attack: "(5d6)", rules: "-", slots: 1, bidones: 2, sponsor: null },
-    { name: "Batería de amplificadores", category: "Avanzado", range: "Medio", attack: "-", rules: "Arco de fuego de 360º", slots: 3, bidones: 4, sponsor: null },
-    { name: "Bazuca", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Munición 3, Onda expansiva", slots: 2, bidones: 4, sponsor: null },
-    { name: "Bloqueador magnético", category: "Avanzado", range: "Doble", attack: "-", rules: "Eléctrico", slots: 0, bidones: 2, sponsor: "Mishkin" },
-    { name: "Bola de demolición", category: "Avanzado", range: "Corto", attack: "-", rules: "-", slots: 3, bidones: 2, sponsor: null },
-    { name: "Brazo articulado con pinza", category: "Avanzado", range: "Corto", attack: "3d6", rules: "-", slots: 1, bidones: 6, sponsor: null },
-    { name: "Cañón de 125mm", category: "Avanzado", range: "Doble", attack: "8d6", rules: "Munición 3, Onda expansiva", slots: 3, bidones: 6, sponsor: null },
-    { name: "Cañón gravitatorio", category: "Avanzado", range: "Doble", attack: "(3d6)", rules: "Eléctrico, Munición 1", slots: 1, bidones: 2, sponsor: "Mishkin" },
-    { name: "Cohetes", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Munición 3", slots: 2, bidones: 5, sponsor: null },
-    { name: "Lanzachatarra", category: "Avanzado", range: "Doble/Descarga", attack: "-", rules: "Munición 3", slots: 4, bidones: 4, sponsor: null },
-    { name: "Lanzallamas", category: "Avanzado", range: "Ráfaga larga", attack: "6d6", rules: "Indirecto, fuego, munición 3, salpicadura", slots: 2, bidones: 4, sponsor: null },
-    { name: "Láser militar", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Salpicadura", slots: 1, bidones: 5, sponsor: null },
-    { name: "Martilleador", category: "Avanzado", range: "Medio", attack: "-", rules: "360 grados, eléctrico, indirecto, munición 1", slots: 2, bidones: 4, sponsor: "Mishkin" },
-    { name: "Mortero", category: "Avanzado", range: "Doble", attack: "4d6", rules: "indirecto, munición 3", slots: 1, bidones: 4, sponsor: null },
-    { name: "Multiplicador cinético", category: "Avanzado", range: "Doble", attack: "(6d6)", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
-    { name: "Proyector de arcos", category: "Avanzado", range: "Doble", attack: "6d6", rules: "Eléctrico, munición 1", slots: 2, bidones: 6, sponsor: "Mishkin" },
-    { name: "Rayo de la muerte", category: "Avanzado", range: "Doble", attack: "3d6", rules: "Eléctrico, munición 1", slots: 1, bidones: 3, sponsor: "Mishkin" },
-
-    // PERSONALES
-    { name: "Cockteles molotov", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, fuego, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
-    { name: "Escopeta", category: "Personal", range: "Largo", attack: "L1d6 - M2d6 - C3d6", rules: "Personal", slots: 0, bidones: 4, sponsor: null },
-    { name: "Granadas", category: "Personal", range: "Medio", attack: "1d6", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
-    { name: "Granadas de gas", category: "Personal", range: "Medio", attack: "(1d6)", rules: "Indirecto, munición 5, personal, salva", slots: 0, bidones: 1, sponsor: null },
-    { name: "Magnum", category: "Personal", range: "Doble", attack: "1d6", rules: "Onda expansiva, personal", slots: 0, bidones: 3, sponsor: null },
-    { name: "Red de acero", category: "Personal", range: "Corto", attack: "(3d6)", rules: "Onda expansiva, personal", slots: 0, bidones: 2, sponsor: null },
-    { name: "Subfusil", category: "Personal", range: "Medio", attack: "(3d6)", rules: "Personal", slots: 0, bidones: 5, sponsor: null },
-    { name: "Trabuco", category: "Personal", range: "Ráfaga pequeña", attack: "2d6", rules: "Personal, salpicadura", slots: 0, bidones: 2, sponsor: null },
-
-    // DESCARGA
-    { name: "Dispensador de abrojos", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Explosión pequeña, Munición 3", slots: 1, bidones: 1, sponsor: null },
-    { name: "Dispensador de aceite", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 2, sponsor: null },
-    { name: "Dispensador de humo", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 3", slots: 0, bidones: 1, sponsor: null },
-    { name: "Dispensador de minas", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Munición 3, onda expansiva", slots: 1, bidones: 1, sponsor: null },
-    { name: "Dispensador de napalm", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Explosión pequeña, Fuego, Munición 3", slots: 1, bidones: 1, sponsor: null },
-    { name: "Dispensador de pegamento", category: "Descarga", range: "Descarga", attack: "-", rules: "Explosión grande, Munición 1", slots: 1, bidones: 1, sponsor: null },
-    { name: "Sonda explosiva por CR", category: "Descarga", range: "Descarga", attack: "4d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
-    { name: "Torreta centinela", category: "Descarga", range: "Descarga", attack: "2d6", rules: "Munición 3", slots: 0, bidones: 3, sponsor: null },
-
-    // MEJORAS PARA VEHÍCULO
-    { name: "Ariete", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
-    { name: "Ariete explosivo", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 3, sponsor: null },
-    { name: "Blindaje", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 1, bidones: 4, sponsor: null },
-    { name: "Impulsor de nitrometano", category: "Mejora", range: "-", attack: "-", rules: "Munición 1", slots: 0, bidones: 6, sponsor: null },
-    { name: "Jaula de seguridad", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 4, sponsor: null },
-    { name: "Motor nuclear experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 5, sponsor: "Mishkin" },
-    { name: "Orugas", category: "Mejora", range: "-", attack: "-", rules: "-1 marcha máxima, +1 a Maniobra", slots: 1, bidones: 4, sponsor: null },
-    { name: "Teleportador experimental", category: "Mejora", range: "-", attack: "-", rules: "Eléctrico", slots: 0, bidones: 7, sponsor: "Mishkin" },
-    { name: "Tripulante adicional", category: "Mejora", range: "-", attack: "-", rules: "+1 a Tripulación, hasta un máximo del doble inicial", slots: 0, bidones: 4, sponsor: null },
-    { name: "Tubo lanzamierdas", category: "Mejora", range: "-", attack: "-", rules: "-", slots: 1, bidones: 2, sponsor: null },
-    
-    // MEJORAS ESPECIALES DE PATROCINADORES
-    { name: "Vehículo carcelario (especial)", category: "Mejora", range: "-", attack: "-", rules: "-4 BD al coste base, -2 PC. Solo Peso Medio.", slots: 0, bidones: 0, sponsor: "La Alcaidesa" },
-    { name: "Sirena Mejorada", category: "Mejora", range: "-", attack: "-", rules: "Sustituye 'bandido' por 'cualquier vehículo enemigo'", slots: 0, bidones: 2, sponsor: "La Patrulla de la Autopista" },
-    { name: "Blindaje de micro placas", category: "Mejora", range: "-", attack: "-", rules: "+2 PC", slots: 0, bidones: 6, sponsor: "Verney" }
+    { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0 },
+    { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2 },
+    { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5 }
   ];
-
-  const PERKS = [
-    { name: "Cañón doble", category: "Agresivo", cost: 2, cond: "-" },
-    { name: "Lunático Aterrador", category: "Agresivo", cost: 5, cond: "-" },
-    { name: "Martillo de guerra", category: "Agresivo", cost: 4, cond: "-" },
-    { name: "Pelotón de Abordaje", category: "Agresivo", cost: 2, cond: "-" },
-    { name: "Tractor Asesino", category: "Agresivo", cost: 5, cond: "-" },
-    { name: "Trituradora", category: "Agresivo", cost: 5, cond: "-" },
-    { name: "Ángel de la Muerte", category: "Aterrador", cost: 4, cond: "-" },
-    { name: "Autopista al Infierno", category: "Aterrador", cost: 2, cond: "-" },
-    { name: "Llamas Purificadoras", category: "Aterrador", cost: 1, cond: "-" },
-    { name: "Manifestación Violenta", category: "Aterrador", cost: 3, cond: "-" },
-    { name: "Simpatía por el Diablo", category: "Aterrador", cost: 1, cond: "-" },
-    { name: "Visiones Eufóricas", category: "Aterrador", cost: 1, cond: "-" },
-    { name: "Artista del Freno de Mano", category: "Intrépido", cost: 3, cond: "-" },
-    { name: "Conductor Especialista", category: "Intrépido", cost: 7, cond: "Solo para vehículos ligeros o medios con maniobra 3 o más" },
-    { name: "Derrape Poderoso", category: "Intrépido", cost: 5, cond: "-" },
-    { name: "Encantador del Cromo", category: "Intrépido", cost: 2, cond: "-" },
-    { name: "Escurridizo", category: "Intrépido", cost: 5, cond: "-" },
-    { name: "Resbaladizo", category: "Intrépido", cost: 3, cond: "-" },
-    { name: "Aplastador", category: "Macizo", cost: 7, cond: "-" },
-    { name: "Barrena", category: "Macizo", cost: 2, cond: "-" },
-    { name: "Contraataque", category: "Macizo", cost: 5, cond: "-" },
-    { name: "Matón", category: "Macizo", cost: 4, cond: "-" },
-    { name: "No Hay Dolor", category: "Macizo", cost: 8, cond: "-" },
-    { name: "Peso Muerto", category: "Macizo", cost: 2, cond: "-" },
-    { name: "Carga Completa", category: "Militar", cost: 2, cond: "-" },
-    { name: "Cargador Rápido", category: "Militar", cost: 2, cond: "-" },
-    { name: "Devolver el Fuego", category: "Militar", cost: 2, cond: "-" },
-    { name: "Fuego Rápido", category: "Militar", cost: 2, cond: "-" },
-    { name: "Puntería", category: "Militar", cost: 2, cond: "-" },
-    { name: "Tiro a la Cabeza", category: "Militar", cost: 4, cond: "-" },
-    { name: "Aventajar", category: "Persecución", cost: 2, cond: "-" },
-    { name: "Contacto Visual Perturbador", category: "Persecución", cost: 5, cond: "-" },
-    { name: "Pisar los Talones", category: "Persecución", cost: 2, cond: "-" },
-    { name: "Provocar", category: "Persecución", cost: 2, cond: "-" },
-    { name: "Regodearse", category: "Persecución", cost: 2, cond: "-" },
-    { name: "Tip", category: "Persecución", cost: 4, cond: "-" },
-    { name: "Autocontrol", category: "Preciso", cost: 2, cond: "-" },
-    { name: "Conducción Relajada", category: "Preciso", cost: 5, cond: "-" },
-    { name: "Experto", category: "Preciso", cost: 3, cond: "-" },
-    { name: "Hielo en las Venas", category: "Preciso", cost: 2, cond: "-" },
-    { name: "Momento de Gloria", category: "Preciso", cost: 2, cond: "-" },
-    { name: "Trucos de Conducción", category: "Preciso", cost: 3, cond: "-" },
-    { name: "¡Cúbreme!", category: "Rudo", cost: 2, cond: "-" },
-    { name: "Frenético", category: "Rudo", cost: 3, cond: "-" },
-    { name: "Guerrero de la Carretera", category: "Rudo", cost: 2, cond: "-" },
-    { name: "Manipular a la Audiencia", category: "Rudo", cost: 1, cond: "-" },
-    { name: "Polvorín", category: "Rudo", cost: 1, cond: "-" },
-    { name: "Tiempo Bala", category: "Rudo", cost: 3, cond: "-" },
-    { name: "Cohetes Propulsores", category: "Tecnología", cost: 1, cond: "-" },
-    { name: "¡Eureka!", category: "Tecnología", cost: 4, cond: "-" },
-    { name: "Giroscópo", category: "Tecnología", cost: 1, cond: "-" },
-    { name: "Mecánico a Bordo", category: "Tecnología", cost: 3, cond: "-" },
-    { name: "Navegación por Satélite", category: "Tecnología", cost: 2, cond: "-" },
-    { name: "¡Sensacional!", category: "Tecnología", cost: 1, cond: "-" },
-    { name: "Ahora no Vengas a Buscarme", category: "Temerario", cost: 4, cond: "-" },
-    { name: "Cervezerker", category: "Temerario", cost: 5, cond: "-" },
-    { name: "Conducción Furiosa", category: "Temerario", cost: 1, cond: "-" },
-    { name: "De Perdidos al Río", category: "Temerario", cost: 2, cond: "-" },
-    { name: "Exaltado", category: "Temerario", cost: 2, cond: "-" },
-    { name: "Más Grande que Tú", category: "Temerario", cost: 4, cond: "-" },
-    { name: "Guardabarros", category: "Tuneo", cost: 2, cond: "-" },
-    { name: "Ímpetu", category: "Tuneo", cost: 3, cond: "-" },
-    { name: "Ronroneo", category: "Tuneo", cost: 6, cond: "-" },
-    { name: "Tracción Trasera", category: "Tuneo", cost: 2, cond: "-" },
-    { name: "Volante Sensible", category: "Tuneo", cost: 3, cond: "-" },
-    { name: "Zigzagueo", category: "Tuneo", cost: 6, cond: "-" },
-    { name: "Cambio Descendiente", category: "Velocidad", cost: 3, cond: "-" },
-    { name: "Como alma que lleva el diablo", category: "Velocidad", cost: 5, cond: "-" },
-    { name: "Rebufo", category: "Velocidad", cost: 2, cond: "-" },
-    { name: "Sobrepeso", category: "Velocidad", cost: 2, cond: "-" },
-    { name: "¡Tiempo Extra!", category: "Velocidad", cost: 3, cond: "-" },
-    { name: "Tomar Impulso", category: "Velocidad", cost: 1, cond: "-" }
-  ];
-
-  const PERK_EMOJIS = {
-    "Agresivo": "🥊", "Aterrador": "💀", "Intrépido": "🔥", "Macizo": "🪨",
-    "Militar": "🪖", "Persecución": "🎯", "Preciso": "🎯", "Rudo": "⚡",
-    "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙", "Velocidad": "🏎️"
-  };
-
-  const RANDOM_SQUAD_NAMES = [
-    "Señores del Páramo", "Hijos de la Gasolina", "Devoradores de Asfalto", "Chatarra Infernal",
-    "Cazadores de Metal", "Legión del Cromo", "Banda del Apocalipsis", "Jinetes de la Muerte",
-    "Pirañas del Polvo", "Klan del Óxido", "Depredadores de V8", "Los Asesinos del Asfalto",
-    "Rebeldes del Nitro", "Chacales del Desierto", "Los Cadáveres del Volante"
-  ];
-
-  const RANDOM_VEHICLE_NAMES = [
-    "Interceptor Nocturno", "Bestia de Óxido", "Vagabundo del Desierto", "Cazador de Carretera",
-    "Piraña Voladora", "Furia Calcinada", "Tractor del Infierno", "Destrucción Mutante",
-    "Rayo Neumático", "Demonio de Metanol", "Titán Metálico", "Espectro de la Autopista",
-    "Sombra de Sangre", "Monstruo de Cromo", "Trueno Oxidado", "Víbora de Velo"
-  ];
-
-  const STORAGE_KEY = 'gaslands_builder_squadron_v3';
 
   let team = [];
-  let deferredPrompt = null;
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
+  function showToast(msg) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerText = msg;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
 
-  /* MÉTODOS DE PERSISTENCIA Y ALMACENAMIENTO LOCAL */
-
-  function saveToLocalStorage() {
-    try {
-      const configData = {
-        version: "3.3",
-        teamName: document.getElementById('teamName').value || "Mi Escudería",
-        sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
-        maxCans: document.getElementById('maxCansSelect').value || 50,
-        vehicles: team
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(configData));
-    } catch (err) {
-      console.warn("No se pudo guardar la escudería en el almacenamiento local:", err);
+  function toggleCollapse(id) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      v.collapsed = !v.collapsed;
+      renderBuilder();
     }
   }
 
-  function loadFromLocalStorage() {
-    try {
-      const savedData = localStorage.getItem(STORAGE_KEY);
-      if (savedData) {
-        const loadedData = JSON.parse(savedData);
-        const loadedVehicles = loadedData.vehicles || loadedData.team;
-        if (loadedData && Array.isArray(loadedVehicles)) {
-          document.getElementById('teamName').value = loadedData.teamName || "Mi Escudería";
-          document.getElementById('sponsorSelect').value = loadedData.sponsor || "Ninguno";
-          document.getElementById('maxCansSelect').value = loadedData.maxCans || 50;
-          team = loadedVehicles;
-          return true;
-        }
-      }
-    } catch (err) {
-      console.error("Error al cargar la escudería desde localStorage:", err);
-    }
-    return false;
-  }
-
-  function createAppShortcut() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('El usuario instaló el acceso directo.');
-        }
-        deferredPrompt = null;
-      });
-    } else {
-      alert("Para colocar el acceso directo manualmente:\n\n📱 En Móvil (Chrome/Safari):\n1. Toca el menú de 3 puntos (o botón Compartir en iOS).\n2. Selecciona 'Agregar a la pantalla principal'.\n\n💻 En PC (Chrome/Edge):\n1. Haz clic en los 3 puntos del navegador (arriba a la derecha).\n2. Ve a 'Guardar y compartir' -> 'Instalar página como app' (o 'Crear acceso directo').");
-    }
-  }
-
-  function generateRandomSquadron() {
-    const sponsorsList = Object.keys(SPONSORS).filter(s => s !== "Ninguno");
-    const randomSponsor = sponsorsList[Math.floor(Math.random() * sponsorsList.length)];
-    document.getElementById('sponsorSelect').value = randomSponsor;
-    
-    const randomTeamName = RANDOM_SQUAD_NAMES[Math.floor(Math.random() * RANDOM_SQUAD_NAMES.length)];
-    document.getElementById('teamName').value = randomTeamName;
-
-    const maxBudget = parseInt(document.getElementById('maxCansSelect').value) || 50;
-    let currentTotal = 0;
-    team = [];
-
-    const activePerkTypes = SPONSORS[randomSponsor].split(',').map(s => s.trim());
-    const availablePerks = PERKS.filter(p => activePerkTypes.includes(p.category));
-
-    let usedVehicleNames = [...RANDOM_VEHICLE_NAMES];
-
-    let attempts = 0;
-    while (currentTotal < maxBudget && attempts < 15) {
-      attempts++;
-      const remainingBudget = maxBudget - currentTotal;
-
-      const validVehicles = VEHICLES.filter(v => v.bidones <= remainingBudget && !isVehicleDisabledForSponsor(v, randomSponsor, null));
-      if (validVehicles.length === 0) break;
-
-      const randomVehicle = validVehicles[Math.floor(Math.random() * validVehicles.length)];
-      let vehicleCost = randomVehicle.bidones;
-
-      let chosenWeapons = [];
-      let availableSlots = randomVehicle.slots;
-
-      const validWeapons = WEAPONS.filter(w => w.name !== "Ninguna" && w.bidones <= (remainingBudget - vehicleCost) && w.slots <= availableSlots);
-      if (validWeapons.length > 0 && Math.random() > 0.2) {
-        const weapon = validWeapons[Math.floor(Math.random() * validWeapons.length)];
-        chosenWeapons.push({ name: weapon.name, facing: "Frontal" });
-        vehicleCost += weapon.bidones;
-        availableSlots -= weapon.slots;
-      }
-
-      let chosenPerks = [];
-      const validPerks = availablePerks.filter(p => p.cost <= (remainingBudget - vehicleCost));
-      if (validPerks.length > 0 && Math.random() > 0.3) {
-        const perk = validPerks[Math.floor(Math.random() * validPerks.length)];
-        chosenPerks.push({ name: perk.name });
-        vehicleCost += perk.cost;
-      }
-
-      let vName = "";
-      if (usedVehicleNames.length > 0) {
-        const randomIndex = Math.floor(Math.random() * usedVehicleNames.length);
-        vName = usedVehicleNames.splice(randomIndex, 1)[0];
-      } else {
-        vName = `${randomVehicle.name} Asesino ${team.length + 1}`;
-      }
-
-      team.push({
-        id: Date.now() + Math.random(),
-        name: vName,
-        type: randomVehicle.name,
-        image: null,
-        diecastBrand: "Hot Wheels",
-        diecastModel: "",
-        weapons: chosenWeapons,
-        upgrades: [],
-        perks: chosenPerks
-      });
-
-      currentTotal += vehicleCost;
-    }
-
-    renderBuilder();
-  }
-
-  function createNewSquadron() {
-    if (team.length > 0) {
-      const confirmReset = confirm("¿Estás seguro de que deseas reiniciar todo? Se eliminarán los vehículos creados.");
-      if (!confirmReset) return;
-    }
-    team = [];
-    document.getElementById('teamName').value = "Mi Escudería";
-    document.getElementById('sponsorSelect').value = "Ninguno";
-    document.getElementById('maxCansSelect').value = "50";
-    renderBuilder();
-  }
-
-  function saveConfiguration() {
+  function shareSquadronURL() {
     const configData = {
-      version: "3.3",
-      teamName: document.getElementById('teamName').value || "Mi Escudería",
-      sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
-      maxCans: document.getElementById('maxCansSelect').value || 50,
+      teamName: document.getElementById('teamName').value,
+      sponsor: document.getElementById('sponsorSelect').value,
+      maxCans: document.getElementById('maxCansSelect').value,
       vehicles: team
     };
-
-    const jsonString = JSON.stringify(configData, null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const link = document.createElement("a");
+    const jsonStr = JSON.stringify(configData);
+    const encoded = btoa(encodeURIComponent(jsonStr));
+    const url = `${window.location.origin}${window.location.pathname}?squad=${encoded}`;
     
-    const safeFileName = configData.teamName.replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
-    link.download = `${safeFileName}.cet`;
-    link.href = URL.createObjectURL(blob);
-    link.click();
-    URL.revokeObjectURL(link.href);
+    navigator.clipboard.writeText(url);
+    showToast("🔗 ¡Enlace de escudería copiado al portapapeles!");
   }
 
-  function loadConfiguration(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (team.length > 0) {
-      const confirmLoad = confirm("Cargar un archivo reemplazará la escudería actual. ¿Deseas continuar?");
-      if (!confirmLoad) {
-        event.target.value = '';
-        return;
-      }
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
+  function loadFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const squadParam = params.get('squad');
+    if (squadParam) {
       try {
-        const loadedData = JSON.parse(e.target.result);
-        const loadedVehicles = loadedData.vehicles || loadedData.team;
-
-        if (!loadedData || !Array.isArray(loadedVehicles)) {
-          alert("El archivo no tiene una estructura válida de escudería (.cet o .json)");
-          return;
-        }
-
-        document.getElementById('teamName').value = loadedData.teamName || "Mi Escudería";
-        document.getElementById('sponsorSelect').value = loadedData.sponsor || "Ninguno";
-        document.getElementById('maxCansSelect').value = loadedData.maxCans || 50;
-        
-        team = loadedVehicles;
-        renderBuilder();
-        alert("¡Escudería cargada con éxito!");
-      } catch (err) {
-        alert("Error al leer el archivo. Asegúrate de que sea un archivo .cet o .json válido.");
-        console.error("Error al cargar la configuración: ", err);
-      }
-    };
-    reader.readAsText(file);
-    event.target.value = '';
-  }
-
-  function getItemCost(wData, currentSponsor) {
-    if (!wData) return 0;
-    if (currentSponsor === "Idris" && wData.name === "Impulsor de nitrometano") return 3;
-    if (currentSponsor === "Scarlett" && wData.name === "Tripulante adicional") return 2;
-    if (wData.name === "Sirena Mejorada") return 2;
-    if (wData.name === "Blindaje de micro placas") return 6;
-    if (wData.name === "Vehículo carcelario (especial)") return 0;
-    return wData.bidones || 0;
-  }
-
-  function getItemSlots(wData, currentSponsor) {
-    if (!wData) return 0;
-    if (currentSponsor === "Slime" && wData.name === "Ariete") return 0;
-    if (wData.name === "Sirena Mejorada") return 0;
-    if (wData.name === "Blindaje de micro placas") return 0;
-    if (wData.name === "Vehículo carcelario (especial)") return 0;
-    return wData.slots || 0;
-  }
-
-  function getWeaponRules(wData, currentSponsor) {
-    if (!wData) return "";
-    let rules = wData.rules || "-";
-    if (currentSponsor === "Rutherford" && rules.toLowerCase().includes("munición 3")) {
-      rules = rules.replace(/Munición 3/gi, "Munición 4");
+        const jsonStr = decodeURIComponent(atob(squadParam));
+        const data = JSON.parse(jsonStr);
+        document.getElementById('teamName').value = data.teamName || "Mi Escudería";
+        document.getElementById('sponsorSelect').value = data.sponsor || "Ninguno";
+        document.getElementById('maxCansSelect').value = data.maxCans || 50;
+        team = data.vehicles || [];
+        showToast("¡Escudería cargada desde enlace!");
+        return true;
+      } catch (e) { console.error("Error al decodificar URL", e); }
     }
-    return rules;
-  }
-
-  function is360Native(weapon) {
-    if (!weapon || weapon.name === "Ninguna") return false;
-    if (weapon.category === "Personal") return true;
-    const r = weapon.rules ? weapon.rules.toLowerCase() : "";
-    return r.includes("360º") || r.includes("360 grados");
-  }
-
-  function getAmmoCountFromRules(rules) {
-    if (!rules) return 0;
-    const match = rules.match(/munición\s*(\d+)/i) || rules.match(/municion\s*(\d+)/i);
-    return (match && match[1]) ? parseInt(match[1]) : 0;
-  }
-
-  /* FILTRADO EN TIEMPO REAL DEL CATÁLOGO */
-  function filterCatalog() {
-    const query = document.getElementById('catalogSearchInput').value.toLowerCase().trim();
-    const allCatalogItems = document.querySelectorAll('.catalog-panel .catalog-item');
-    const detailsElements = document.querySelectorAll('.catalog-panel details');
-
-    if (!query) {
-      allCatalogItems.forEach(item => item.style.display = 'block');
-      detailsElements.forEach(det => det.open = false);
-      return;
-    }
-
-    detailsElements.forEach(det => det.open = true);
-
-    allCatalogItems.forEach(item => {
-      const text = item.innerText.toLowerCase();
-      if (text.includes(query)) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-  }
-
-  function renderCatalog() {
-    const vBasic = document.getElementById('catalogVehiclesBasic');
-    const vAdv = document.getElementById('catalogVehiclesAdvanced');
-    const wBasic = document.getElementById('catalogWeaponsBasic');
-    const wAdv = document.getElementById('catalogWeaponsAdvanced');
-    const wPersonal = document.getElementById('catalogWeaponsPersonal');
-    const wDropped = document.getElementById('catalogWeaponsDropped');
-    const vUpgrades = document.getElementById('catalogVehicleUpgrades');
-
-    vBasic.innerHTML = ''; vAdv.innerHTML = ''; wBasic.innerHTML = ''; wAdv.innerHTML = '';
-    wPersonal.innerHTML = ''; wDropped.innerHTML = ''; vUpgrades.innerHTML = '';
-
-    VEHICLES.forEach(v => {
-      const item = document.createElement('div');
-      item.className = 'catalog-item';
-      item.innerHTML = `
-        <div class="catalog-item-header"><span>${v.name}</span><span style="color: var(--accent-color);">${v.bidones} Bid.</span></div>
-        <div class="catalog-stats">
-          <span><b>Peso:</b> ${v.weight}</span><span><b>PC:</b> ${v.hull}</span><span><b>Marcha:</b> ${v.gear}</span>
-          <span><b>Maniob.:</b> ${v.handling}</span><span><b>Trip.:</b> ${v.crew}</span><span><b>Casillas:</b> ${v.slots}</span>
-        </div>
-        <div class="catalog-rules"><b>Especial:</b> ${v.rules}</div>
-      `;
-      if (v.category === "Básico") vBasic.appendChild(item); else vAdv.appendChild(item);
-    });
-
-    WEAPONS.filter(w => w.name !== "Ninguna").forEach(w => {
-      const item = document.createElement('div');
-      item.className = 'catalog-item';
-      const sponsorText = w.sponsor ? `<span class="sponsor-badge">[${w.sponsor}]</span>` : '';
-      
-      if (w.category === "Mejora") {
-        item.innerHTML = `
-          <div class="catalog-item-header"><span>${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
-          <div class="catalog-stats"><span><b>Casillas:</b> ${w.slots}</span></div>
-          <div class="catalog-rules"><b>Efectos:</b> ${w.rules}</div>
-        `;
-        vUpgrades.appendChild(item);
-      } else {
-        item.innerHTML = `
-          <div class="catalog-item-header"><span>${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
-          <div class="catalog-stats"><span><b>Alcance:</b> ${w.range}</span><span><b>Ataque:</b> ${w.attack}</span><span><b>Casillas:</b> ${w.slots}</span></div>
-          <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
-        `;
-        if (w.category === "Básico") wBasic.appendChild(item);
-        else if (w.category === "Avanzado") wAdv.appendChild(item);
-        else if (w.category === "Personal") wPersonal.appendChild(item);
-        else if (w.category === "Descarga") wDropped.appendChild(item);
-      }
-    });
-
-    const turretItem = document.createElement('div');
-    turretItem.className = 'catalog-item';
-    turretItem.innerHTML = `
-      <div class="catalog-item-header"><span>Torreta</span><span style="color: var(--accent-color);">-</span></div>
-      <div class="catalog-stats"><span><b>Casillas:</b> 0</span></div>
-      <div class="catalog-rules"><b>Efectos:</b> Otorga arco de fuego de 360º al arma equipada (Multiplica su costo x3).</div>
-    `;
-    vUpgrades.appendChild(turretItem);
+    return false;
   }
 
   function addVehicle() {
-    const newVehicle = {
-      id: Date.now(),
-      name: "Nuevo Vehículo",
-      type: "",
-      image: null,
-      diecastBrand: "",
-      diecastModel: "",
-      weapons: [],
-      upgrades: [],
-      perks: []
-    };
-    team.push(newVehicle);
+    team.push({ id: Date.now(), name: "Nuevo Vehículo", type: "", weapons: [], upgrades: [], perks: [], collapsed: false });
     renderBuilder();
   }
 
-  function duplicateVehicle(id) {
-    const original = team.find(v => v.id === id);
-    if (!original) return;
-
-    const copy = JSON.parse(JSON.stringify(original));
-    copy.id = Date.now() + Math.random();
-    copy.name = `${original.name} (Copia)`;
-
-    const index = team.findIndex(v => v.id === id);
-    team.splice(index + 1, 0, copy);
-    renderBuilder();
-  }
-
-  function moveVehicle(id, direction) {
-    const index = team.findIndex(v => v.id === id);
-    if (index === -1) return;
-
-    const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= team.length) return;
-
-    const temp = team[index];
-    team[index] = team[targetIndex];
-    team[targetIndex] = temp;
-    renderBuilder();
-  }
-
-  function removeVehicle(id) {
-    team = team.filter(v => v.id !== id);
-    renderBuilder();
-  }
-
-  function updateVehicleType(id, newType) {
-    const v = team.find(item => item.id === id);
-    if (v) {
-      v.type = newType;
-      v.weapons = [];
-      v.upgrades = [];
-      v.perks = [];
+  function selectPlaceholderImage(id, key) {
+    const v = team.find(i => i.id === id);
+    if (v && PLACEHOLDER_SVGS[key]) {
+      v.image = PLACEHOLDER_SVGS[key];
       renderBuilder();
     }
-  }
-
-  function updateVehicleImage(id, event) {
-    const file = event.target.files[0];
-    const v = team.find(item => item.id === id);
-    if (v && file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        v.image = e.target.result;
-        renderBuilder();
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function selectPlaceholderImage(id, svgKey) {
-    const v = team.find(item => item.id === id);
-    if (v && PLACEHOLDER_SVGS[svgKey]) {
-      v.image = PLACEHOLDER_SVGS[svgKey];
-      renderBuilder();
-    }
-  }
-
-  function removeVehicleImage(id) {
-    const v = team.find(item => item.id === id);
-    if (v) {
-      v.image = null;
-      renderBuilder();
-    }
-  }
-
-  function addWeaponToVehicle(id) {
-    const v = team.find(item => item.id === id);
-    if (v) {
-      v.weapons.push({ name: "Ninguna", facing: "Frontal" });
-      renderBuilder();
-    }
-  }
-
-  function removeWeaponFromVehicle(id, index) {
-    const v = team.find(item => item.id === id);
-    if (v && v.weapons[index]) {
-      v.weapons.splice(index, 1);
-      renderBuilder();
-    }
-  }
-
-  function updateWeaponName(id, index, weaponName) {
-    const v = team.find(item => item.id === id);
-    if (v && v.weapons[index]) {
-      v.weapons[index].name = weaponName;
-      const wData = WEAPONS.find(w => w.name === weaponName);
-      if (weaponName === "AJG") {
-        v.weapons[index].facing = "Frontal";
-      } else if (wData && wData.category === "Descarga") {
-        if (v.weapons[index].facing !== "Posterior" && v.weapons[index].facing !== "Lateral") {
-          v.weapons[index].facing = "Posterior";
-        }
-      } else if (wData && is360Native(wData)) {
-        v.weapons[index].facing = "360º";
-      } else if (v.weapons[index].facing === "360º" && (!wData || !is360Native(wData))) {
-        v.weapons[index].facing = "Frontal";
-      }
-      renderBuilder();
-    }
-  }
-
-  function updateWeaponFacing(id, index, facingValue) {
-    const v = team.find(item => item.id === id);
-    if (v && v.weapons[index]) {
-      v.weapons[index].facing = facingValue;
-      renderBuilder();
-    }
-  }
-
-  function addUpgradeToVehicle(id) {
-    const v = team.find(item => item.id === id);
-    if (v) {
-      v.upgrades.push({ name: "Ninguna" });
-      renderBuilder();
-    }
-  }
-
-  function removeUpgradeFromVehicle(id, index) {
-    const v = team.find(item => item.id === id);
-    if (v && v.upgrades[index]) {
-      v.upgrades.splice(index, 1);
-      renderBuilder();
-    }
-  }
-
-  function updateUpgradeName(id, index, upgradeName) {
-    const v = team.find(item => item.id === id);
-    if (v && v.upgrades[index]) {
-      v.upgrades[index].name = upgradeName;
-      if (upgradeName === "Ariete" || upgradeName === "Ariete explosivo") {
-        v.upgrades[index].facing = "Frontal";
-      } else {
-        delete v.upgrades[index].facing;
-      }
-      renderBuilder();
-    }
-  }
-
-  function updateUpgradeFacing(id, index, facingValue) {
-    const v = team.find(item => item.id === id);
-    if (v && v.upgrades[index]) {
-      v.upgrades[index].facing = facingValue;
-      renderBuilder();
-    }
-  }
-
-  function addPerkToVehicle(id) {
-    const v = team.find(item => item.id === id);
-    if (v) {
-      if (!v.perks) v.perks = [];
-      v.perks.push({ name: "Ninguna" });
-      renderBuilder();
-    }
-  }
-
-  function removePerkFromVehicle(id, index) {
-    const v = team.find(item => item.id === id);
-    if (v && v.perks && v.perks[index]) {
-      v.perks.splice(index, 1);
-      renderBuilder();
-    }
-  }
-
-  function updatePerkName(id, index, perkName) {
-    const v = team.find(item => item.id === id);
-    if (v && v.perks && v.perks[index]) {
-      v.perks[index].name = perkName;
-      renderBuilder();
-    }
-  }
-
-  function isVehicleDisabledForSponsor(vItem, currentSponsor, currentVehicleId) {
-    if (currentSponsor === "Idris" && vItem.name === "Girocóptero") return true;
-    if (currentSponsor === "Rutherford" && vItem.weight === "Ligero") return true;
-    if (currentSponsor === "Miyazaki" && (vItem.weight === "Pesado" || vItem.gear <= 3)) return true;
-
-    if (currentSponsor === "Rutherford") {
-      const otherVehicles = team.filter(v => v.id !== currentVehicleId);
-      if (vItem.name === "Tanque" && otherVehicles.some(v => v.type === "Tanque")) return true;
-      if (vItem.name === "Helicóptero" && otherVehicles.some(v => v.type === "Helicóptero")) return true;
-    }
-    return false;
-  }
-
-  function getWeaponsSelectOptionsHTML(selectedName, currentSponsor, isSlotsFull) {
-    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Arma --</option>`;
-    
-    const categories = [
-      { name: "Básico", label: "Armamento Básico", class: "grp-a-basico", optClass: "opt-arm-basico", emoji: "🔫" },
-      { name: "Avanzado", label: "Armamento Avanzado", class: "grp-a-avanzado", optClass: "opt-arm-avanzado", emoji: "💥" },
-      { name: "Personal", label: "Armamento Avanzado (Personales)", class: "grp-a-personal", optClass: "opt-arm-personal", emoji: "🦺" },
-      { name: "Descarga", label: "Armamento Avanzado (Descarga)", class: "grp-a-descarga", optClass: "opt-arm-descarga", emoji: "💣" }
-    ];
-
-    categories.forEach(cat => {
-      const items = WEAPONS.filter(w => w.category === cat.name && w.name !== "Ninguna");
-      if(items.length > 0) {
-        html += `<optgroup label="${cat.label}" class="${cat.class}">`;
-        items.forEach(w => {
-          const isMishkinRequired = w.sponsor === "Mishkin";
-          let isDisabled = isMishkinRequired && currentSponsor !== "Mishkin";
-          const isSelected = w.name === selectedName;
-          const slots = getItemSlots(w, currentSponsor);
-          const cost = getItemCost(w, currentSponsor);
-
-          if (isSlotsFull && slots > 0 && !isSelected) {
-            isDisabled = true;
-          }
-
-          let label = `${cat.emoji} ${w.name} (${cost} Bid. | ${slots} Slot | Atq: ${w.attack})`;
-          if (isMishkinRequired) label += ` [Mishkin]`;
-          if (isDisabled) label += ` (No disponible)`;
-
-          html += `<option value="${w.name}" class="${cat.optClass}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
-        });
-        html += `</optgroup>`;
-      }
-    });
-    return html;
-  }
-
-  function getUpgradesSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex, isSlotsFull) {
-    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Mejora --</option>`;
-    
-    const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
-    html += `<optgroup label="Mejoras para Vehículo" class="grp-m-vehiculo">`;
-
-    const equippedNames = currentUpgrades.map((u, idx) => idx !== currentIndex ? u.name : null).filter(Boolean);
-    const crewUpgradeCount = currentUpgrades.filter((u, idx) => idx !== currentIndex && u.name === "Tripulante adicional").length;
-
-    const uniqueUpgrades = [
-      "Impulsor de nitrometano", "Jaula de seguridad", "Motor nuclear experimental",
-      "Orugas", "Teleportador experimental", "Tubo lanzamierdas",
-      "Vehículo carcelario (especial)", "Sirena Mejorada", "Blindaje de micro placas"
-    ];
-
-    items.forEach(w => {
-      let isDisabled = false;
-      const isSelected = w.name === selectedName;
-
-      if (w.sponsor && w.sponsor !== currentSponsor) isDisabled = true;
-      if (uniqueUpgrades.includes(w.name) && equippedNames.includes(w.name)) isDisabled = true;
-      if (w.name === "Motor nuclear experimental" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
-      if (w.name === "Ariete explosivo" && vehicleData && vehicleData.weight === "Ligero") isDisabled = true;
-      if (w.name === "Orugas" && vehicleData && (vehicleData.name === "Tanque" || vehicleData.name === "Girocóptero" || vehicleData.name === "Helicóptero")) isDisabled = true;
-      if (w.name === "Tripulante adicional" && vehicleData && crewUpgradeCount >= vehicleData.crew) isDisabled = true;
-      if (w.name === "Vehículo carcelario (especial)" && vehicleData && vehicleData.weight !== "Medio") isDisabled = true;
-
-      const slots = getItemSlots(w, currentSponsor);
-      const cost = getItemCost(w, currentSponsor);
-
-      if (isSlotsFull && slots > 0 && !isSelected) {
-        isDisabled = true;
-      }
-
-      let label = `🛠️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
-      if (w.sponsor) label += ` [${w.sponsor}]`;
-      if (isDisabled) label += ` (No disponible)`;
-
-      html += `<option value="${w.name}" class="opt-mejora-veh" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
-    });
-
-    html += `</optgroup>`;
-    return html;
-  }
-
-  function getPerksSelectOptionsHTML(selectedName, currentSponsor, vehicleData, currentPerks, currentIndex) {
-    let html = `<option value="Ninguna" ${selectedName === "Ninguna" ? 'selected' : ''}>-- Seleccionar Ventaja --</option>`;
-
-    const activePerksString = SPONSORS[currentSponsor] || "";
-    const activePerkTypes = activePerksString !== "Ninguna" ? activePerksString.split(',').map(s => s.trim()) : [];
-
-    if (activePerkTypes.length === 0) {
-      return html + `<option value="" disabled>(Selecciona un patrocinador para habilitar ventajas)</option>`;
-    }
-
-    const equippedPerkNames = (currentPerks || []).map((p, idx) => idx !== currentIndex ? p.name : null).filter(Boolean);
-
-    activePerkTypes.forEach(perkType => {
-      const typeItems = PERKS.filter(p => p.category === perkType);
-      if (typeItems.length > 0) {
-        const normalizedCategory = perkType.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const cssClass = `grp-pk-${normalizedCategory}`;
-        const optClass = `opt-pk-${normalizedCategory}`;
-        const emoji = PERK_EMOJIS[perkType] || "⭐";
-        
-        html += `<optgroup label="Ventajas de ${perkType}" class="${cssClass}">`;
-
-        typeItems.forEach(p => {
-          let isDisabled = false;
-          const isSelected = p.name === selectedName;
-
-          if (equippedPerkNames.includes(p.name)) isDisabled = true;
-
-          if (p.name === "Conductor Especialista" && vehicleData) {
-            const isValidWeight = vehicleData.weight === "Ligero" || vehicleData.weight === "Medio";
-            const isValidHandling = vehicleData.handling >= 3;
-            if (!isValidWeight || !isValidHandling) isDisabled = true;
-          }
-
-          let label = `${emoji} ${p.name} (${p.cost} Bid.)`;
-          if (p.cond !== "-") label += ` [${p.cond}]`;
-          if (isDisabled) label += ` (No disponible)`;
-
-          html += `<option value="${p.name}" class="${optClass}" ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}>${label}</option>`;
-        });
-
-        html += `</optgroup>`;
-      }
-    });
-
-    return html;
   }
 
   function renderBuilder() {
     const container = document.getElementById('vehiclesList');
     container.innerHTML = '';
-    let grandTotalBidones = 0;
-    const maxCans = parseInt(document.getElementById('maxCansSelect').value) || 0;
-    const currentSponsor = document.getElementById('sponsorSelect').value;
-    const sponsorPerks = SPONSORS[currentSponsor] || "Ninguna";
-    const perksElem = document.getElementById('sponsorPerksDisplay');
-    if (perksElem) {
-      perksElem.innerHTML = `<b>Ventajas:</b> ${sponsorPerks}`;
-    }
+    let grandTotal = 0;
 
-    document.getElementById('maxBidonesDisplay').innerText = maxCans;
-
-    team.forEach((v, vIndex) => {
-      let vData = VEHICLES.find(item => item.name === v.type);
-
-      if (!v.perks) v.perks = [];
-
-      if (vData && isVehicleDisabledForSponsor(vData, currentSponsor, v.id)) {
-        v.type = "";
-        v.weapons = [];
-        v.upgrades = [];
-        v.perks = [];
-        vData = null;
-      }
-      
-      let baseCost = vData ? vData.bidones : 0;
-      let usedSlots = 0;
+    team.forEach((v, idx) => {
+      const vData = VEHICLES.find(i => i.name === v.type);
+      let vBidones = vData ? vData.bidones : 0;
 
       if (v.weapons) {
         v.weapons.forEach(w => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.sponsor && wData.sponsor !== currentSponsor) {
-            w.name = "Ninguna";
-          }
+          const wData = WEAPONS.find(i => i.name === w.name);
+          if (wData) vBidones += wData.bidones;
         });
       }
 
-      if (v.upgrades && vData) {
-        v.upgrades.forEach(u => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.sponsor && uData.sponsor !== currentSponsor) u.name = "Ninguna";
-          if (u.name === "Motor nuclear experimental" && vData.weight === "Ligero") u.name = "Ninguna";
-          if (u.name === "Ariete explosivo" && vData.weight === "Ligero") u.name = "Ninguna";
-          if (u.name === "Orugas" && (vData.name === "Tanque" || vData.name === "Girocóptero" || vData.name === "Helicóptero")) u.name = "Ninguna";
-          if (u.name === "Vehículo carcelario (especial)" && vData.weight !== "Medio") u.name = "Ninguna";
-        });
-      }
-
-      const activePerksString = SPONSORS[currentSponsor] || "";
-      const activePerkTypes = activePerksString !== "Ninguna" ? activePerksString.split(',').map(s => s.trim()) : [];
-
-      if (v.perks) {
-        v.perks.forEach(p => {
-          const pData = PERKS.find(item => item.name === p.name);
-          if (pData) {
-            if (!activePerkTypes.includes(pData.category)) p.name = "Ninguna";
-            if (pData.name === "Conductor Especialista" && vData) {
-              const isValidWeight = vData.weight === "Ligero" || vData.weight === "Medio";
-              const isValidHandling = vData.handling >= 3;
-              if (!isValidWeight || !isValidHandling) p.name = "Ninguna";
-            }
-          }
-        });
-      }
-
-      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
-      if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData && vData.weight === "Medio") {
-        baseCost = Math.max(5, baseCost - 4);
-      }
-
-      let vehicleBidones = baseCost;
-
-      if (v.weapons) {
-        v.weapons.forEach(w => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.name !== "Ninguna") {
-            usedSlots += getItemSlots(wData, currentSponsor);
-            let cost = getItemCost(wData, currentSponsor);
-            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-            vehicleBidones += cost;
-          }
-        });
-      }
-
-      let armorCount = 0;
-      let extraCrewCount = 0;
-      let hasMicroPlacas = false;
-      let hasOrugas = false;
-
-      if (v.upgrades) {
-        v.upgrades.forEach(u => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.name !== "Ninguna") {
-            usedSlots += getItemSlots(uData, currentSponsor);
-            vehicleBidones += getItemCost(uData, currentSponsor);
-            if (u.name === "Blindaje") armorCount++;
-            if (u.name === "Tripulante adicional") extraCrewCount++;
-            if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
-            if (u.name === "Orugas") hasOrugas = true;
-          }
-        });
-      }
-
-      if (v.perks) {
-        v.perks.forEach(p => {
-          const pData = PERKS.find(item => item.name === p.name);
-          if (pData) {
-            vehicleBidones += pData.cost;
-          }
-        });
-      }
-
-      grandTotalBidones += vehicleBidones;
+      grandTotal += vBidones;
 
       const card = document.createElement('div');
       card.className = 'vehicle-card';
-      if (vData) {
-        card.style.borderLeft = `5px solid ${vData.category === 'Básico' ? 'var(--cat-veh-basico)' : 'var(--cat-veh-avanzado)'}`;
-      }
-
-      let innerHTML = `
+      
+      card.innerHTML = `
         <div class="vehicle-header">
-          <input type="text" value="${v.name}" oninput="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 45%;">
+          <button onclick="toggleCollapse(${v.id})" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">
+            ${v.collapsed ? '►' : '▼'}
+          </button>
+          <input type="text" value="${v.name}" oninput="v.name=this.value;" style="width: 40%; font-weight:bold;">
           <div class="vehicle-controls-btn-group">
-            <strong>${vehicleBidones} Bid.</strong>
-            <button class="btn-move" title="Mover arriba" onclick="moveVehicle(${v.id}, -1)" ${vIndex === 0 ? 'disabled' : ''}>▲</button>
-            <button class="btn-move" title="Mover abajo" onclick="moveVehicle(${v.id}, 1)" ${vIndex === team.length - 1 ? 'disabled' : ''}>▼</button>
-            <button class="btn-duplicate" title="Duplicar vehículo" onclick="duplicateVehicle(${v.id})">📋 Duplicar</button>
-            <button class="btn-danger" style="margin-left: 4px;" onclick="removeVehicle(${v.id})">X</button>
+            <strong>${vBidones} Bid.</strong>
+            <button class="btn-danger" onclick="team.splice(${idx},1); renderBuilder();">X</button>
           </div>
         </div>
-        <div class="grid">
+        
+        ${!v.collapsed ? `
           <div>
-            <label>Tipo de Vehículo:</label>
-            <select onchange="updateVehicleType(${v.id}, this.value)">
-              <option value="">-- Seleccionar Vehículo --</option>
-              <optgroup label="Vehículos Básicos" class="grp-v-basico">
-                ${VEHICLES.filter(item => item.category === 'Básico').map(vItem => {
-                  const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-basico" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🚗 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
-                }).join('')}
-              </optgroup>
-              <optgroup label="Vehículos Avanzados" class="grp-v-avanzado">
-                ${VEHICLES.filter(item => item.category === 'Avanzado').map(vItem => {
-                  const disabled = isVehicleDisabledForSponsor(vItem, currentSponsor, v.id);
-                  return `<option value="${vItem.name}" class="opt-v-avanzado" ${vItem.name === v.type ? 'selected' : ''} ${disabled ? 'disabled' : ''}>🛞 ${vItem.name} (${vItem.bidones} Bid. | PC: ${vItem.hull} \vert{} Trip:${vItem.crew} | Casillas: ${vItem.slots})${disabled ? ' (Restringido)' : ''}</option>`;
-                }).join('')}
-              </optgroup>
+            <label>Tipo:</label>
+            <select onchange="v.type=this.value; renderBuilder();">
+              <option value="">-- Seleccionar --</option>
+              ${VEHICLES.map(item => `<option value="${item.name}" ${item.name === v.type ? 'selected' : ''}>${item.name} (${item.bidones} Bid.)</option>`).join('')}
             </select>
           </div>
-        </div>
+
+          ${vData ? `
+            <div class="placeholder-gallery-container" style="margin-top:10px;">
+              <span style="font-size:0.75rem; color:var(--text-muted);">Siluetas SVG:</span>
+              <div class="placeholder-thumb" onclick="selectPlaceholderImage(${v.id}, 'car')"><img src="${PLACEHOLDER_SVGS.car}" style="width:24px;height:24px;"></div>
+              <div class="placeholder-thumb" onclick="selectPlaceholderImage(${v.id}, 'truck')"><img src="${PLACEHOLDER_SVGS.truck}" style="width:24px;height:24px;"></div>
+              <div class="placeholder-thumb" onclick="selectPlaceholderImage(${v.id}, 'bike')"><img src="${PLACEHOLDER_SVGS.bike}" style="width:24px;height:24px;"></div>
+              <div class="placeholder-thumb" onclick="selectPlaceholderImage(${v.id}, 'tank')"><img src="${PLACEHOLDER_SVGS.tank}" style="width:24px;height:24px;"></div>
+            </div>
+          ` : ''}
+        ` : ''}
       `;
-
-      if (!vData) {
-        innerHTML += `<div style="color: var(--text-muted); font-style: italic; margin-top: 10px;">Selecciona un tipo de vehículo válido para comenzar la configuración.</div>`;
-      } else {
-        const maxSlots = vData.slots;
-        const slotPercentage = maxSlots > 0 ? Math.min(100, Math.round((usedSlots / maxSlots) * 100)) : (usedSlots > 0 ? 100 : 0);
-        const isSlotsOver = usedSlots > maxSlots;
-
-        innerHTML += `
-          <div class="slots-progress-container">
-            <span class="slots-badge-text" style="color: ${isSlotsOver ? '#ff4444' : '#00e676'};">
-              📦 Casillas (Slots): ${usedSlots} / ${maxSlots}
-            </span>
-            <div class="slots-progress-bar-bg">
-              <div class="slots-progress-bar-fill ${isSlotsOver ? 'overlimit' : ''}" style="width: ${slotPercentage}%;"></div>
-            </div>
-            ${isSlotsOver ? `<span style="color: #ff4444; font-size:0.75rem; font-weight:bold;">¡Excedido!</span>` : ''}
-          </div>
-        `;
-
-        let currentHull = vData.hull + (armorCount * 2);
-        if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
-          currentHull = Math.max(1, currentHull - 2);
-        }
-        if (currentSponsor === "Verney" && hasMicroPlacas) {
-          currentHull += 2;
-        }
-
-        const currentCrew = vData.crew + extraCrewCount;
-        let currentGear = vData.gear;
-        let currentHandling = vData.handling;
-
-        if (hasOrugas) {
-          currentGear = Math.max(1, currentGear - 1);
-          currentHandling += 1;
-        }
-
-        const hullClass = (armorCount > 0 || hasCarcelario || hasMicroPlacas) ? "stat-modified-green" : "";
-        const crewClass = extraCrewCount > 0 ? "stat-modified-green" : "";
-        const gearClass = hasOrugas ? "stat-modified-green" : "";
-        const handlingClass = hasOrugas ? "stat-modified-green" : "";
-
-        innerHTML += `
-          <div class="vehicle-stats-box">
-            <div class="vehicle-stats-grid">
-              <span><b>Peso:</b> ${vData.weight}</span>
-              <span class="${gearClass}"><b>Marcha Máx:</b> ${currentGear} ${hasOrugas ? '(-1)' : ''}</span>
-              <span class="${handlingClass}"><b>Maniobra:</b> ${currentHandling} ${hasOrugas ? '(+1)' : ''}</span>
-              <span class="${crewClass}"><b>Tripulación:</b> ${currentCrew} ${extraCrewCount > 0 ? `(+${extraCrewCount})` : ''}</span>
-              <span class="${hullClass}"><b>Carrocería:</b> ${currentHull} PC</span>
-            </div>
-            <div style="color: #7dcfb6;"><b>Reglas Especiales:</b> ${vData.rules}</div>
-          </div>
-
-          <div class="vehicle-image-input-container">
-            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-              <div style="flex-grow: 1;">
-                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Imagen / Silueta del Vehículo:</label>
-                <input type="file" accept="image/*" onchange="updateVehicleImage(${v.id}, event)" style="font-size: 0.8rem;">
-                
-                <!-- GALERÍA DE PLACEHOLDERS VECTORIALES -->
-                    <div class="placeholder-gallery-container">
-                      <span style="font-size:0.75rem; color:var(--text-muted);">Siluetas:</span>
-                      <div class="placeholder-thumb" title="Coche" onclick="selectPlaceholderImage(${v.id}, 'car')"><img src="${PLACEHOLDER_SVGS.car}" style="width:24px;height:24px;"></div>
-                      <div class="placeholder-thumb" title="Camión" onclick="selectPlaceholderImage(${v.id}, 'truck')"><img src="${PLACEHOLDER_SVGS.truck}" style="width:24px;height:24px;"></div>
-                      <div class="placeholder-thumb" title="Moto" onclick="selectPlaceholderImage(${v.id}, 'bike')"><img src="${PLACEHOLDER_SVGS.bike}" style="width:24px;height:24px;"></div>
-                      <div class="placeholder-thumb" title="Tanque" onclick="selectPlaceholderImage(${v.id}, 'tank')"><img src="${PLACEHOLDER_SVGS.tank}" style="width:24px;height:24px;"></div>
-                    </div>
-              </div>
-              ${v.image ? `
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <img src="${v.image}" class="vehicle-image-preview-thumbnail">
-                  <button class="btn-danger" onclick="removeVehicleImage(${v.id})" style="font-size: 0.75rem; padding: 4px 8px;">Quitar Foto</button>
-                </div>
-              ` : ''}
-            </div>
-
-            <div class="diecast-details-grid">
-              <div>
-                <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Marca (Coche Usado):</label>
-                <select onchange="updateVehicle(${v.id}, 'diecastBrand', this.value)" style="font-size: 0.8rem; padding: 4px;">
-                  <option value="" ${!v.diecastBrand ? 'selected' : ''}>-- Opcional --</option>
-                  <option value="Hot Wheels" ${v.diecastBrand === 'Hot Wheels' ? 'selected' : ''}>Hot Wheels</option>
-                  <option value="Matchbox" ${v.diecastBrand === 'Matchbox' ? 'selected' : ''}>Matchbox</option>
-                  <option value="Greenlight" ${v.diecastBrand === 'Greenlight' ? 'selected' : ''}>Greenlight</option>
-                  <option value="Maisto" ${v.diecastBrand === 'Maisto' ? 'selected' : ''}>Maisto</option>
-                  <option value="Bburago" ${v.diecastBrand === 'Bburago' ? 'selected' : ''}>Bburago</option>
-                  <option value="Otro" ${v.diecastBrand === 'Otro' ? 'selected' : ''}>Otro</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Modelo del Coche:</label>
-                <input type="text" placeholder="Ej: '67 Mustang, Baja Bug, etc." value="${v.diecastModel || ''}" oninput="updateVehicle(${v.id}, 'diecastModel', this.value)" style="font-size: 0.8rem; padding: 4px;">
-              </div>
-            </div>
-          </div>
-        `;
-
-        const isSlotsFull = usedSlots >= vData.slots;
-
-        innerHTML += `
-          <div class="section-block">
-            <div class="section-title">
-              <span>Sección de Armas</span>
-              <button class="btn-add" onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button>
-            </div>
-            <div class="fixed-weapon-badge">
-              <b>Arma Integrada por Defecto:</b> Arma corta (Alcance: Medio | Ataque: 1d6 | Reglas: Personal | Coste: 0 Bid. | Encaramiento: 360º)
-            </div>
-        `;
-
-        v.weapons.forEach((w, wIdx) => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          const isSelected = wData && wData.name !== "Ninguna";
-          const isAJG = w.name === "AJG";
-          const native360 = isSelected && is360Native(wData);
-          const isPersonal = isSelected && wData.category === "Personal";
-          const disableFacing = !isSelected || isPersonal || native360 || isAJG;
-
-          let currentCost = isSelected ? getItemCost(wData, currentSponsor) : 0;
-          if (isSelected && w.facing === "360º" && !native360) currentCost *= 3;
-          const displayRules = isSelected ? getWeaponRules(wData, currentSponsor) : "-";
-
-          innerHTML += `
-            <div class="upgrade-row">
-              <div class="upgrade-controls">
-                <div>
-                  <label style="font-size: 0.8em; color: var(--text-muted);">Arma ${wIdx + 1}:</label>
-                  <select onchange="updateWeaponName(${v.id}, ${wIdx}, this.value)">
-                    ${getWeaponsSelectOptionsHTML(w.name, currentSponsor, isSlotsFull)}
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
-                  <select ${disableFacing ? 'disabled' : ''} onchange="updateWeaponFacing(${v.id}, ${wIdx}, this.value)">
-                    ${isAJG ? `<option value="Frontal" selected>Frontal</option>` : (wData && wData.category === 'Descarga') ? `
-                      <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                      <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                    ` : `
-                      <option value="Frontal" ${w.facing === 'Frontal' ? 'selected' : ''}>Frontal</option>
-                      <option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                      <option value="Lateral" ${w.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                      <option value="360º" ${w.facing === '360º' ? 'selected' : ''}>360º (Torreta)</option>
-                    `}
-                  </select>
-                </div>
-                <div>
-                  <button class="btn-danger" onclick="removeWeaponFromVehicle(${v.id}, ${wIdx})">X</button>
-                </div>
-              </div>
-              ${isSelected ? `
-              <div class="weapon-details-badge">
-                <span><b>Alcance:</b> ${wData.range}</span>
-                <span><b>Ataque:</b> ${wData.attack}</span>
-                <span><b>Especial:</b> ${displayRules}</span>
-                <span><b>Coste Total:</b> ${currentCost} Bid.</span>
-              </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona un arma de la lista.</div>'}
-            </div>
-          `;
-        });
-        innerHTML += `</div>`;
-
-        innerHTML += `
-          <div class="section-block">
-            <div class="section-title">
-              <span>Sección de Mejoras</span>
-              <button class="btn-add" onclick="addUpgradeToVehicle(${v.id})">+ Añadir Mejora</button>
-            </div>
-        `;
-
-        v.upgrades.forEach((u, uIdx) => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          const isSelected = uData && uData.name !== "Ninguna";
-          const isRam = isSelected && (u.name === "Ariete" || u.name === "Ariete explosivo");
-          const currentCost = isSelected ? getItemCost(uData, currentSponsor) : 0;
-
-          innerHTML += `
-            <div class="upgrade-row">
-              <div class="upgrade-controls">
-                <div>
-                  <label style="font-size: 0.8em; color: var(--text-muted);">Mejora ${uIdx + 1}:</label>
-                  <select onchange="updateUpgradeName(${v.id}, ${uIdx}, this.value)">
-                    ${getUpgradesSelectOptionsHTML(u.name, currentSponsor, vData, v.upgrades, uIdx, isSlotsFull)}
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size: 0.8em; color: var(--text-muted);">Encaramiento:</label>
-                  <select ${!isRam ? 'disabled' : ''} onchange="updateUpgradeFacing(${v.id}, ${uIdx}, this.value)">
-                    ${!isRam ? `<option value="N/A" selected>N/A</option>` : `
-                      <option value="Frontal" ${u.facing === 'Frontal' ? 'selected' : ''}>Frontal</option>
-                      <option value="Posterior" ${u.facing === 'Posterior' ? 'selected' : ''}>Posterior</option>
-                      <option value="Lateral" ${u.facing === 'Lateral' ? 'selected' : ''}>Lateral</option>
-                    `}
-                  </select>
-                </div>
-                <div>
-                  <button class="btn-danger" onclick="removeUpgradeFromVehicle(${v.id}, ${uIdx})">X</button>
-                </div>
-              </div>
-              ${isSelected ? `
-              <div class="weapon-details-badge">
-                <span><b>Efectos:</b> ${uData.rules}</span>
-                <span><b>Coste Total:</b> ${currentCost} Bid.</span>
-              </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona una mejora de la lista.</div>'}
-            </div>
-          `;
-        });
-        innerHTML += `</div>`;
-
-        innerHTML += `
-          <div class="section-block">
-            <div class="section-title">
-              <span>Sección de Ventajas</span>
-              <button class="btn-add" onclick="addPerkToVehicle(${v.id})">+ Añadir Ventaja</button>
-            </div>
-        `;
-
-        v.perks.forEach((p, pIdx) => {
-          const pData = PERKS.find(item => item.name === p.name);
-          const isSelected = pData && pData.name !== "Ninguna";
-
-          innerHTML += `
-            <div class="upgrade-row">
-              <div class="perk-controls">
-                <div>
-                  <label style="font-size: 0.8em; color: var(--text-muted);">Ventaja ${pIdx + 1}:</label>
-                  <select onchange="updatePerkName(${v.id}, ${pIdx}, this.value)">
-                    ${getPerksSelectOptionsHTML(p.name, currentSponsor, vData, v.perks, pIdx)}
-                  </select>
-                </div>
-                <div>
-                  <button class="btn-danger" onclick="removePerkFromVehicle(${v.id}, ${pIdx})">X</button>
-                </div>
-              </div>
-              ${isSelected ? `
-              <div class="weapon-details-badge">
-                <span><b>Tipo:</b> ${pData.category}</span>
-                <span><b>Condicional:</b> ${pData.cond}</span>
-                <span><b>Coste Total:</b> ${pData.cost} Bid.</span>
-              </div>` : '<div style="font-size: 0.8em; color: var(--text-muted); font-style: italic;">Selecciona una ventaja de la lista.</div>'}
-            </div>
-          `;
-        });
-        innerHTML += `</div>`;
-      }
-
-      card.innerHTML = innerHTML;
       container.appendChild(card);
     });
 
-    const totalElement = document.getElementById('totalBidones');
-    totalElement.innerText = grandTotalBidones;
-    if (grandTotalBidones > maxCans) {
-      totalElement.style.color = '#ff4444';
-    } else {
-      totalElement.style.color = '#fff';
-    }
-
-    saveToLocalStorage();
+    document.getElementById('totalBidones').innerText = grandTotal;
   }
 
-  function updateVehicle(id, field, value) {
-    const v = team.find(item => item.id === id);
-    if (v) {
-      v[field] = value;
-      renderBuilder();
-    }
-  }
-
-  let currentZoom = 1.0;
-
-  function changeZoom(delta) {
-    currentZoom = Math.min(Math.max(currentZoom + delta, 0.5), 2.0);
-    applyZoom();
-  }
-
-  function resetZoom() {
-    currentZoom = 1.0;
-    applyZoom();
-  }
-
-  function applyZoom() {
-    const grid = document.getElementById('cardsPrintContainer');
-    if (grid) {
-      grid.style.transform = `scale(${currentZoom})`;
-      grid.style.transformOrigin = 'top center';
-    }
-    const zoomDisplay = document.getElementById('zoomValDisplay');
-    if (zoomDisplay) {
-      zoomDisplay.innerText = `${Math.round(currentZoom * 100)}%`;
-    }
-  }
-
-  function downloadAllCardsPNG() {
-    const cards = document.querySelectorAll('.printable-card');
-    if (!cards || cards.length === 0) return;
-
-    document.fonts.ready.then(() => {
-      cards.forEach((card, idx) => {
-        html2canvas(card, {
-          scale: 3,
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          letterRendering: true,
-          windowWidth: 1200,
-          onclone: (clonedDoc) => {
-            const clonedCard = clonedDoc.querySelectorAll('.printable-card')[idx];
-            if (clonedCard) {
-              clonedCard.style.transform = "none";
-            }
-          }
-        }).then(canvas => {
-          const link = document.createElement('a');
-          link.download = `Ficha_Vehiculo_${idx + 1}.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        });
-      });
-    });
-  }
-
-  // EXPORTACIÓN A PDF FORMATO A4 USANDO JSPDF Y HTML2CANVAS
-  async function downloadAllCardsPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
-
-    const cards = document.querySelectorAll('.printable-card');
-    if (!cards || cards.length === 0) return;
-
-    await document.fonts.ready;
-
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i];
-      const canvas = await html2canvas(card, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        letterRendering: true
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      const imgProps = doc.getImageProperties(imgData);
-      const pdfWidth = 90; // mm
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      // Distribución simple en cuadrícula A4 (2 columnas)
-      const col = i % 2;
-      const row = Math.floor((i % 4) / 2);
-
-      if (i > 0 && i % 4 === 0) {
-        doc.addPage();
-      }
-
-      const x = 15 + col * 95;
-      const y = 15 + row * 125;
-
-      doc.addImage(imgData, 'PNG', x, y, pdfWidth, pdfHeight);
-    }
-
-    const teamName = document.getElementById('teamName').value || 'Escuderia';
-    const safeFileName = teamName.replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
-    doc.save(`Fichas_Gaslands_${safeFileName}.pdf`);
-  }
-
-  // MUNICIÓN Y CARROCERÍA CON CHECKBOXES INTERACTIVOS
-  function getAmmoBoxesHTML(rules) {
-    if (!rules) return '';
-    const count = getAmmoCountFromRules(rules);
-    if (count > 0) {
-      let boxes = '';
-      for (let i = 0; i < count; i++) {
-        boxes += `<input type="checkbox" class="card-interactive-box card-ammo-box">`;
-      }
-      return `<div class="ammo-container"><b>Mun (${count}):</b> ${boxes}</div>`;
-    }
-    return '';
-  }
-
-  function copyPromptToClipboard(elemId) {
-    const textarea = document.getElementById(elemId);
-    if (textarea) {
-      textarea.select();
-      navigator.clipboard.writeText(textarea.value);
-      alert("¡Prompt copiado al portapapeles!");
-    }
-  }
-
-  function generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling) {
-    const weaponsList = [];
-    weaponsList.push('Arma corta (Pistola) | Alcance: Medio | Ataque: 1d6 | Encaramiento: 360º | Costo: 0 BID.');
-    if (v.weapons) {
-      v.weapons.forEach(w => {
-        const wData = WEAPONS.find(item => item.name === w.name);
-        if (wData && wData.name !== "Ninguna") {
-          let cost = getItemCost(wData, sponsorName);
-          if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-          const rules = getWeaponRules(wData, sponsorName);
-          const ammo = getAmmoCountFromRules(rules);
-          weaponsList.push(`${wData.name} | Alcance: ${wData.range} | Ataque: ${wData.attack} | Encaramiento: ${w.facing || 'Frontal'} | Costo: ${cost} BID.${ammo > 0 ? ` (Munición: ${ammo})` : ''}`);
-        }
-      });
-    }
-
-    const upgradesList = [];
-    if (v.upgrades) {
-      v.upgrades.forEach(u => {
-        const uData = WEAPONS.find(item => item.name === u.name);
-        if (uData && uData.name !== "Ninguna") {
-          const cost = getItemCost(uData, sponsorName);
-          const ammo = getAmmoCountFromRules(uData.rules);
-          upgradesList.push(`${uData.name} | Costo: ${cost} BID.${ammo > 0 ? ` (Munición: ${ammo})` : ''}`);
-        }
-      });
-    }
-
-    const perksList = [];
-    if (v.perks) {
-      v.perks.forEach(p => {
-        const pData = PERKS.find(item => item.name === p.name);
-        if (pData && pData.name !== "Ninguna") {
-          perksList.push(`${pData.name} (${pData.category}) | Costo: ${pData.cost} BID.`);
-        }
-      });
-    }
-
-    let visualDesc = "";
-    if (v.image) {
-      visualDesc = "Basarse fielmente en la imagen real del vehículo subida por el usuario para renderizarlo con acabado estilo miniatura post-apocalíptica Gaslands.";
-    } else if (v.diecastBrand || v.diecastModel) {
-      visualDesc = `Ilustrar un coche diecast escala 1:64 coche base: ${v.diecastBrand || ''} ${v.diecastModel || ''}, modificado al estilo post-apocalíptico de Gaslands Refuelled con blindaje oxidado, remaches, polvo y desgaste extremo.`;
-    } else {
-      visualDesc = `Ilustrar un vehículo tipo ${vData.name} (${vData.weight}) modificado para el juego de mesa post-apocalíptico Gaslands Refuelled, con carrocería desgastada, placas de metal soldadas, remaches, ruedas todoterreno y suciedad.`;
-    }
-
-    if (cardOption === '1page_63x88') {
-      const prompt1 = `Diseña una imagen de ficha en calidad 8K para el juego de mesa Gaslands Refuelled. Formato vertical carta standard (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
-
-ESTILO VISUAL Y TEMÁTICA:
-- Temática post-apocalíptica de carreras armadas Gaslands Refuelled.
-- Estilo gráfico: Ficha de juego limpia con borde negro y esquinas redondeadas (3mm). Fondo con textura de metal oxidado.
-
-DATOS OBLIGATORIOS:
-1. CABECERA:
-   - Escudería: "${teamName}" | Patrocinador: "${sponsorName}" | Costo Total: ${vehicleBidones} BID.
-   - Vehículo: "${v.name}" (${vData.name} - Peso ${vData.weight}) | Reglas: ${vData.rules}
-
-2. ESTADÍSTICAS Y CARROCERÍA:
-   - Marcha: ${totalGear} | Maniobra: ${totalHandling} | Trip.: ${totalCrew} | Peligro: [ ]
-   - Carrocería: ${totalHull} PC (${totalHull} casillas cuadradas blancas vacías).
-
-3. TABLAS DE EQUIPAMIENTO:
-   - Armas: ${weaponsList.join('; ')}
-   - Mejoras: ${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin mejoras'}
-   - Ventajas: ${perksList.length > 0 ? perksList.join('; ') : 'Sin ventajas'}
-
-PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | by Cet Phoenix"`;
-      return { type: 'single', prompt: prompt1 };
-
-    } else if (cardOption === '2pages_63x88') {
-      const promptH1 = `Diseña una imagen de ficha en calidad 8K para la HOJA 1 (ATRIBUTOS Y VISTA) para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
-
-DATO VISUAL DEL VEHÍCULO:
-- ${visualDesc}
-
-REQUISITOS:
-- Cabecera: ESC: "${teamName}" | PAT: "${sponsorName}" | Costo: ${vehicleBidones} BID.
-- Título: "${v.name}" (${vData.name} - Peso ${vData.weight}) | Reglas: ${vData.rules}
-- Cuadrícula: Marcha: ${totalGear} | Maniobra: ${totalHandling} | Trip.: ${totalCrew} | Peligro: [ ]
-- Carrocería: ${totalHull} PC (${totalHull} casillas blancas).
-- Recuadro principal "VISTA DEL VEHÍCULO" integrando la ilustración del coche.
-
-PIE DE PÁGINA: "HOJA 1 / 2 - ATRIBUTOS | Nexo Alpha - Gaslands Refuelled by Cet Phoenix"`;
-
-      const promptH2 = `Diseña una imagen de ficha en calidad 8K para la HOJA 2 (EQUIPAMIENTO) de "${v.name}" para Gaslands Refuelled. Formato vertical carta (63mm x 88mm) ÍNTEGRAMENTE EN ESPAÑOL.
-
-REQUISITOS:
-- Cabecera: ESC: "${teamName}" | VEHÍCULO: "${v.name}" | Costo: ${vehicleBidones} BID.
-- Tabla Armas Equipadas:
-${weaponsList.map((w, idx) => `${idx + 1}.${w}`).join('\n')}
-- Tabla Mejoras de Vehículo:
-${upgradesList.length > 0 ? upgradesList.map((u, idx) => `${idx + 1}.${u}`).join('\n') : '- Sin mejoras'}
-- Tabla Ventajas Seleccionadas:
-${perksList.length > 0 ? perksList.map((p, idx) => `${idx + 1}.${p}`).join('\n') : '- Sin ventajas'}
-
-PIE DE PÁGINA: "HOJA 2 / 2 - EQUIPAMIENTO | Nexo Alpha - Gaslands Refuelled by Cet Phoenix"`;
-
-      return { type: 'double', promptH1, promptH2 };
-
-    } else if (cardOption === '1page_95x80') {
-      const prompt1 = `Diseña una ficha en calidad 8K en formato Apaiyado Ancho (95mm x 80mm) ÍNTEGRAMENTE EN ESPAÑOL para Gaslands Refuelled.
-
-ESTILO VISUAL:
-- Estilo militar/industrial post-apocalíptico. Borde negro continuo, esquinas redondeadas.
-
-ESTRUCTURA DE CONTENIDO:
-- Cabecera Superior: Escudería "${teamName}" | Patrocinador "${sponsorName}" | "${v.name}" (${vData.name} - ${vData.weight}) | Total: ${vehicleBidones} BID.
-- Columna Izquierda: Estadísticas (Marcha: ${totalGear}, Maniobra: ${totalHandling}, Tripulación: ${totalCrew}, Peligro: [ ]) y Carrocería (${totalHull} PC con ${totalHull} casillas).
-- Columna Derecha: Tablas integradas de Armas, Mejoras y Ventajas (${weaponsList.join(', ')}).
-
-PIE DE PÁGINA: "Nexo Alpha - Gaslands Refuelled | 95mm x 80mm"`;
-      return { type: 'single', prompt: prompt1 };
-
-    } else if (cardOption === 'dashboard_nexo') {
-      const promptDash = `Diseña un set de DASHBOARD TRÍPTICO en calidad 8K para Gaslands Refuelled formado por 3 Fichas individuales conectadas de (42mm x 78mm cada una) ÍNTEGRAMENTE EN ESPAÑOL.
-
-FICHA 1 (ATRIBUTOS Y CARROCERÍA - 42mm x 78mm):
-- Título: "${v.name}" (${vData.name} - ${vData.weight}) | ${vehicleBidones} BID.
-- Bloque Atributos: Marcha (${totalGear}), Maniobra (${totalHandling}), Tripulación (${totalCrew}), Peligro [ ].
-- Seccion Carrocería: ${totalHull} PC con sus ${totalHull} casillas de daño interactivas.
-
-FICHA 2 (ARMAS Y ATAQUE - 42mm x 78mm):
-- Título: SECCIÓN DE ARMAS
-- Listado de armas (${weaponsList.join('; ')}).
-- Para cada arma, mostrar su Nombre, y debajo en un recuadro individualizado de 3 datos: Ataque | Encaramiento | Alcance.
-
-FICHA 3 (MEJORAS Y VENTAJAS - 42mm x 78mm):
-- Título: EQUIPAMIENTO ESPECIAL
-- Mejoras (${upgradesList.length > 0 ? upgradesList.join('; ') : 'Sin Mejoras'}).
-- Ventajas (${perksList.length > 0 ? perksList.join('; ') : 'Sin Ventajas'}).
-
-PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
-      return { type: 'single', prompt: promptDash };
+  function adjustStat(id, stat, delta) {
+    const elem = document.getElementById(`${stat}_val_${id}`);
+    if (elem) {
+      let current = parseInt(elem.innerText);
+      elem.innerText = Math.max(0, current + delta);
     }
   }
 
   function openCardsModal() {
-    const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
-    const promptsContainer = document.getElementById('promptsOutputList');
-    const teamName = document.getElementById('teamName').value || 'Mi Escudería';
-    const sponsorName = document.getElementById('sponsorSelect').value;
-    const cardOption = document.getElementById('cardPagesSelect') ? document.getElementById('cardPagesSelect').value : '1page_63x88';
-
     container.innerHTML = '';
-    promptsContainer.innerHTML = '';
-
-    if (team.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding: 20px; color:#fff;">No hay vehículos configurados en la escudería.</div>`;
-      modal.style.display = 'flex';
-      return;
-    }
-
-    team.forEach((v, vIndex) => {
-      const vData = VEHICLES.find(item => item.name === v.type);
+    
+    team.forEach(v => {
+      const vData = VEHICLES.find(i => i.name === v.type);
       if (!vData) return;
 
-      const hasCarcelario = v.upgrades && v.upgrades.some(u => u.name === "Vehículo carcelario (especial)");
-      let baseCost = vData.bidones;
-      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
-        baseCost = Math.max(5, baseCost - 4);
-      }
-
-      let vehicleBidones = baseCost;
-
-      if (v.weapons) {
-        v.weapons.forEach(w => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.name !== "Ninguna") {
-            let cost = getItemCost(wData, sponsorName);
-            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-            vehicleBidones += cost;
-          }
-        });
-      }
-
-      let armorCount = 0;
-      let extraCrewCount = 0;
-      let hasMicroPlacas = false;
-      let hasOrugas = false;
-
-      if (v.upgrades) {
-        v.upgrades.forEach(u => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.name !== "Ninguna") {
-            vehicleBidones += getItemCost(uData, sponsorName);
-            if (u.name === "Blindaje") armorCount++;
-            if (u.name === "Tripulante adicional") extraCrewCount++;
-            if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
-            if (u.name === "Orugas") hasOrugas = true;
-          }
-        });
-      }
-
-      if (v.perks) {
-        v.perks.forEach(p => {
-          const pData = PERKS.find(item => item.name === p.name);
-          if (pData) {
-            vehicleBidones += pData.cost;
-          }
-        });
-      }
-
-      let totalHull = vData.hull + (armorCount * 2);
-      if (sponsorName === "La Alcaidesa" && hasCarcelario && vData.weight === "Medio") {
-        totalHull = Math.max(1, totalHull - 2);
-      }
-      if (sponsorName === "Verney" && hasMicroPlacas) {
-        totalHull += 2;
-      }
-
-      const totalCrew = vData.crew + extraCrewCount;
-      let totalGear = vData.gear;
-      let totalHandling = vData.handling;
-
-      if (hasOrugas) {
-        totalGear = Math.max(1, totalGear - 1);
-        totalHandling += 1;
-      }
-
-      let hullBoxesHTML = '';
-      for (let i = 0; i < totalHull; i++) {
-        hullBoxesHTML += `<input type="checkbox" class="card-interactive-box">`;
-      }
-
-      let weaponsRowsHTML = `
-        <tr>
-          <td class="left">Arma corta (Pistola)</td>
-          <td>Med.</td>
-          <td>1d6</td>
-          <td>360º</td>
-          <td>0</td>
-        </tr>
-      `;
-
-      let dashboardWeaponsListHTML = `
-        <div class="dashboard-weapon-card-box">
-          <div class="dashboard-weapon-title">Arma corta (Pistola)</div>
-          <div class="dashboard-weapon-stats-box">
-            <div><b>Atq:</b> 1d6</div>
-            <div><b>Enc:</b> 360º</div>
-            <div><b>Alc:</b> Med.</div>
+      const card = document.createElement('div');
+      card.className = 'printable-card card-size-63x88';
+      card.innerHTML = `
+        <div>
+          <div class="card-top-bar">
+            <span>ESC: ${document.getElementById('teamName').value}</span>
+            <span>${vData.bidones} BID.</span>
+          </div>
+          <div class="card-title-box">
+            <h2>${v.name}</h2>
+            <div>${vData.name}</div>
+          </div>
+          <div class="card-stats-grid">
+            <div class="card-stat-box">
+              <div class="lbl">Marcha</div>
+              <div class="val">
+                <span class="interactive-counter">
+                  <button class="counter-btn" onclick="adjustStat(${v.id}, 'gear', -1)">-</button>
+                  <span id="gear_val_${v.id}">${vData.gear}</span>
+                  <button class="counter-btn" onclick="adjustStat(${v.id}, 'gear', 1)">+</button>
+                </span>
+              </div>
+            </div>
+            <div class="card-stat-box">
+              <div class="lbl">Peligro</div>
+              <div class="val">
+                <span class="interactive-counter">
+                  <button class="counter-btn" onclick="adjustStat(${v.id}, 'hazard', -1)">-</button>
+                  <span id="hazard_val_${v.id}">0</span>
+                  <button class="counter-btn" onclick="adjustStat(${v.id}, 'hazard', 1)">+</button>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       `;
-
-      if (v.weapons) {
-        v.weapons.forEach(w => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.name !== "Ninguna") {
-            let cost = getItemCost(wData, sponsorName);
-            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-            
-            let rShort = wData.range;
-            if(rShort === "Doble") rShort = "Dob.";
-            else if(rShort === "Medio") rShort = "Med.";
-            else if(rShort === "Corto") rShort = "Cor.";
-            else if(rShort === "Ráfaga larga") rShort = "Ráf.L";
-
-            const activeRules = getWeaponRules(wData, sponsorName);
-            const ammoHTML = getAmmoBoxesHTML(activeRules);
-
-            weaponsRowsHTML += `
-              <tr>
-                <td class="left">
-                  ${wData.name}
-                  ${ammoHTML}
-                </td>
-                <td>${rShort}</td>
-                <td>${wData.attack}</td>
-                <td>${w.facing || 'Front.'}</td>
-                <td>${cost}B</td>
-              </tr>
-            `;
-
-            dashboardWeaponsListHTML += `
-              <div class="dashboard-weapon-card-box">
-                <div class="dashboard-weapon-title">${wData.name}</div>
-                <div class="dashboard-weapon-stats-box">
-                  <div><b>Atq:</b> ${wData.attack}</div>
-                  <div><b>Enc:</b> ${w.facing || 'Front.'}</div>
-                  <div><b>Alc:</b> ${rShort}</div>
-                </div>
-                ${ammoHTML}
-              </div>
-            `;
-          }
-        });
-      }
-
-      let upgradesRowsHTML = '';
-      const activeUpgrades = v.upgrades ? v.upgrades.filter(u => u.name !== "Ninguna") : [];
-      if (activeUpgrades.length > 0) {
-        activeUpgrades.forEach(u => {
-          const uData = WEAPONS.find(item => item.name === u.name);
-          if (uData && uData.name !== "Ninguna") {
-            const cost = getItemCost(uData, sponsorName);
-            const ammoHTML = getAmmoBoxesHTML(uData.rules);
-            upgradesRowsHTML += `
-              <tr>
-                <td class="left">
-                  ${uData.name}
-                  ${ammoHTML}
-                </td>
-                <td>${cost} Bid.</td>
-              </tr>
-            `;
-          }
-        });
-      } else {
-        upgradesRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin mejoras</td></tr>`;
-      }
-
-      let perksRowsHTML = '';
-      const activePerksList = v.perks ? v.perks.filter(p => p.name !== "Ninguna") : [];
-      if (activePerksList.length > 0) {
-        activePerksList.forEach(p => {
-          const pData = PERKS.find(item => item.name === p.name);
-          if (pData) {
-            perksRowsHTML += `
-              <tr>
-                <td class="left">${pData.name} (${pData.category})</td>
-                <td>${pData.cost} Bid.</td>
-              </tr>
-            `;
-          }
-        });
-      } else {
-        perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
-      }
-
-      const cardHeaderHTML = `
-        <div class="card-top-bar">
-          <span>ESC: ${teamName}</span>
-          <span>PAT: ${sponsorName}</span>
-          <span style="font-weight: bold; color: #d32f2f;">${vehicleBidones} BID.</span>
-        </div>
-
-        <div class="card-title-box">
-          <h2>${v.name}</h2>
-          <div class="sub">${vData.name} - Peso ${vData.weight}</div>
-          <div style="font-size: 5pt; font-weight: bold; color: #d84315; margin-top: 1px;">Reglas: ${vData.rules}</div>
-        </div>
-
-        <div class="card-stats-grid">
-          <div class="card-stat-box">
-            <div class="lbl">Marcha</div>
-            <div class="val">${totalGear}</div>
-          </div>
-          <div class="card-stat-box">
-            <div class="lbl">Maniobra</div>
-            <div class="val">${totalHandling}</div>
-          </div>
-          <div class="card-stat-box">
-            <div class="lbl">Trip.</div>
-            <div class="val">${totalCrew}</div>
-          </div>
-          <div class="card-stat-box">
-            <div class="lbl">Peligro</div>
-            <div class="val">[ &nbsp; ]</div>
-          </div>
-        </div>
-
-        <div class="card-hull-section">
-          <div class="card-hull-header">
-            <span>CARROCERÍA</span>
-            <span>${totalHull} PC</span>
-          </div>
-          <div class="card-hull-boxes">
-            ${hullBoxesHTML}
-          </div>
-        </div>
-      `;
-
-      const cardEquipmentHTML = `
-        <div class="card-section-title">Armas Equipadas</div>
-        <table class="mini-table">
-          <thead>
-            <tr>
-              <th style="text-align:left;">Arma</th>
-              <th>Alc.</th>
-              <th>Atq.</th>
-              <th>Enc.</th>
-              <th>Cost.</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${weaponsRowsHTML}
-          </tbody>
-        </table>
-
-        <div class="card-section-title">Mejoras de Vehículo</div>
-        <table class="mini-table">
-          <thead>
-            <tr>
-              <th style="text-align:left;">Mejora</th>
-              <th>Coste</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${upgradesRowsHTML}
-          </tbody>
-        </table>
-
-        <div class="card-section-title">Ventajas Seleccionadas</div>
-        <table class="mini-table">
-          <thead>
-            <tr>
-              <th style="text-align:left;">Ventaja</th>
-              <th>Coste</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${perksRowsHTML}
-          </tbody>
-        </table>
-      `;
-
-      const cardFooterHTML = `
-        <div class="card-footer">
-          <div>Nexo Alpha - Gaslands Refuelled</div>
-          <div class="card-footer-author">by Cet Phoenix</div>
-        </div>
-      `;
-
-      if (cardOption === '1page_63x88') {
-        const singleCardHTML = `
-          <div class="printable-card card-size-63x88">
-            <div>
-              ${cardHeaderHTML}
-              ${cardEquipmentHTML}
-            </div>
-            ${cardFooterHTML}
-          </div>
-        `;
-        container.innerHTML += singleCardHTML;
-      } else if (cardOption === '2pages_63x88') {
-        const imageHTML = `
-          <div class="card-vehicle-image-box">
-            ${v.image ? `<img src="${v.image}">` : `<span class="card-vehicle-image-placeholder">Sin imagen asignada</span>`}
-          </div>
-        `;
-        const page1HTML = `
-          <div class="printable-card card-size-63x88">
-            <div>
-              ${cardHeaderHTML}
-              <div class="card-section-title" style="margin-top: 2mm;">Vista del Vehículo</div>
-              ${imageHTML}
-            </div>
-            <div>
-              <div style="font-size: 4.5pt; text-align: center; font-weight: bold; margin-bottom: 2px;">HOJA 1 / 2 - ATRIBUTOS</div>
-              ${cardFooterHTML}
-            </div>
-          </div>
-        `;
-
-        const page2HTML = `
-          <div class="printable-card card-size-63x88">
-            <div>
-              <div class="card-top-bar">
-                <span>ESC: ${teamName}</span>
-                <span>VEHÍCULO: ${v.name}</span>
-                <span style="font-weight: bold; color: #d32f2f;">${vehicleBidones} BID.</span>
-              </div>
-              ${cardEquipmentHTML}
-            </div>
-            <div>
-              <div style="font-size: 4.5pt; text-align: center; font-weight: bold; margin-bottom: 2px;">HOJA 2 / 2 - EQUIPAMIENTO</div>
-              ${cardFooterHTML}
-            </div>
-          </div>
-        `;
-        container.innerHTML += page1HTML + page2HTML;
-      } else if (cardOption === '1page_95x80') {
-        const singleCard95x80HTML = `
-          <div class="printable-card card-size-95x80">
-            <div>
-              ${cardHeaderHTML}
-              ${cardEquipmentHTML}
-            </div>
-            ${cardFooterHTML}
-          </div>
-        `;
-        container.innerHTML += singleCard95x80HTML;
-      } else if (cardOption === 'dashboard_nexo') {
-        const triptychHTML = `
-          <div class="dashboard-triptych-container">
-            <div class="printable-card card-size-42x78">
-              <div>
-                <div class="card-top-bar">
-                  <span>${v.name}</span>
-                  <span style="color:#d32f2f;">${vehicleBidones}B</span>
-                </div>
-                <div class="card-title-box">
-                  <div class="sub">${vData.name} (${vData.weight})</div>
-                </div>
-                <div class="card-stats-grid">
-                  <div class="card-stat-box"><div class="lbl">Mar</div><div class="val">${totalGear}</div></div>
-                  <div class="card-stat-box"><div class="lbl">Man</div><div class="val">${totalHandling}</div></div>
-                  <div class="card-stat-box"><div class="lbl">Trip</div><div class="val">${totalCrew}</div></div>
-                  <div class="card-stat-box"><div class="lbl">Pel</div><div class="val">[ ]</div></div>
-                </div>
-                <div class="card-hull-section">
-                  <div class="card-hull-header">
-                    <span>CARROCERÍA</span>
-                    <span>${totalHull} PC</span>
-                  </div>
-                  <div class="card-hull-boxes">
-                    ${hullBoxesHTML}
-                  </div>
-                </div>
-              </div>
-              ${cardFooterHTML}
-            </div>
-
-            <div class="printable-card card-size-42x78">
-              <div>
-                <div class="card-section-title">SECCIÓN DE ARMAS</div>
-                <div style="margin-top: 2px;">
-                  ${dashboardWeaponsListHTML}
-                </div>
-              </div>
-              ${cardFooterHTML}
-            </div>
-
-            <div class="printable-card card-size-42x78">
-              <div>
-                <div class="card-section-title">MEJORAS</div>
-                <table class="mini-table">
-                  <tbody>${upgradesRowsHTML}</tbody>
-                </table>
-                <div class="card-section-title">VENTAJAS</div>
-                <table class="mini-table">
-                  <tbody>${perksRowsHTML}</tbody>
-                </table>
-              </div>
-              ${cardFooterHTML}
-            </div>
-          </div>
-        `;
-        container.innerHTML += triptychHTML;
-      }
-
-      const promptsData = generateAIPrompts(v, vData, teamName, sponsorName, cardOption, vehicleBidones, totalHull, totalCrew, totalGear, totalHandling);
-      const promptBox = document.createElement('div');
-      promptBox.className = 'prompt-card-box';
-
-      if (promptsData.type === 'single') {
-        promptBox.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (${cardOption})</strong>
-            <button class="btn-copy" onclick="copyPromptToClipboard('prompt_sp_${vIndex}')">📋 Copiar Prompt</button>
-          </div>
-          <textarea id="prompt_sp_${vIndex}" class="prompt-textarea" readonly>${promptsData.prompt}</textarea>
-        `;
-      } else {
-        promptBox.innerHTML = `
-          <div style="margin-bottom: 8px;">
-            <strong style="color: #ff9800;">🚗 Vehículo ${vIndex + 1}: ${v.name} (Opción: Dividir en 2 Hojas)</strong>
-          </div>
-          <div style="margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span style="font-size: 0.85rem; font-weight: bold; color: #00bcd4;">📄 Prompt HOJA 1 (Atributos y Vista):</span>
-              <button class="btn-copy" onclick="copyPromptToClipboard('prompt_h1_${vIndex}')">📋 Copiar Hoja 1</button>
-            </div>
-            <textarea id="prompt_h1_${vIndex}" class="prompt-textarea" readonly>${promptsData.promptH1}</textarea>
-          </div>
-
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span style="font-size: 0.85rem; font-weight: bold; color: #e91e63;">📄 Prompt HOJA 2 (Equipamiento):</span>
-              <button class="btn-copy" onclick="copyPromptToClipboard('prompt_h2_${vIndex}')">📋 Copiar Hoja 2</button>
-            </div>
-            <textarea id="prompt_h2_${vIndex}" class="prompt-textarea" readonly>${promptsData.promptH2}</textarea>
-          </div>
-        `;
-      }
-
-      promptsContainer.appendChild(promptBox);
+      container.appendChild(card);
     });
 
-    modal.style.display = 'flex';
+    document.getElementById('cardsModal').style.display = 'flex';
   }
 
-  function closeCardsModal() {
-    document.getElementById('cardsModal').style.display = 'none';
+  function closeCardsModal() { document.getElementById('cardsModal').style.display = 'none'; }
+
+  function filterCatalog() {
+    const query = document.getElementById('catalogSearchInput').value.toLowerCase();
+    document.querySelectorAll('.catalog-item').forEach(item => {
+      item.style.display = item.innerText.toLowerCase().includes(query) ? 'block' : 'none';
+    });
   }
 
-  renderCatalog();
-  if (!loadFromLocalStorage()) {
+  if (!loadFromURL()) {
     addVehicle();
-  } else {
-    renderBuilder();
   }
 </script>
 </body>
