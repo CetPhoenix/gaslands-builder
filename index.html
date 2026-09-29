@@ -6,7 +6,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V4.1</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V4.1.1</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -2164,7 +2164,8 @@
     return false;
   }
 
-  function toggleCustomSelect(containerId) {
+  function toggleCustomSelect(containerId, e) {
+    if (e) e.stopPropagation();
     const container = document.getElementById(containerId);
     if (!container) return;
     const isOpen = container.classList.contains('open');
@@ -2229,10 +2230,10 @@
 
     let optionsHTML = `
       <div id="${containerId}" class="custom-select-container">
-        <div class="custom-select-trigger" onclick="toggleCustomSelect('${containerId}')">
+        <div class="custom-select-trigger" onclick="toggleCustomSelect('${containerId}', event)">
           <span>${currentLabel}</span>
         </div>
-        <div class="custom-select-dropdown">
+        <div class="custom-select-dropdown" onclick="event.stopPropagation()">
           <div class="custom-select-search" onclick="event.stopPropagation();">
             <input type="text" placeholder="🔍 Buscar..." oninput="filterCustomSelectOptions('${containerId}', this.value)">
           </div>
@@ -2245,11 +2246,11 @@
       group.items.forEach(item => {
         const isSelected = item.value === selectedName;
         const isDisabled = item.disabled;
-        const fnCall = isDisabled ? '' : `selectCustomOption('${containerId}', ${JSON.stringify(item.value)}, ${id}, ${index}, '${type}')`;
+        const safeVal = item.value.replace(/'/g, "\\'");
 
         optionsHTML += `
           <div class="custom-select-option ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}" 
-               onclick="${fnCall}">
+               onclick="${isDisabled ? '' : `selectCustomOption('${containerId}', '${safeVal}', ${id}, ${index}, '${type}')`}">
             ${item.label}
           </div>
         `;
@@ -2323,7 +2324,7 @@
       const slots = getItemSlots(w, currentSponsor);
       const cost = getItemCost(w, currentSponsor);
 
-      let label = `🛡️️ ${w.name} (${cost} Bid. | ${slots} Slot)`;
+      let label = `🛡 ${w.name} (${cost} Bid. | ${slots} Slot)`;
       if (w.sponsor) label += ` [${w.sponsor}]`;
       if (isDisabled) label += ` (No disponible)`;
 
