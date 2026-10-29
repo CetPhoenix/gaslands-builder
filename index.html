@@ -1587,7 +1587,7 @@
 
   let team = [];
   let deferredPrompt = null;
-  let vehicleDangerPoints = {}; // Registro de puntos de peligro por ID de vehículo en Modo Juego
+  let vehicleDangerPoints = {}; 
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -1616,6 +1616,14 @@
     if (v) {
       v.collapsed = !v.collapsed;
       renderBuilder();
+    }
+  }
+
+  function updateVehicleNameOnly(id, newName) {
+    const v = team.find(item => item.id === id);
+    if (v) {
+      v.name = newName;
+      saveToLocalStorage();
     }
   }
 
@@ -2593,7 +2601,7 @@
           <button onclick="toggleCollapse(${v.id})" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer; min-height:auto; padding:2px 6px;">
             ${v.collapsed ? '►' : '▼'}
           </button>
-          <input type="text" value="${v.name}" oninput="updateVehicle(${v.id}, 'name', this.value)" style="font-weight: bold; width: 40%;">
+          <input type="text" value="${v.name}" oninput="updateVehicleNameOnly(${v.id}, this.value)" style="font-weight: bold; width: 40%;">
           <div class="vehicle-controls-btn-group">
             <strong style="${isVehicleOverlimit ? 'color:#ff4444;' : ''}">${vehicleBidones} Bid.</strong>
             <button class="btn-move" title="Mover arriba" onclick="moveVehicle(${v.id}, -1)" ${vIndex === 0 ? 'disabled' : ''}>▲</button>
@@ -3245,14 +3253,12 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
     if (vehicleDangerPoints[vehicleId] < 0) vehicleDangerPoints[vehicleId] = 0;
     if (vehicleDangerPoints[vehicleId] > 6) vehicleDangerPoints[vehicleId] = 6;
 
-    // Actualizar dinámicamente el contenedor visual sin recargar todo el modal si es posible
     const valElem = document.getElementById(`danger_val_${vehicleId}`);
     const wrapperElem = document.getElementById(`danger_wrap_${vehicleId}`);
     if (valElem && wrapperElem) {
       const currentVal = vehicleDangerPoints[vehicleId];
       valElem.innerText = currentVal;
       
-      // Asignar colores solicitados: 0-2 verde, 3-4 amarillo, 5-6 rojo
       if (currentVal <= 2) {
         wrapperElem.style.background = '#1b382b';
         wrapperElem.style.color = '#81c784';
@@ -3284,9 +3290,9 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
     const themeSelect = document.getElementById('cardThemeSelect');
 
     if (isPlayMode) {
-      if (select) select.value = '1page_63x88'; // Visualizar por defecto 1 hoja en Modo Juego
+      if (select) select.value = '1page_63x88';
       if (themeSelect) themeSelect.value = 'theme-dark';
-      if (promptsContainerSection) promptsContainerSection.style.display = 'none'; // Quitar visualización de prompts en modo juego
+      if (promptsContainerSection) promptsContainerSection.style.display = 'none';
       if (modalTitleHeading) modalTitleHeading.innerText = '🎲 Tablero de Modo Juego (En Vivo)';
     } else {
       if (promptsContainerSection) promptsContainerSection.style.display = 'block';
@@ -3490,7 +3496,6 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
         perksRowsHTML = `<tr><td colspan="2" style="font-style:italic;">Sin ventajas equipadas</td></tr>`;
       }
 
-      // Definir color inicial del selector de peligro (0-2 verde, 3-4 amarillo, 5-6 rojo)
       let dangerBg = '#1b382b';
       let dangerColor = '#81c784';
       let dangerBorder = '0.5px solid #4CAF50';
@@ -3790,7 +3795,7 @@ PIE DE PÁGINA EN CADA FICHA: "Dashboard Nexo Alpha - Gaslands Refuelled"`;
   }
 
   function openPlayModeModal() {
-    openCardsModal(true); // Activa el Modo Juego por defecto en 1 hoja, ocultando los prompts
+    openCardsModal(true);
     showToast("🎲 Modo Juego activado: Fichas interactivas en vivo listas.");
   }
 
