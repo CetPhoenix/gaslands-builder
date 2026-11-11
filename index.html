@@ -5,7 +5,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V5.1.0</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V5.3.0</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -650,7 +650,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V5.1.0</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V5.3.0</h1>
   <div style="display: flex; gap: 8px; flex-wrap: wrap;">
     <button class="btn-audience" onclick="openAudienceModal()">🎟️ Votos de Audiencia</button>
     <button class="btn-share" onclick="shareSquadronText()">📋 Copiar Lista (Texto)</button>
@@ -857,6 +857,7 @@
 
   const WEAPONS = [
     { name: "Ninguna", category: "Básico", range: "-", attack: "-", rules: "-", slots: 0, bidones: 0, sponsor: null },
+    { name: "Arma corta", category: "Básico", range: "Medio", attack: "1d6", rules: "Personal", slots: 0, bidones: 0, sponsor: null },
     { name: "Ametralladora", category: "Básico", range: "Doble", attack: "2d6", rules: "-", slots: 1, bidones: 2, sponsor: null },
     { name: "Ametralladora pesada", category: "Básico", range: "Doble", attack: "3d6", rules: "-", slots: 1, bidones: 3, sponsor: null },
     { name: "Minigun", category: "Básico", range: "Doble", attack: "4d6", rules: "-", slots: 1, bidones: 5, sponsor: null },
@@ -990,7 +991,7 @@
     "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙", "Velocidad": "🏎️"
   };
 
-  const STORAGE_KEY = 'gaslands_builder_squadron_v5_1';
+  const STORAGE_KEY = 'gaslands_builder_squadron_v5_3';
 
   let team = [];
   let currentAudienceVotes = 0;
@@ -1146,7 +1147,7 @@
   function saveToLocalStorage() {
     try {
       const configData = {
-        version: "5.1.0",
+        version: "5.3.0",
         teamName: document.getElementById('teamName').value || "Mi Escudería",
         sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
         maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1197,14 +1198,8 @@
 
       const randomVehicle = validVehicles[Math.floor(Math.random() * validVehicles.length)];
       let vehicleCost = randomVehicle.bidones;
-      let chosenWeapons = [];
-
-      const validWeapons = WEAPONS.filter(w => w.name !== "Ninguna" && w.bidones <= (remainingBudget - vehicleCost) && w.slots <= randomVehicle.slots);
-      if (validWeapons.length > 0 && Math.random() > 0.3) {
-        const weapon = validWeapons[Math.floor(Math.random() * validWeapons.length)];
-        chosenWeapons.push({ name: weapon.name, facing: "Frontal" });
-        vehicleCost += weapon.bidones;
-      }
+      let chosenWeapons = [{ name: "Arma corta", facing: "Frontal" }];
+      // El coste del Arma corta es 0 bidones
 
       team.push({
         id: Date.now() + Math.random(),
@@ -1233,7 +1228,7 @@
 
   function saveConfiguration() {
     const configData = {
-      version: "5.1.0",
+      version: "5.3.0",
       teamName: document.getElementById('teamName').value || "Mi Escudería",
       sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
       maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1376,8 +1371,8 @@
     team.push({
       id: Date.now(),
       name: "Nuevo Vehículo",
-      type: "",
-      weapons: [],
+      type: "Buggy",
+      weapons: [{ name: "Arma corta", facing: "Frontal" }],
       upgrades: [],
       perks: [],
       collapsed: false
@@ -1416,7 +1411,8 @@
     const v = team.find(item => item.id === id);
     if (v) {
       v.type = newType;
-      v.weapons = [];
+      // Al cambiar o inicializar el tipo de vehículo, por defecto se añade un Arma corta
+      v.weapons = [{ name: "Arma corta", facing: "Frontal" }];
       v.upgrades = [];
       v.perks = [];
       renderBuilder();
@@ -1665,6 +1661,14 @@
     document.getElementById('maxBidonesDisplay').innerText = maxCans;
 
     team.forEach((v, vIndex) => {
+      // Si el vehículo recién creado no tiene tipo definido, se asigna Buggy y Arma corta por defecto
+      if (!v.type) {
+        v.type = "Buggy";
+        if (!v.weapons || v.weapons.length === 0) {
+          v.weapons = [{ name: "Arma corta", facing: "Frontal" }];
+        }
+      }
+
       let vData = VEHICLES.find(item => item.name === v.type);
       if (!v.perks) v.perks = [];
 
