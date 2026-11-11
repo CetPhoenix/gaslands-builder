@@ -5,7 +5,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V5.0.0</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V5.1.0</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -36,19 +36,6 @@
       --cat-arm-personal: #00BCD4;
       --cat-arm-descarga: #E91E63;
       --cat-mejora-veh: #FFD700;
-
-      --perk-agresivo: #e53935;
-      --perk-aterrador: #8e24aa;
-      --perk-intrepido: #fb8c00;
-      --perk-macizo: #6d4c41;
-      --perk-militar: #43a047;
-      --perk-persecucion: #d81b60;
-      --perk-preciso: #7cb342;
-      --perk-rudo: #1e88e5;
-      --perk-tecnologia: #00acc1;
-      --perk-temerario: #546e7a;
-      --perk-tuneo: #fdd835;
-      --perk-velocidad: #3949ab;
     }
 
     body {
@@ -116,20 +103,6 @@
     .vehicle-card.overlimit-card {
       border: 2px solid var(--danger-color) !important;
       box-shadow: 0 0 10px rgba(204, 41, 41, 0.3);
-    }
-
-    .vehicle-card-warning-banner {
-      background: rgba(204, 41, 41, 0.2);
-      border: 1px solid var(--danger-color);
-      color: #ff8888;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 0.82rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .vehicle-header {
@@ -258,18 +231,6 @@
       .upgrade-controls, .perk-controls { grid-template-columns: 1fr; }
     }
 
-    .weapon-details-badge {
-      background: #1a1a1a;
-      border: 1px dashed #444;
-      border-radius: 4px;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-      color: #7dcfb6;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
     .custom-select-container {
       position: relative;
       width: 100%;
@@ -395,9 +356,6 @@
     optgroup.grp-v-basico { color: var(--cat-veh-basico); font-weight: bold; background: #1f2833; }
     optgroup.grp-v-avanzado { color: var(--cat-veh-avanzado); font-weight: bold; background: #2a1b30; }
 
-    option.opt-v-basico { background-color: rgba(33, 150, 243, 0.2) !important; color: #ffffff; }
-    option.opt-v-avanzado { background-color: rgba(156, 39, 176, 0.2) !important; color: #ffffff; }
-
     button {
       background: var(--accent-color);
       color: white;
@@ -433,23 +391,12 @@
     button.btn-save:hover { background: #1b5e20; }
     button.btn-load { background: #e65100; }
     button.btn-load:hover { background: #bf360c; }
-    button.btn-copy { background: #009688; }
-    button.btn-copy:hover { background: #00796b; }
-    button.btn-share { background: #0288d1; }
-    button.btn-share:hover { background: #0277bd; }
+    button.btn-share { background: #009688; }
+    button.btn-share:hover { background: #00796b; }
     button.btn-play-mode { background: #f57c00; }
     button.btn-play-mode:hover { background: #e65100; }
     button.btn-audience { background: #00bcd4; color: #000; }
     button.btn-audience:hover { background: #0097a7; color: #fff; }
-    
-    .btn-action-shortcut { background: #0288d1; }
-    .btn-action-shortcut:hover { background: #0277bd; }
-    .btn-action-random { background: #d81b60; }
-    .btn-action-random:hover { background: #c2185b; }
-    .btn-action-rules { background: #6a1b9a; }
-    .btn-action-rules:hover { background: #4a148c; }
-    .btn-action-contact { background: #ff8f00; }
-    .btn-action-contact:hover { background: #ff6f00; }
 
     .actions-panel {
       background: var(--panel-bg);
@@ -572,79 +519,7 @@
       font-size: 1.05rem;
     }
 
-    .fixed-weapon-badge {
-      background: #1b382b;
-      border: 1px solid #4CAF50;
-      color: #81c784;
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      font-size: 0.85rem;
-    }
-
     .sponsor-badge { color: #FF9800; font-weight: bold; font-size: 0.8rem; }
-
-    .vehicle-image-input-container {
-      margin-top: 10px;
-      margin-bottom: 15px;
-      background: #242424;
-      border: 1px solid var(--border-color);
-      padding: 10px;
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .placeholder-gallery-container {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-
-    .placeholder-thumb {
-      width: 40px;
-      height: 40px;
-      background: #111;
-      border: 1px solid #555;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.1s, border-color 0.1s;
-    }
-
-    .placeholder-thumb:hover {
-      transform: scale(1.1);
-      border-color: var(--accent-color);
-    }
-
-    .placeholder-thumb svg {
-      width: 24px;
-      height: 24px;
-      fill: #aaa;
-    }
-
-    .diecast-details-grid {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 10px;
-      margin-top: 4px;
-      padding-top: 8px;
-      border-top: 1px dashed #444;
-    }
-
-    .vehicle-image-preview-thumbnail {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid #555;
-      background: #111;
-    }
 
     .app-footer {
       margin-top: 40px;
@@ -699,371 +574,6 @@
       color: #fff;
     }
 
-    .cards-preview-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      transition: transform 0.2s ease;
-    }
-
-    .card-wrapper-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-actions-bar {
-      display: flex;
-      gap: 4px;
-    }
-
-    .dashboard-triptych-container {
-      display: flex;
-      gap: 4px;
-      background: #222;
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      margin-bottom: 10px;
-      page-break-inside: avoid;
-    }
-
-    .prompts-section-container {
-      background: #1e1e1e;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 25px;
-      color: #fff;
-    }
-
-    .prompt-card-box {
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 12px;
-    }
-
-    .prompt-textarea {
-      background: #181818;
-      color: #00e676;
-      font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 0.8rem;
-      border: 1px solid #444;
-      border-radius: 4px;
-      resize: vertical;
-      min-height: 110px;
-      margin-top: 6px;
-    }
-
-    .printable-card {
-      font-family: 'Roboto', sans-serif !important;
-      background: var(--card-bg-val, #fff);
-      color: var(--card-text-val, #000);
-      border: 2px solid var(--card-border-val, #000);
-      padding: 2.5mm;
-      box-sizing: border-box;
-      font-size: 6.5pt;
-      line-height: 1.1;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      border-radius: 3mm;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      page-break-inside: avoid;
-    }
-
-    .printable-card.theme-light {
-      --card-bg-val: #fff;
-      --card-text-val: #000;
-      --card-border-val: #000;
-      --card-title-bg: #f0f0f0;
-      --card-stat-bg: #fafafa;
-      --card-table-th: #ddd;
-      --card-section-bg: #000;
-      --card-section-color: #fff;
-      --card-dash-bg: #fdfdfd;
-    }
-
-    .printable-card.theme-dark {
-      --card-bg-val: #181818;
-      --card-text-val: #f0f0f0;
-      --card-border-val: #ff5500;
-      --card-title-bg: #282828;
-      --card-stat-bg: #222;
-      --card-table-th: #333;
-      --card-section-bg: #ff5500;
-      --card-section-color: #fff;
-      --card-dash-bg: #222;
-    }
-
-    .card-size-63x88 { width: 63mm; height: 88mm; }
-    .card-size-95x80 { width: 95mm; height: 80mm; }
-    .card-size-42x78 { width: 42mm; height: 78mm; font-size: 5.5pt; padding: 1.5mm; border-radius: 2mm; }
-
-    .printable-card * {
-      letter-spacing: normal !important;
-      word-spacing: normal !important;
-    }
-
-    .card-interactive-box {
-      width: 4.5mm;
-      height: 4.5mm;
-      margin: 1px;
-      padding: 0;
-      cursor: pointer;
-      vertical-align: middle;
-      accent-color: var(--card-border-val, #000);
-      display: inline-block;
-    }
-
-    .card-ammo-box {
-      display: inline-block;
-      margin-left: 1px;
-      vertical-align: middle;
-    }
-
-    .ammo-container {
-      margin-top: 1px;
-      font-size: 4.5pt;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .card-top-bar {
-      border-bottom: 1px solid var(--card-border-val, #000);
-      padding-bottom: 1px;
-      margin-bottom: 2px;
-      font-size: 5.5pt;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      text-transform: uppercase;
-    }
-
-    .card-title-box {
-      text-align: center;
-      border-bottom: 1.5px solid var(--card-border-val, #000);
-      padding-bottom: 2px;
-      margin-bottom: 3px;
-      background: var(--card-title-bg, #f0f0f0);
-      border-radius: 2px;
-    }
-
-    .card-title-box h2 {
-      margin: 0;
-      font-size: 8.5pt;
-      text-transform: uppercase;
-      letter-spacing: 0.2px;
-      line-height: 1;
-      font-weight: 900;
-    }
-
-    .card-title-box .sub {
-      font-size: 5.5pt;
-      color: var(--card-text-val, #333);
-      font-weight: bold;
-      opacity: 0.85;
-    }
-
-    .card-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      margin-bottom: 3px;
-    }
-
-    .card-stat-box {
-      border: 1px solid var(--card-border-val, #000);
-      text-align: center;
-      padding: 1px 0;
-      border-radius: 2px;
-      background: var(--card-stat-bg, #fafafa);
-    }
-
-    .card-stat-box .lbl {
-      font-size: 4.5pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      border-bottom: 0.5px solid var(--card-border-val, #888);
-      padding-bottom: 1px;
-      line-height: 1;
-    }
-
-    .card-stat-box .val {
-      font-size: 7.5pt;
-      font-weight: bold;
-      line-height: 1.1;
-    }
-
-    .danger-counter-wrapper {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1px;
-      background: var(--danger-bg-val, #e2e2e2);
-      border-radius: 2px;
-      padding: 0 1px;
-      font-size: 6pt;
-      font-weight: bold;
-    }
-    .danger-counter-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 6pt;
-      font-weight: bold;
-      padding: 0 2px;
-      color: inherit;
-      min-height: auto !important;
-    }
-    .danger-counter-btn:hover {
-      opacity: 0.7;
-    }
-
-    .card-hull-section {
-      border: 1px solid var(--card-border-val, #000);
-      padding: 2px 3px;
-      margin-bottom: 3px;
-      border-radius: 2px;
-      background: var(--card-bg-val, #fff);
-    }
-
-    .card-hull-header {
-      font-size: 5.5pt;
-      font-weight: bold;
-      margin-bottom: 1px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .card-hull-boxes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-      align-items: center;
-    }
-
-    .card-section-title {
-      font-size: 5.5pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      background: var(--card-section-bg, #000);
-      color: var(--card-section-color, #fff);
-      padding: 1px 3px;
-      margin-top: 1px;
-      margin-bottom: 1px;
-      border-radius: 1px;
-    }
-
-    .card-vehicle-image-box {
-      width: 100%;
-      height: 32mm;
-      border: 1px solid var(--card-border-val, #000);
-      border-radius: 2px;
-      margin-top: 2mm;
-      margin-bottom: 2mm;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      background: var(--card-stat-bg, #f9f9f9);
-    }
-
-    .card-vehicle-image-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .card-vehicle-image-placeholder {
-      font-size: 5.5pt;
-      color: var(--card-text-val, #888);
-      font-style: italic;
-    }
-
-    .mini-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 2px;
-    }
-
-    .mini-table th, .mini-table td {
-      border: 0.5px solid var(--card-border-val, #000);
-      padding: 1px 1.5px;
-      text-align: center;
-      font-size: 5pt;
-      color: var(--card-text-val, #000);
-    }
-
-    .mini-table th {
-      background: var(--card-table-th, #ddd);
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .mini-table td.left {
-      text-align: left;
-      font-weight: bold;
-    }
-
-    .dashboard-weapon-card-box {
-      border: 1px solid var(--card-border-val, #000);
-      border-radius: 2px;
-      padding: 2px;
-      margin-bottom: 3px;
-      background: var(--card-dash-bg, #fdfdfd);
-    }
-
-    .dashboard-weapon-title {
-      font-weight: bold;
-      font-size: 5pt;
-      border-bottom: 0.5px solid var(--card-border-val, #000);
-      padding-bottom: 1px;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-    }
-
-    .dashboard-weapon-stats-box {
-      border: 0.5px solid var(--card-border-val, #444);
-      background: var(--card-stat-bg, #eee);
-      padding: 1px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      text-align: center;
-      font-size: 4pt;
-    }
-
-    .dashboard-weapon-stats-box div {
-      background: var(--card-bg-val, #fff);
-      padding: 1px 0;
-    }
-
-    .card-footer {
-      text-align: center;
-      font-size: 4.5pt;
-      font-style: italic;
-      border-top: 0.5px solid var(--card-border-val, #888);
-      padding-top: 1px;
-      margin-top: auto;
-      line-height: 1.1;
-    }
-
-    .card-footer-author {
-      font-size: 4pt;
-      font-weight: bold;
-      font-style: normal;
-      color: var(--card-text-val, #444);
-    }
-
     .audience-modal-body {
       color: #fff;
       font-size: 0.9rem;
@@ -1083,28 +593,6 @@
       font-weight: bold;
       color: var(--audience-color);
       margin: 10px 0;
-    }
-
-    .audience-rules-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    .audience-rules-table th, .audience-rules-table td {
-      border: 1px solid #444;
-      padding: 8px 10px;
-      font-size: 0.85rem;
-    }
-
-    .audience-rules-table th {
-      background: #222;
-      color: var(--audience-color);
-      text-transform: uppercase;
-    }
-
-    .audience-rules-table tr:nth-child(even) {
-      background: #1a1a1a;
     }
 
     #toast-container {
@@ -1154,45 +642,6 @@
     @media (max-width: 768px) {
       .bottom-action-bar { display: flex; }
     }
-
-    @media print {
-      @page { size: A4 portrait; margin: 10mm; }
-      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
-      header, .main-layout, .modal-header-actions, .app-footer, .prompts-section-container, .bottom-action-bar, #toast-container, .card-actions-bar {
-        display: none !important;
-      }
-      .modal-overlay {
-        position: static !important;
-        display: block !important;
-        width: 100% !important;
-        height: auto !important;
-        background: none !important;
-      }
-      .modal-content {
-        max-width: 100% !important;
-        width: 100% !important;
-        padding: 0 !important;
-        border: none !important;
-        background: none !important;
-      }
-      .cards-preview-grid {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 4mm 6mm !important;
-        justify-content: start !important;
-        transform: scale(1) !important;
-      }
-      .printable-card {
-        box-shadow: none !important;
-        border: 1.5px solid #000 !important;
-        page-break-inside: avoid !important;
-      }
-      .dashboard-triptych-container {
-        background: none !important;
-        border: none !important;
-        padding: 0 !important;
-      }
-    }
   </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -1201,7 +650,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V5.0.0</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V5.1.0</h1>
   <div style="display: flex; gap: 8px; flex-wrap: wrap;">
     <button class="btn-audience" onclick="openAudienceModal()">🎟️ Votos de Audiencia</button>
     <button class="btn-share" onclick="shareSquadronText()">📋 Copiar Lista (Texto)</button>
@@ -1264,15 +713,14 @@
       <h3>⚡ Acciones Útiles</h3>
       <div class="actions-grid">
         <button class="btn-audience" onclick="openAudienceModal()">🎟️ Guía de Votos de Audiencia</button>
-        <button class="btn-action-shortcut" onclick="createAppShortcut()">📲 Colocar acceso directo en PC / Móvil</button>
         <button class="btn-action-random" onclick="generateRandomSquadron()">🎲 Generar Escudería Aleatoria</button>
         
         <a href="https://cetphoenix.github.io/gaslands_refuelled-reglamento/" target="_blank" style="text-decoration: none;">
-          <button class="btn-action-rules" style="width: 100%;">📖 Reglamento / Consulta Rápida</button>
+          <button class="btn-action-rules" style="width: 100%; background: #6a1b9a;">📖 Reglamento / Consulta Rápida</button>
         </a>
 
         <a href="mailto:cespinal826@gmail.com?subject=Consulta%20Gaslands%20Builder" style="text-decoration: none;">
-          <button class="btn-action-contact" style="width: 100%;">✉️ Contáctanos</button>
+          <button class="btn-action-contact" style="width: 100%; background: #ff8f00;">✉️ Contáctanos</button>
         </a>
       </div>
     </div>
@@ -1363,56 +811,14 @@
 <div id="cardsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header-actions">
-      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <h3 id="modalTitleHeading" style="margin: 0; color: #fff;">Opciones de Fichas de Vehículos</h3>
-        
-        <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Formato:</label>
-        <select id="cardPagesSelect" onchange="openCardsModal(isPlayModeActive)" style="width: 200px; padding: 4px 8px; font-size: 0.85rem;">
-          <option value="1page_63x88">(63x88) 1 Hoja</option>
-          <option value="2pages_63x88">(63x88) 2 Hojas</option>
-          <option value="1page_95x80">(95x80) Apaisada</option>
-          <option value="dashboard_nexo">Dashboard Tríptico</option>
-        </select>
-
-        <label style="color: #fff; font-size: 0.85rem; font-weight: bold; margin-left: 10px;">Estilo:</label>
-        <select id="cardThemeSelect" onchange="openCardsModal(isPlayModeActive)" style="width: 140px; padding: 4px 8px; font-size: 0.85rem;">
-          <option value="theme-light">Fondo Blanco</option>
-          <option value="theme-dark">Oscuro / Tablet</option>
-        </select>
-      </div>
-
-      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <span style="font-size: 0.85rem; color: #fff;">Zoom:</span>
-        <button onclick="changeZoom(-0.1)" style="padding: 4px 8px; min-height: 32px;">🔍 -</button>
-        <span id="zoomValDisplay" style="font-size: 0.85rem; font-weight: bold; color: #fff;">100%</span>
-        <button onclick="changeZoom(0.1)" style="padding: 4px 8px; min-height: 32px;">🔍 +</button>
-        <button onclick="resetZoom()" style="padding: 4px 8px; background: #555; min-height: 32px;">Restablecer</button>
-        <button onclick="downloadAllCardsPNG()" style="background: #2e7d32; min-height: 32px;">💾 PNG (Todas)</button>
-        <button class="btn-pdf" onclick="downloadAllCardsPDF()" style="min-height: 32px;">📄 PDF (A4)</button>
-        <button class="btn-print" onclick="window.print()" style="min-height: 32px;">🖨 Imprimir</button>
-        <button class="btn-danger" onclick="closeCardsModal()" style="min-height: 32px;">Cerrar</button>
-      </div>
+      <h3 style="margin: 0; color: #fff;">Fichas y Modo Juego</h3>
+      <button class="btn-danger" onclick="closeCardsModal()" style="min-height: 32px;">Cerrar</button>
     </div>
-
-    <div id="cardsPrintContainer" class="cards-preview-grid"></div>
-
-    <div id="promptsSectionContainer" class="prompts-section-container">
-      <h3 style="margin-top: 0; color: var(--accent-color); border-bottom: 1px solid #444; padding-bottom: 8px;">
-        🤖 Prompts de Diseño Generados para Generación de Imágenes
-      </h3>
-      <div id="promptsOutputList"></div>
-    </div>
+    <div id="cardsPrintContainer" style="color: #fff; padding: 10px;"></div>
   </div>
 </div>
 
 <script>
-  const PLACEHOLDER_SVGS = {
-    car: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`)}`,
-    truck: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm11.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.96 2.5H17z"/></svg>`)}`,
-    bike: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm14-8.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-2.2-5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5-3.5zm-8.2-12l-1.9 3.2c-.3.4-.2 1 .2 1.3s1 .2 1.3-.2l1.9-3.2 2.7 4.5h-3.5v2h5l-3.3-5.6 2.8-2.8H18v-2h-3.8l-3.4 3.4z"/></svg>`)}`,
-    tank: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555555"><path d="M20 10h-6.17l2.58-2.58L15 6l-4 4H3c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zm-1 6H5v-2h14v2z"/></svg>`)}`
-  };
-
   const SPONSORS = {
     "Ninguno": "Ninguna",
     "La Alcaidesa": "Agresivo, Rudo",
@@ -1584,28 +990,10 @@
     "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙", "Velocidad": "🏎️"
   };
 
-  const RANDOM_SQUAD_NAMES = [
-    "Señores del Páramo", "Hijos de la Gasolina", "Devoradores de Asfalto", "Chatarra Infernal",
-    "Cazadores de Metal", "Legión del Cromo", "Banda del Apocalipsis", "Jinetes de la Muerte"
-  ];
-
-  const RANDOM_VEHICLE_NAMES = [
-    "Interceptor Nocturno", "Bestia de Óxido", "Vagabundo del Desierto", "Cazador de Carretera",
-    "Piraña Voladora", "Furia Calcinada", "Tractor del Infierno", "Destrucción Mutante"
-  ];
-
-  const STORAGE_KEY = 'gaslands_builder_squadron_v5';
+  const STORAGE_KEY = 'gaslands_builder_squadron_v5_1';
 
   let team = [];
-  let deferredPrompt = null;
-  let vehicleDangerPoints = {}; 
   let currentAudienceVotes = 0;
-  let isPlayModeActive = false;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
 
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.custom-select-container')) {
@@ -1694,7 +1082,10 @@
             let cost = getItemCost(wData, sponsor);
             if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
             vehicleCost += cost;
-            weaponsText.push(`${wData.name} (${w.facing || 'Frontal'})`);
+            let ammoInfo = "";
+            let ammoMatch = (wData.rules || "").match(/munición\s*(\d+)/i);
+            if (ammoMatch) ammoInfo = ` [Munición: ${ammoMatch[1]}]`;
+            weaponsText.push(`${wData.name} (${w.facing || 'Frontal'})${ammoInfo}`);
           }
         });
       }
@@ -1755,7 +1146,7 @@
   function saveToLocalStorage() {
     try {
       const configData = {
-        version: "5.0.0",
+        version: "5.1.0",
         teamName: document.getElementById('teamName').value || "Mi Escudería",
         sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
         maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1787,29 +1178,15 @@
     return false;
   }
 
-  function createAppShortcut() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        deferredPrompt = null;
-      });
-    } else {
-      showToast("📱 En móvil: Toca Menú -> Agregar a pantalla principal.", "info");
-    }
-  }
-
   function generateRandomSquadron() {
     const sponsorsList = Object.keys(SPONSORS).filter(s => s !== "Ninguno");
     const randomSponsor = sponsorsList[Math.floor(Math.random() * sponsorsList.length)];
     document.getElementById('sponsorSelect').value = randomSponsor;
-    document.getElementById('teamName').value = RANDOM_SQUAD_NAMES[Math.floor(Math.random() * RANDOM_SQUAD_NAMES.length)];
+    document.getElementById('teamName').value = "Escudería " + randomSponsor;
 
     const maxBudget = parseInt(document.getElementById('maxCansSelect').value) || 50;
     let currentTotal = 0;
     team = [];
-
-    const activePerkTypes = SPONSORS[randomSponsor].split(',').map(s => s.trim());
-    const availablePerks = PERKS.filter(p => activePerkTypes.includes(p.category));
 
     let attempts = 0;
     while (currentTotal < maxBudget && attempts < 10) {
@@ -1831,11 +1208,8 @@
 
       team.push({
         id: Date.now() + Math.random(),
-        name: RANDOM_VEHICLE_NAMES[Math.floor(Math.random() * RANDOM_VEHICLE_NAMES.length)],
+        name: "Auto " + (team.length + 1),
         type: randomVehicle.name,
-        image: null,
-        diecastBrand: "Hot Wheels",
-        diecastModel: "",
         weapons: chosenWeapons,
         upgrades: [],
         perks: [],
@@ -1859,7 +1233,7 @@
 
   function saveConfiguration() {
     const configData = {
-      version: "5.0.0",
+      version: "5.1.0",
       teamName: document.getElementById('teamName').value || "Mi Escudería",
       sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
       maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1917,26 +1291,11 @@
     return wData.slots || 0;
   }
 
-  function getWeaponRules(wData, currentSponsor) {
-    if (!wData) return "";
-    let rules = wData.rules || "-";
-    if (currentSponsor === "Rutherford" && rules.toLowerCase().includes("munición 3")) {
-      rules = rules.replace(/Munición 3/gi, "Munición 4");
-    }
-    return rules;
-  }
-
   function is360Native(weapon) {
     if (!weapon || weapon.name === "Ninguna") return false;
     if (weapon.category === "Personal") return true;
     const r = weapon.rules ? weapon.rules.toLowerCase() : "";
     return r.includes("360º") || r.includes("360 grados");
-  }
-
-  function getAmmoCountFromRules(rules) {
-    if (!rules) return 0;
-    const match = rules.match(/munición\s*(\d+)/i) || rules.match(/municion\s*(\d+)/i);
-    return (match && match[1]) ? parseInt(match[1]) : 0;
   }
 
   function filterCatalog() {
@@ -1987,6 +1346,10 @@
       item.className = 'catalog-item';
       const sponsorText = w.sponsor ? `<span class="sponsor-badge">[${w.sponsor}]</span>` : '';
       
+      let ammoBadge = "";
+      let ammoMatch = (w.rules || "").match(/munición\s*(\d+)/i);
+      if (ammoMatch) ammoBadge = ` <span style="color:#00bcd4;">[Munición: ${ammoMatch[1]}]</span>`;
+
       if (w.category === "Mejora") {
         item.innerHTML = `
           <div class="catalog-item-header"><span>🛡 ${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
@@ -1997,7 +1360,7 @@
       } else {
         const icon = w.category === 'Básico' ? '🔫' : w.category === 'Avanzado' ? '💥' : w.category === 'Personal' ? '🦺' : '💣';
         item.innerHTML = `
-          <div class="catalog-item-header"><span>${icon} ${w.name} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
+          <div class="catalog-item-header"><span>${icon} ${w.name}${ammoBadge} ${sponsorText}</span><span style="color: var(--accent-color);">${w.bidones} Bid.</span></div>
           <div class="catalog-stats"><span><b>Alcance:</b> ${w.range}</span><span><b>Ataque:</b> ${w.attack}</span><span><b>Casillas:</b> ${w.slots}</span></div>
           <div class="catalog-rules"><b>Especial:</b> ${w.rules}</div>
         `;
@@ -2014,9 +1377,6 @@
       id: Date.now(),
       name: "Nuevo Vehículo",
       type: "",
-      image: null,
-      diecastBrand: "",
-      diecastModel: "",
       weapons: [],
       upgrades: [],
       perks: [],
@@ -2061,32 +1421,6 @@
       v.perks = [];
       renderBuilder();
     }
-  }
-
-  function updateVehicleImage(id, event) {
-    const file = event.target.files[0];
-    const v = team.find(item => item.id === id);
-    if (v && file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        v.image = e.target.result;
-        renderBuilder();
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function selectPlaceholderImage(id, svgKey) {
-    const v = team.find(item => item.id === id);
-    if (v && PLACEHOLDER_SVGS[svgKey]) {
-      v.image = PLACEHOLDER_SVGS[svgKey];
-      renderBuilder();
-    }
-  }
-
-  function removeVehicleImage(id) {
-    const v = team.find(item => item.id === id);
-    if (v) { v.image = null; renderBuilder(); }
   }
 
   function addWeaponToVehicle(id) {
@@ -2134,11 +1468,6 @@
       else delete v.upgrades[index].facing;
       renderBuilder();
     }
-  }
-
-  function updateUpgradeFacing(id, index, facingValue) {
-    const v = team.find(item => item.id === id);
-    if (v && v.upgrades[index]) { v.upgrades[index].facing = facingValue; renderBuilder(); }
   }
 
   function addPerkToVehicle(id) {
@@ -2263,7 +1592,12 @@
           let isDisabled = (w.sponsor === "Mishkin" && currentSponsor !== "Mishkin");
           const slots = getItemSlots(w, currentSponsor);
           const cost = getItemCost(w, currentSponsor);
-          let label = `${cat.emoji} ${w.name} (${cost} Bid. | ${slots} Slot | Atq: ${w.attack})`;
+          
+          let ammoBadge = "";
+          let ammoMatch = (w.rules || "").match(/munición\s*(\d+)/i);
+          if (ammoMatch) ammoBadge = ` [Munición: ${ammoMatch[1]}]`;
+
+          let label = `${cat.emoji} ${w.name}${ammoBadge} (${cost} Bid. | ${slots} Slot)`;
           if (w.sponsor) label += ` [${w.sponsor}]`;
           if (isDisabled) label += ` (No disponible)`;
           return { value: w.name, label, disabled: isDisabled };
@@ -2276,7 +1610,6 @@
 
   function getUpgradesSelectData(selectedName, currentSponsor, vehicleData, currentUpgrades, currentIndex) {
     const items = WEAPONS.filter(w => w.category === "Mejora" && w.name !== "Ninguna");
-    const equippedNames = currentUpgrades.map((u, idx) => idx !== currentIndex ? u.name : null).filter(Boolean);
     const groupItems = [{ value: "Ninguna", label: "-- Seleccionar Mejora --", disabled: false }];
 
     items.forEach(w => {
@@ -2339,19 +1672,8 @@
       let usedSlots = 0;
       let vehicleBidones = baseCost;
 
-      if (v.weapons) {
-        v.weapons.forEach(w => {
-          const wData = WEAPONS.find(item => item.name === w.name);
-          if (wData && wData.name !== "Ninguna") {
-            usedSlots += getItemSlots(wData, currentSponsor);
-            let cost = getItemCost(wData, currentSponsor);
-            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
-            vehicleBidones += cost;
-          }
-        });
-      }
+      let armorCount = 0, extraCrewCount = 0, hasMicroPlacas = false, hasOrugas = false, hasCarcelario = false;
 
-      let armorCount = 0, extraCrewCount = 0, hasMicroPlacas = false, hasOrugas = false;
       if (v.upgrades) {
         v.upgrades.forEach(u => {
           const uData = WEAPONS.find(item => item.name === u.name);
@@ -2362,6 +1684,23 @@
             if (u.name === "Tripulante adicional") extraCrewCount++;
             if (u.name === "Blindaje de micro placas") hasMicroPlacas = true;
             if (u.name === "Orugas") hasOrugas = true;
+            if (u.name === "Vehículo carcelario (especial)") hasCarcelario = true;
+          }
+        });
+      }
+
+      if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData && vData.weight === "Medio") {
+        vehicleBidones = Math.max(5, vehicleBidones - 4);
+      }
+
+      if (v.weapons) {
+        v.weapons.forEach(w => {
+          const wData = WEAPONS.find(item => item.name === w.name);
+          if (wData && wData.name !== "Ninguna") {
+            usedSlots += getItemSlots(wData, currentSponsor);
+            let cost = getItemCost(wData, currentSponsor);
+            if (w.facing === "360º" && !is360Native(wData)) cost *= 3;
+            vehicleBidones += cost;
           }
         });
       }
@@ -2376,6 +1715,23 @@
       grandTotalBidones += vehicleBidones;
       const maxSlots = vData ? vData.slots : 0;
       const isVehicleOverlimit = vData && usedSlots > maxSlots;
+
+      // Cálculo de Estadísticas Modificadas con verificación de cambios
+      let calcHull = vData ? vData.hull + (armorCount * 2) : 0;
+      if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData && vData.weight === "Medio") calcHull = Math.max(1, calcHull - 2);
+      if (currentSponsor === "Verney" && hasMicroPlacas) calcHull += 2;
+      const isHullModified = vData && calcHull !== vData.hull;
+
+      let calcCrew = vData ? vData.crew + extraCrewCount : 0;
+      const isCrewModified = vData && calcCrew !== vData.crew;
+
+      let calcGear = vData ? vData.gear : 0;
+      if (hasOrugas) calcGear = Math.max(1, calcGear - 1);
+      const isGearModified = vData && calcGear !== vData.gear;
+
+      let calcHandling = vData ? vData.handling : 0;
+      if (hasOrugas) calcHandling += 1;
+      const isHandlingModified = vData && calcHandling !== vData.handling;
 
       const card = document.createElement('div');
       card.className = `vehicle-card ${isVehicleOverlimit ? 'overlimit-card' : ''}`;
@@ -2411,6 +1767,20 @@
         `;
 
         if (vData) {
+          innerHTML += `
+            <div class="vehicle-stats-box">
+              <div class="vehicle-stats-grid">
+                <span><b>Bidones:</b> <span class="${vehicleBidones !== vData.bidones ? 'stat-modified-green' : ''}">${vehicleBidones}</span></span>
+                <span><b>Tipo:</b> ${vData.name}</span>
+                <span><b>Peso:</b> ${vData.weight}</span>
+                <span><b>Marcha:</b> <span class="${isGearModified ? 'stat-modified-green' : ''}">${calcGear}</span></span>
+                <span><b>Maniobra:</b> <span class="${isHandlingModified ? 'stat-modified-green' : ''}">${calcHandling}</span></span>
+                <span><b>Tripul.:</b> <span class="${isCrewModified ? 'stat-modified-green' : ''}">${calcCrew}</span></span>
+                <span><b>Carrocería:</b> <span class="${isHullModified ? 'stat-modified-green' : ''}">${calcHull}</span></span>
+              </div>
+            </div>
+          `;
+
           const slotPercentage = maxSlots > 0 ? Math.min(100, Math.round((usedSlots / maxSlots) * 100)) : 0;
           innerHTML += `
             <div class="slots-progress-container">
@@ -2421,16 +1791,24 @@
 
           innerHTML += `
             <div class="section-block">
-              <div class="section-title"><span>Armas</span><button class="btn-add" onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button></div>
+              <div class="section-title"><span>Armas con Munición e Indicadores</span><button class="btn-add" onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button></div>
           `;
           v.weapons.forEach((w, wIdx) => {
-            const wData = WEAPONS.find(item => item.name === w.name);
-            const isSelected = wData && wData.name !== "Ninguna";
             const weaponSelectHTML = renderCustomSelectHTML(`csel_w_${v.id}_${wIdx}`, w.name, getWeaponsSelectData(w.name, currentSponsor), v.id, wIdx, 'weapon');
+            
+            let ammoIndicatorHTML = "";
+            const wData = WEAPONS.find(item => item.name === w.name);
+            if (wData) {
+              let ammoMatch = (wData.rules || "").match(/munición\s*(\d+)/i);
+              if (ammoMatch) {
+                ammoIndicatorHTML = `<span style="font-size: 0.8rem; color: #00bcd4; margin-left: 6px;">🎯 Munición inicial: <b>${ammoMatch[1]}</b></span>`;
+              }
+            }
+
             innerHTML += `
               <div class="upgrade-row">
                 <div class="upgrade-controls">
-                  <div><label>Arma ${wIdx + 1}:</label>${weaponSelectHTML}</div>
+                  <div><label>Arma ${wIdx + 1}:</label>${weaponSelectHTML} ${ammoIndicatorHTML}</div>
                   <div><label>Encaramiento:</label><select onchange="updateWeaponFacing(${v.id}, ${wIdx}, this.value)"><option value="Frontal" ${w.facing === 'Frontal' ? 'selected' : ''}>Frontal</option><option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option><option value="360º" ${w.facing === '360º' ? 'selected' : ''}>360º</option></select></div>
                   <div><button class="btn-danger" onclick="removeWeaponFromVehicle(${v.id}, ${wIdx})">X</button></div>
                 </div>
@@ -2497,33 +1875,15 @@
     saveToLocalStorage();
   }
 
-  let currentZoom = 1.0;
-  function changeZoom(delta) { currentZoom = Math.min(Math.max(currentZoom + delta, 0.5), 2.0); applyZoom(); }
-  function resetZoom() { currentZoom = 1.0; applyZoom(); }
-  function applyZoom() {
-    const grid = document.getElementById('cardsPrintContainer');
-    if (grid) { grid.style.transform = `scale(${currentZoom})`; grid.style.transformOrigin = 'top center'; }
-    const zoomDisplay = document.getElementById('zoomValDisplay');
-    if (zoomDisplay) zoomDisplay.innerText = `${Math.round(currentZoom * 100)}%`;
-  }
-
-  function changeDangerPoints(vehicleId, delta) {
-    if (vehicleDangerPoints[vehicleId] === undefined) vehicleDangerPoints[vehicleId] = 0;
-    vehicleDangerPoints[vehicleId] = Math.max(0, Math.min(6, vehicleDangerPoints[vehicleId] + delta));
-    const valElem = document.getElementById(`danger_val_${vehicleId}`);
-    if (valElem) valElem.innerText = vehicleDangerPoints[vehicleId];
-  }
-
-  function openCardsModal(isPlayMode = false) {
-    isPlayModeActive = isPlayMode;
+  function openCardsModal() {
     const modal = document.getElementById('cardsModal');
     const container = document.getElementById('cardsPrintContainer');
     modal.style.display = 'flex';
-    container.innerHTML = `<div style="color:#fff; padding:20px;">Fichas preparadas para impresión / visualización.</div>`;
+    container.innerHTML = `<div style="padding: 10px;">Escudería lista. Total de vehículos en lista: ${team.length}</div>`;
   }
 
   function closeCardsModal() { document.getElementById('cardsModal').style.display = 'none'; }
-  function openPlayModeModal() { openCardsModal(true); showToast("🎲 Modo Juego activado."); }
+  function openPlayModeModal() { openCardsModal(); showToast("🎲 Modo Juego activado."); }
 
   renderCatalog();
   if (!loadFromLocalStorage()) { addVehicle(); } else { renderBuilder(); }
