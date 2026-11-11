@@ -5,7 +5,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexo Alpha - Gaslands Refuelled - V5.3.0</title>
+  <title>Nexo Alpha - Gaslands Refuelled - V5.4.0</title>
   
   <!-- Favicon SVG con temática de vehículo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5500'><path d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/></svg>">
@@ -650,7 +650,7 @@
 <body>
 
 <header>
-  <h1>Nexo Alpha - Gaslands Refuelled - V5.3.0</h1>
+  <h1>Nexo Alpha - Gaslands Refuelled - V5.4.0</h1>
   <div style="display: flex; gap: 8px; flex-wrap: wrap;">
     <button class="btn-audience" onclick="openAudienceModal()">🎟️ Votos de Audiencia</button>
     <button class="btn-share" onclick="shareSquadronText()">📋 Copiar Lista (Texto)</button>
@@ -991,7 +991,7 @@
     "Tecnología": "🔋", "Temerario": "🎲", "Tuneo": "⚙", "Velocidad": "🏎️"
   };
 
-  const STORAGE_KEY = 'gaslands_builder_squadron_v5_3';
+  const STORAGE_KEY = 'gaslands_builder_squadron_v5_4';
 
   let team = [];
   let currentAudienceVotes = 0;
@@ -1075,7 +1075,8 @@
       }
 
       let armorCount = 0, extraCrewCount = 0, hasMicroPlacas = false, hasOrugas = false;
-      let weaponsText = [];
+      let weaponsText = ["Arma corta (Frontal)"]; // Arma corta por defecto fija
+      
       if (v.weapons) {
         v.weapons.forEach(w => {
           const wData = WEAPONS.find(item => item.name === w.name);
@@ -1131,7 +1132,7 @@
 
       textList += `🚗 VEHÍCULO ${index + 1}: ${v.name}\n`;
       textList += `   - Tipo: ${vData.name} (${vData.weight}) | PC: ${totalHull} | Marcha: ${totalGear} | Maniobra: ${totalHandling} | Tripulación: ${totalCrew}\n`;
-      textList += `   - Armas: ${weaponsText.join(', ') || 'Ninguna'}\n`;
+      textList += `   - Armas: ${weaponsText.join(', ')}\n`;
       textList += `   - Mejoras: ${upgradesText.join(', ') || 'Ninguna'}\n`;
       textList += `   - Ventajas: ${perksText.join(', ') || 'Ninguna'}\n`;
       textList += `   - Coste total: ${vehicleCost} Bidones\n\n`;
@@ -1147,7 +1148,7 @@
   function saveToLocalStorage() {
     try {
       const configData = {
-        version: "5.3.0",
+        version: "5.4.0",
         teamName: document.getElementById('teamName').value || "Mi Escudería",
         sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
         maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1198,8 +1199,7 @@
 
       const randomVehicle = validVehicles[Math.floor(Math.random() * validVehicles.length)];
       let vehicleCost = randomVehicle.bidones;
-      let chosenWeapons = [{ name: "Arma corta", facing: "Frontal" }];
-      // El coste del Arma corta es 0 bidones
+      let chosenWeapons = []; // El arma corta fija ya viene por defecto en cada vehículo
 
       team.push({
         id: Date.now() + Math.random(),
@@ -1228,7 +1228,7 @@
 
   function saveConfiguration() {
     const configData = {
-      version: "5.3.0",
+      version: "5.4.0",
       teamName: document.getElementById('teamName').value || "Mi Escudería",
       sponsor: document.getElementById('sponsorSelect').value || "Ninguno",
       maxCans: document.getElementById('maxCansSelect').value || 50,
@@ -1372,7 +1372,7 @@
       id: Date.now(),
       name: "Nuevo Vehículo",
       type: "Buggy",
-      weapons: [{ name: "Arma corta", facing: "Frontal" }],
+      weapons: [],
       upgrades: [],
       perks: [],
       collapsed: false
@@ -1411,8 +1411,7 @@
     const v = team.find(item => item.id === id);
     if (v) {
       v.type = newType;
-      // Al cambiar o inicializar el tipo de vehículo, por defecto se añade un Arma corta
-      v.weapons = [{ name: "Arma corta", facing: "Frontal" }];
+      v.weapons = [];
       v.upgrades = [];
       v.perks = [];
       renderBuilder();
@@ -1593,7 +1592,8 @@
           let ammoMatch = (w.rules || "").match(/munición\s*(\d+)/i);
           if (ammoMatch) ammoBadge = ` [Munición: ${ammoMatch[1]}]`;
 
-          let label = `${cat.emoji} ${w.name}${ammoBadge} (${cost} Bid. | ${slots} Slot)`;
+          // Incluir Alcance y Ataque en el texto de cada opción del selector
+          let label = `${cat.emoji} ${w.name}${ammoBadge} | Alcance: ${w.range} | Ataque: ${w.attack} (${cost} Bid. | ${slots} Slot)`;
           if (w.sponsor) label += ` [${w.sponsor}]`;
           if (isDisabled) label += ` (No disponible)`;
           return { value: w.name, label, disabled: isDisabled };
@@ -1661,20 +1661,16 @@
     document.getElementById('maxBidonesDisplay').innerText = maxCans;
 
     team.forEach((v, vIndex) => {
-      // Si el vehículo recién creado no tiene tipo definido, se asigna Buggy y Arma corta por defecto
       if (!v.type) {
         v.type = "Buggy";
-        if (!v.weapons || v.weapons.length === 0) {
-          v.weapons = [{ name: "Arma corta", facing: "Frontal" }];
-        }
       }
 
       let vData = VEHICLES.find(item => item.name === v.type);
       if (!v.perks) v.perks = [];
 
       let baseCost = vData ? vData.bidones : 0;
-      let usedSlots = 0;
-      let vehicleBidones = baseCost;
+      let usedSlots = 0; // El Arma corta tiene 0 slots, no consume espacio
+      let vehicleBidones = baseCost; // El Arma corta cuesta 0 bidones
 
       let armorCount = 0, extraCrewCount = 0, hasMicroPlacas = false, hasOrugas = false, hasCarcelario = false;
 
@@ -1720,7 +1716,6 @@
       const maxSlots = vData ? vData.slots : 0;
       const isVehicleOverlimit = vData && usedSlots > maxSlots;
 
-      // Cálculo de Estadísticas Modificadas con verificación de cambios
       let calcHull = vData ? vData.hull + (armorCount * 2) : 0;
       if (currentSponsor === "La Alcaidesa" && hasCarcelario && vData && vData.weight === "Medio") calcHull = Math.max(1, calcHull - 2);
       if (currentSponsor === "Verney" && hasMicroPlacas) calcHull += 2;
@@ -1795,8 +1790,29 @@
 
           innerHTML += `
             <div class="section-block">
-              <div class="section-title"><span>Armas con Munición e Indicadores</span><button class="btn-add" onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button></div>
+              <div class="section-title"><span>Armas e Indicadores</span><button class="btn-add" onclick="addWeaponToVehicle(${v.id})">+ Añadir Arma</button></div>
           `;
+
+          // 1. ARMA CORTA FIJA POR DEFECTO (No eliminable ni modificable)
+          innerHTML += `
+            <div class="upgrade-row" style="border: 1px dashed var(--accent-color); background: #221c18;">
+              <div class="upgrade-controls">
+                <div>
+                  <label>Arma Base (Fija):</label>
+                  <input type="text" value="🔫 Arma corta (Alcance: Medio | Ataque: 1d6 | 0 Bid. | 0 Slot)" disabled style="background: #1a1a1a; color: #7dcfb6; font-size: 0.82rem;">
+                </div>
+                <div>
+                  <label>Encaramiento:</label>
+                  <select disabled><option>Frontal</option></select>
+                </div>
+                <div>
+                  <button class="btn-danger" disabled style="opacity: 0.3; cursor: not-allowed;" title="El Arma corta por defecto es inamovible">🔒</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // 2. ARMAS ADICIONALES EQUIPADAS
           v.weapons.forEach((w, wIdx) => {
             const weaponSelectHTML = renderCustomSelectHTML(`csel_w_${v.id}_${wIdx}`, w.name, getWeaponsSelectData(w.name, currentSponsor), v.id, wIdx, 'weapon');
             
@@ -1812,7 +1828,7 @@
             innerHTML += `
               <div class="upgrade-row">
                 <div class="upgrade-controls">
-                  <div><label>Arma ${wIdx + 1}:</label>${weaponSelectHTML} ${ammoIndicatorHTML}</div>
+                  <div><label>Arma Adicional ${wIdx + 1}:</label>${weaponSelectHTML} ${ammoIndicatorHTML}</div>
                   <div><label>Encaramiento:</label><select onchange="updateWeaponFacing(${v.id}, ${wIdx}, this.value)"><option value="Frontal" ${w.facing === 'Frontal' ? 'selected' : ''}>Frontal</option><option value="Posterior" ${w.facing === 'Posterior' ? 'selected' : ''}>Posterior</option><option value="360º" ${w.facing === '360º' ? 'selected' : ''}>360º</option></select></div>
                   <div><button class="btn-danger" onclick="removeWeaponFromVehicle(${v.id}, ${wIdx})">X</button></div>
                 </div>
